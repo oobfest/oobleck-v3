@@ -21,7 +21,7 @@ argon2
   .then(hash=> {
     database.exec(`
       INSERT INTO user (name, password)
-      VALUES ("car", "${hash}"), ("slam", "${hash}")`)
+      VALUES ("car", "${hash}")`)
   })
 
 module.exports = database

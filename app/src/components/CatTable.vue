@@ -59,7 +59,6 @@
       deleteCat(id) {
         this.$http('cats/' + id, 'DELETE')
           .then(data=> {
-            console.log(data)
             this.cats.splice(this.cats.findIndex(c=>c.id==id), 1)
           })
       }

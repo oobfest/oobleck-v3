@@ -43,15 +43,14 @@ SessionStore.prototype.get = function(sessionId, callback) {
 SessionStore.prototype.set = function(sessionId, session, callback) {
   try {
     let expires = new Date().getTime() + session.cookie.maxAge
-
     this.database
       .prepare(`INSERT OR REPLACE INTO session VALUES (?, ?, ?)`)
       .run(sessionId, expires, JSON.stringify(session))
+    callback(null)
   }
   catch(error) {
-    console.log(error)
+    callback(error)
   }
-  callback()
 }
 
 SessionStore.prototype.destroy = function(sessionId, callback) {
@@ -78,7 +77,6 @@ SessionStore.prototype.touch = function(sessionId, session, callback) {
     }
   }
   catch(error) {
-    throw new Error("TOUCH FAIL!")
     callback(error)
   }
 }

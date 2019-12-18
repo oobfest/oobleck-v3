@@ -12,6 +12,7 @@ let createController = function(model, overrides={}) {
       response.json(model.update(request.params.id, request.body))
     },
     delete(request, response) {
+      console.log("Delete controller")
       response.json(model.delete(request.params.id))
     }
   }
