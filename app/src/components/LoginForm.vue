@@ -2,8 +2,8 @@
 form
   h2 Log In
   .form-group
-    label(for="username") Username
-    input#username.form-control(type="text" v-model="username")
+    label(for="email") Email
+    input#email.form-control(type="text" v-model="email")
   .form-group
     label(for="password") Password
     input#password.form-control(type="password" v-model="password")
@@ -15,13 +15,13 @@ form
 export default {
   data() {
     return {
-      username: "car",
+      email: "car",
       password: "cat"
     }
   },
   methods: {
     login() {
-      let requestData = { name: this.username, password: this.password }
+      let requestData = { email: this.email, password: this.password }
       this.$http('users/login', 'POST', requestData)
         .then(data=> {
           this.$store.commit('logIn')

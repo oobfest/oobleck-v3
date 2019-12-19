@@ -10,6 +10,7 @@ router.route('/')
 router.route('/:id')
   .delete(checkAuthentication, controller.delete)
 
+router.post('/unique', checkAuthentication, controller.unique)
 router.post('/login', controller.login)
 router.get('/check', checkAuthentication, controller.check)
 router.get('/logout', controller.logout)

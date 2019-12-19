@@ -1,6 +1,6 @@
 let schema = {
   name: 'user',
-  columns: ['name', 'password']
+  columns: ['email', 'password']
 }
 
 module.exports = schema

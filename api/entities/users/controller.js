@@ -11,6 +11,14 @@ let overrides = {
       next(error)
     }
   },
+  async unique(request, response, next) {
+    try {
+      response.json(model.unique(request.body.email))
+    }
+    catch(error) {
+      next(error)
+    }
+  },
   async login(request, response, next) {
     try {
       let authenticated = await model.login(request.body)

@@ -4,7 +4,7 @@ let database = new sqlite('database.db', { memory: true})
 database.pragma('journal_mode = WAL')
 database.exec(`
   CREATE TABLE IF NOT EXISTS 
-  user (name TEXT, password TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT);`)
+  user (email TEXT UNIQUE, password TEXT, id INTEGER PRIMARY KEY AUTOINCREMENT);`)
 
 database.exec(`
   CREATE TABLE IF NOT EXISTS 
@@ -12,7 +12,7 @@ database.exec(`
 
 database.exec(`
   INSERT INTO cat (name, isFluffy) 
-  VALUES ("Wilbur", FALSE), ("Buttercup", TRUE), ("Fern", FALSE);`)
+  VALUES ("Wilbur", FALSE), ("Fern", FALSE);`)
 
 // Fake user!
 let argon2 = require('argon2')
@@ -20,7 +20,7 @@ argon2
   .hash('cat')
   .then(hash=> {
     database.exec(`
-      INSERT INTO user (name, password)
+      INSERT INTO user (email, password)
       VALUES ("car", "${hash}")`)
   })
 

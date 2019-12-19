@@ -1,4 +1,3 @@
-
 let checkAuthentication = require('../auth/check-authentication')
 
 let createRouter = function(router, controller) {

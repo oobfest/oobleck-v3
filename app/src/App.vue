@@ -3,7 +3,7 @@
     div(v-if="$store.state.loggedIn")
       nav
         ul#nav.list-inline
-          page-link(v-for="route in routes" v-bind:to="route")
+          page-link(v-for="route in routes" v-bind:to="route" :key="route")
           li: a(href="#" @click="logout") Log Out
       router-view
     div(v-else)
@@ -28,7 +28,7 @@ export default {
         if (response.ok) this.$store.commit('logIn')
         else this.$store.commit('logOut')
       })
-      .catch(error=> { console.log("NOoo") })
+      .catch(error=> alert("Logged out"))
   },
   methods: {
     logout() {
