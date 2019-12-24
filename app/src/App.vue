@@ -1,6 +1,6 @@
 <template lang="pug">
   #app
-    div(v-if="$store.state.loggedIn")
+    div(v-if="$store.state.role")
       nav
         ul#nav.list-inline
           page-link(v-for="route in routes" v-bind:to="route" :key="route")
@@ -25,10 +25,9 @@ export default {
     // Check if logged in!
     fetch('http://localhost:9000/users/check', {credentials: 'include'})
       .then(response=> {
-        if (response.ok) this.$store.commit('logIn')
-        else this.$store.commit('logOut')
+        if (!response.ok) this.$store.commit('logOut')
       })
-      .catch(error=> alert("Logged out"))
+      .catch(error=> alert("Error checking authentication"))
   },
   methods: {
     logout() {

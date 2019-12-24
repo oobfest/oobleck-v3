@@ -7,34 +7,37 @@ Vue.use(VueRouter)
 let routes = [
   {
     path: '/',
-    name: 'home',
-    component: ()=> import('../views/Home.vue')
+    name: 'Home',
+    component: ()=> import('../views/Home.vue'),
+    meta: { roles: ['admin', 'staff', 'panelist'] }
   },
   {
     path: '/users',
-    name: 'users',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue')
+    name: 'Users',
+    component: () => import(/* webpackChunkName: "about" */ '../views/Users.vue'),
+    meta: { roles: ['admin'] }
   },
   {
     path: '/cats',
-    name: 'cats',
-    component: () => import('../views/Cats.vue')
+    name: 'Cats',
+    component: () => import('../views/Cats.vue'),
+    meta: { roles: ['admin', 'staff'] }
   }
 ]
 
 let router = new VueRouter({routes})
-let protectedRoutes = ['cats', 'users']
+let protectedRoutes = ['Cats', 'Users']
 
 router.beforeEach((to, from, next)=> {
   if(protectedRoutes.includes(to.name)) {
     fetch('http://localhost:9000/users/check', {credentials: 'include'})
       .then(response=> {
         if (response.ok) next()
-        else window.location.href="/"
+        else next('/')
       })
       .catch(error=> {
-        console.log("BORQE")
-        window.location.href="/"
+        alert("Error on credentials check for routes")
+        next('/')
       })
   }
   else next()

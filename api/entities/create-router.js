@@ -1,7 +1,8 @@
 let checkAuthentication = require('../auth/check-authentication')
+let checkAuthorization = require('../auth/check-authorization')
 
-let createRouter = function(router, controller) {
-  router.use(checkAuthentication)
+let createRouter = function(router, controller, roles=null) {
+  router.use(checkAuthentication, checkAuthorization(roles))
 
   router.route('/')
     .get(controller.get)

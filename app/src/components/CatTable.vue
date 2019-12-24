@@ -39,8 +39,7 @@
       return {
         view: "read",
         newCat: { name: "", isFluffy: 0 },
-        cats: [],
-        users: []
+        cats: []
       }
     },
     methods: {

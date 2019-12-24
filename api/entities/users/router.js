@@ -7,12 +7,13 @@ router.route('/')
   .get(checkAuthentication, controller.get)
   .post(checkAuthentication, controller.create)
 
-router.route('/:id')
-  .delete(checkAuthentication, controller.delete)
-
 router.post('/unique', checkAuthentication, controller.unique)
 router.post('/login', controller.login)
+router.post('/reset-password', controller.resetPassword)
 router.get('/check', checkAuthentication, controller.check)
 router.get('/logout', controller.logout)
+
+router.route('/:id')
+  .delete(checkAuthentication, controller.delete)
 
 module.exports = router

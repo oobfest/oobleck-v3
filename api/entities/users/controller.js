@@ -24,7 +24,9 @@ let overrides = {
       let authenticated = await model.login(request.body)
       if(!authenticated) throw new Error("Authentication failed")
       request.session.authenticated = authenticated
-      response.json({ok: true})
+      let role = await model.getRole(request.body.email)
+      request.session.role = role.role
+      response.json({role: request.session.role})
     }
     catch(error) {
       next(error)
@@ -38,9 +40,19 @@ let overrides = {
       if(error) next(error)
       else {
         response.clearCookie()
-        response.json({ok: true})
+        response.json({success: true})
       }
     })
+  },
+  async resetPassword(request, response, next) {
+    try {
+      let email = request.body.email
+      let result = await model.resetPassword(email)
+      response.json(result)
+    }
+    catch(error) {
+      next(error)
+    }
   }
 }
 

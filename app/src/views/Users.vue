@@ -4,7 +4,7 @@ div
 </template>
 
 <script>
-  import UserTable from '@/components/UserTable.vue'
+  import UserTable from '@/components/user/UserTable.vue'
 
   export default {
     components: { UserTable }

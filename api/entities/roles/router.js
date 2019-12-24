@@ -4,4 +4,4 @@ let controller = require('./controller')
 
 let createRouter = require('../create-router')
 
-module.exports = createRouter(router, controller, ['staff'])
+module.exports = createRouter(router, controller)
