@@ -3,8 +3,8 @@
     div(v-if="$store.state.role")
       nav
         ul#nav.list-inline
-          page-link(v-for="route in routes" v-bind:to="route" :key="route")
-          li: a(href="#" @click="logout") Log Out
+          page-link(v-for="route in routes" :to="route.path" :roles="route.roles" :key="route.path")
+          li: a(href="/" @click.prevent="logout") Log Out
       router-view
     div(v-else)
       login-form
@@ -18,7 +18,11 @@ export default {
   components: { LoginForm, PageLink },
   data() {
     return {
-      routes: ['/', '/cats', '/users']
+      routes: [
+        { path: '/', roles: ['admin', 'staff', 'panelist']},
+        { path: '/cats', roles: ['admin', 'staff']},
+        { path: '/users', roles: ['admin']}
+      ]
     }
   },
   created() {

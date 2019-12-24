@@ -47,9 +47,7 @@ export default {
     login() {
       let requestData = { email: this.email, password: this.password }
       this.$http('users/login', 'POST', requestData)
-        .then(user=> {
-          this.$store.commit('setRole', {role: user.role })
-        })
+        .then(user=> this.$store.commit('setRole', {role: user.role }))
         .catch(error=> alert(error))
     },
     resetPassword() {
