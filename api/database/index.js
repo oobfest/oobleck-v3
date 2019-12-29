@@ -1,26 +1,15 @@
+let fs = require('fs')
 let sqlite = require('better-sqlite3')
 let database = new sqlite('database.db', { memory: true } )
 
-database.pragma('journal_mode = WAL')
-database.exec(`
-  CREATE TABLE IF NOT EXISTS 
-  user (email TEXT UNIQUE, password TEXT, roleId INTEGER, id INTEGER PRIMARY KEY AUTOINCREMENT);`)
+database.pragma('foreign_keys = ON;')
+database.pragma('journal_mode = WAL;')
 
-database.exec(`
-  CREATE TABLE IF NOT EXISTS 
-  role (name TEXT UNIQUE, id INTEGER PRIMARY KEY AUTOINCREMENT);`)
+let users = fs.readFileSync('./database/users.sql', 'utf8')
+let seed = fs.readFileSync('./database/seed.sql', 'utf8')
 
-database.exec(`
-  INSERT INTO role (name)
-  VALUES ("admin"), ("staff"), ("panelist");`)
-
-database.exec(`
-  CREATE TABLE IF NOT EXISTS 
-  cat (name TEXT, isFluffy BOOLEAN, id INTEGER PRIMARY KEY AUTOINCREMENT);`)
-
-database.exec(`
-  INSERT INTO cat (name, isFluffy) 
-  VALUES ("Wilbur", FALSE), ("Fern", FALSE);`)
+database.exec(users)
+database.exec(seed)
 
 // Fake user!
 let argon2 = require('argon2')

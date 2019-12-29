@@ -21,7 +21,10 @@ export default {
       routes: [
         { path: '/', roles: ['admin', 'staff', 'panelist']},
         { path: '/cats', roles: ['admin', 'staff']},
-        { path: '/users', roles: ['admin']}
+        { path: '/days', roles: ['admin']},
+        { path: '/stages', roles: ['admin']},
+        { path: '/users', roles: ['admin']},
+        { path: '/venues', roles: ['admin']}
       ]
     }
   },
