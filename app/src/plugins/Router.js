@@ -40,8 +40,9 @@ let routes = [
 let router = new VueRouter({routes})
 
 router.beforeEach((to, from, next)=> {
+  next()
+  /*
   if(to.path != '/') {
-    // Check if logged in
     fetch('http://localhost:9000/users/check', {credentials: 'include'})
       .then(response=> {
         if (response.ok) next()
@@ -53,7 +54,7 @@ router.beforeEach((to, from, next)=> {
       })
   }
   else next()
-  // Todo: not there yet!!
+  */
 })
 
 export default router

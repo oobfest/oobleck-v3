@@ -1,13 +1,25 @@
 <template lang="pug">
   #app
-    div(v-if="$store.state.role")
-      nav
-        ul#nav.list-inline
+
+    //- If Logged In
+    .container(v-if="$store.state.role")
+      nav.sidebar
+        img.logo(src="/images/oob-logo-fire.jpg")
+        .sidebar-navigation
           page-link(v-for="route in routes" :to="route.path" :roles="route.roles" :key="route.path")
-          li: a(href="/" @click.prevent="logout") Log Out
-      router-view
-    div(v-else)
-      login-form
+      header.topbar
+        p username | 
+          a(href="/" @click.prevent="logout") logout
+      main.main
+        router-view
+
+    //- If Not Logged In
+    .container(v-else)
+      nav.sidebar
+      header.topbar
+      main.main
+        login-form
+
 </template>
 
 <script>
@@ -30,11 +42,13 @@ export default {
   },
   created() {
     // Check if logged in!
+    /*
     fetch('http://localhost:9000/users/check', {credentials: 'include'})
       .then(response=> {
         if (!response.ok) this.$store.commit('logOut')
       })
       .catch(error=> alert("Error checking authentication"))
+    */
   },
   methods: {
     logout() {
@@ -51,6 +65,4 @@ export default {
 </script>
 
 <style lang="scss">
-  body { margin: 2em; }
-  .active { background-color: yellow }
 </style>

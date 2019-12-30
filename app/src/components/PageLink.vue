@@ -4,8 +4,10 @@ router-link(
   :to="to" 
   :roles="roles" 
   v-slot="{ href, route, navigate, isExactActive }")
-  li(:class="{active: isExactActive}")
-    a(:href="href" @click="navigate") {{route.name}}
+    a.sidebar-navigation-item(
+      :class="{active: isExactActive}"
+      :href="href" 
+      @click="navigate") {{route.name}}
 </template>
 
 <script>

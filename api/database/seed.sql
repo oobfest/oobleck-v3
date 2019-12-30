@@ -47,11 +47,10 @@ CREATE TABLE show (
   duration INTEGER,
   dayId INTEGER,
   stageId INTEGER,
-  
+
   -- optional
   name TEXT,
   imageUrl TEXT,
-
 
   FOREIGN KEY(dayId) REFERENCES day(id),
   FOREIGN KEY(stageId) REFERENCES stage(id)
@@ -60,7 +59,8 @@ CREATE TABLE show (
 CREATE TABLE slot (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   duration INTEGER,
-  showId INTEGER,
+  showId INTEGER
+);
 
 
 CREATE TABLE day_to_stage (

@@ -3,19 +3,20 @@
 
     div(v-if="view=='read'")
       h2 Cats
-      table.table.table-striped.table-bordered
-        thead
-          tr
-            th Name
-            th Fluffy?
-            th
-        tbody
-          tr(v-for="cat in cats")
-            td {{cat.name}}
-            td {{cat.isFluffy ? 'Fluffy!' : 'No' }}
-            td
-              button.btn.btn-danger(@click="deleteCat(cat.id)") Delete
-      button.btn.btn-primary(@click="view='create'") Add Cat
+      .table-box
+        table
+          thead
+            tr
+              th Name
+              th Fluffy?
+              th
+          tbody
+            tr(v-for="cat in cats")
+              td {{cat.name}}
+              td {{cat.isFluffy ? 'Fluffy!' : 'No' }}
+              td
+                button.pure-button(@click="deleteCat(cat.id)") Delete
+      button.pure-button.pure-button-primary(@click="view='create'") Add Cat
 
     div(v-if="view=='create'")
       h2 Add Cat

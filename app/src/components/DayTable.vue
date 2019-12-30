@@ -3,19 +3,20 @@
 
     div(v-if="view=='read'")
       h2 Days
-      table.table.table-striped.table-bordered
-        thead
-          tr
-            th Name
-            th Date
-            th
-        tbody
-          tr(v-for="day in days")
-            td {{day.name}}
-            td {{ day.timestamp | prettyDate }}
-            td
-              button.btn.btn-danger(@click="deleteDay(day.id)") Delete
-      button.btn.btn-primary(@click="view='create'") Add Day
+      .table-box
+        table
+          thead
+            tr
+              th Name
+              th Date
+              th
+          tbody
+            tr(v-for="day in days")
+              td {{day.name}}
+              td {{ day.timestamp | prettyDate }}
+              td
+                button.btn.btn-danger(@click="deleteDay(day.id)") Delete
+      button.primary(@click="view='create'") Add Day
 
     div(v-if="view=='create'")
       h2 Add Day

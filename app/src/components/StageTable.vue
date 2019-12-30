@@ -3,18 +3,19 @@
 
     div(v-if="view=='read'")
       h2 Stages
-      table.table.table-striped.table-bordered
-        thead
-          tr
-            th Name
-            th Venue
-            th
-        tbody
-          tr(v-for="stage in stages")
-            td {{stage.name}}
-            td {{stage.venue}}
-            td
-              button.btn.btn-danger(@click="deleteStage(stage.id)") Delete
+      .table-box
+        table
+          thead
+            tr
+              th Name
+              th Venue
+              th
+          tbody
+            tr(v-for="stage in stages")
+              td {{stage.name}}
+              td {{stage.venue}}
+              td
+                button.btn.btn-danger(@click="deleteStage(stage.id)") Delete
       button.btn.btn-primary(@click="view='create'") Add Stage
 
     div(v-if="view=='create'")

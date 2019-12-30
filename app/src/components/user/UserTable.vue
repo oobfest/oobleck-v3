@@ -4,17 +4,18 @@
     //- READ
     div(v-show="view=='read'")
       h2 Users
-      table.table.table-striped.table-bordered
-        thead
-          tr
-            th Email
-            th Role
-            th
-        tbody
-          tr(v-for="user in users")
-            td {{user.email}}
-            td {{user.role}}
-            td: button.btn.btn-danger(@click="deleteUser(user.id)") Delete
+      .table-box
+        table
+          thead
+            tr
+              th Email
+              th Role
+              th
+          tbody
+            tr(v-for="user in users")
+              td {{user.email}}
+              td {{user.role}}
+              td: button.btn.btn-danger(@click="deleteUser(user.id)") Delete
       button.btn.btn-primary(@click="view='create'") Add User
 
     //- CREATE

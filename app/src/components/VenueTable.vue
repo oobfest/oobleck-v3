@@ -3,16 +3,17 @@
 
     div(v-if="view=='read'")
       h2 Venues
-      table.table.table-striped.table-bordered
-        thead
-          tr
-            th Name
-            th
-        tbody
-          tr(v-for="venue in venues")
-            td {{venue.name}}
-            td
-              button.btn.btn-danger(@click="deleteVenue(venue.id)") Delete
+      .table-box
+        table
+          thead
+            tr
+              th Name
+              th
+          tbody
+            tr(v-for="venue in venues")
+              td {{venue.name}}
+              td
+                button.btn.btn-danger(@click="deleteVenue(venue.id)") Delete
       button.btn.btn-primary(@click="view='create'") Add Venue
 
     div(v-if="view=='create'")
