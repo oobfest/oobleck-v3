@@ -1,3 +1,3 @@
-let dotenv = require('dotenv').config()
-let database = require('./database')
-let server = require('./server')
+require('./environment-variables')
+require('./database')
+require('./server')

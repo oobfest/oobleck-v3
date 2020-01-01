@@ -1,6 +1,7 @@
 <template lang="pug">
   div
 
+    //- READ
     div(v-if="view=='read'")
       h2 Cats
       .table-box
@@ -15,23 +16,22 @@
               td {{cat.name}}
               td {{cat.isFluffy ? 'Fluffy!' : 'No' }}
               td
-                button.pure-button(@click="deleteCat(cat.id)") Delete
-      button.pure-button.pure-button-primary(@click="view='create'") Add Cat
+                button.danger(@click="deleteCat(cat.id)") Delete
+      button.primary(@click="view='create'") Add Cat
 
+    //- CREATE
     div(v-if="view=='create'")
       h2 Add Cat
       form
-        .form-group
-          label(for="new-cat") Cat Name
-          input#new-cat.form-control(type='text' v-model="newCat.name")
-        .form-group
-          .checkbox
-            label
-              input(type="checkbox" v-model="newCat.isFluffy" true-value="1" false-value="0")
-              | Fluffy?
+        label(for="new-cat") Cat Name
+        input(type='text' v-model="newCat.name")
+        label.checkbox
+          input(type="checkbox" v-model="newCat.isFluffy" true-value="1" false-value="0")
+          | Fluffy?
         button.btn.btn-primary(@click="addCat") Add
         | &nbsp;
         button.btn.btn-secondary(@click="view='read'") Cancel
+
 </template>
 
 <script>

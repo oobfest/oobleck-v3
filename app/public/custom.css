@@ -8,6 +8,7 @@ body {
 h1, h2 {
   font-weight: normal;
   font-family: 'gotham-black', sans-serif;
+  margin: 1rem 0;
 }
 
 ul { 
@@ -29,22 +30,40 @@ ul {
 
 label { 
   display: block;
-  margin: 0.25rem;
+  margin: 1rem 0 0.25rem;
 }
 
+label.checkbox {
+  margin: 1rem 0 0 0;
+}
+
+select,
 input[type="text"],
 input[type="email"],
+input[type="number"],
 input[type="password"] {
   font-size: 100%;
   padding: 0.5rem;
   border: 1px solid #c8c8c8;
   border-radius: 4px;
-  background-color: transparent;
+  background-color: white;
+  box-sizing: content-box;
+
+  /* What should this be? */
+  width: 100%;
+  max-width: 250px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  position: relative;
+  bottom: 2px;
 }
 
 button {
   display: inline-block;
   padding: 0.5rem 1rem;
+  margin-top: 1rem;
   font-size: 100%;
   color: white;
   background-color: #211d1e;
@@ -61,13 +80,26 @@ button:active {
 
 button.primary {
   color: white;
-  background-color: #2284fe;
+  border-color: #15808c;
+  background-color: #15808c;
+}
+button.primary:active {
+  background-color: #2F9AA6;
+}
+
+button.danger {
+  color: white;
+  border-color: #f04c23;
+  background-color: #f04c23;
+}
+
+button.danger:active {
+  background-color: #FF663D;
 }
 
 .table-box {
   border: 1px solid #c8c8c8;
   border-radius: 6px;
-  margin-bottom: 0.75rem;
   background-color: white;
 }
 
@@ -88,6 +120,18 @@ td {
   border-top: 1px solid #c8c8c8;
 }
 
+/* Zebra Stripes! 🦓 */
+tbody tr:nth-child(odd) {
+  background: #black;
+}
+
 th, td { 
   padding: 0.75rem;
+}
+
+/* Buttons are smaller inside tables */
+td button {
+  margin-top: 0;
+  padding: 0.25rem;
+  font-size: 0.75rem;
 }
