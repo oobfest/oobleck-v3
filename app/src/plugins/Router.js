@@ -11,6 +11,11 @@ let routes = [
     component: ()=> import('../views/Home.vue'),
   },
   {
+    path: '/act-types',
+    name: 'Act Types',
+    component: () => import('../views/ActTypes.vue'),
+  },
+  {
     path: '/cats',
     name: 'Cats',
     component: () => import('../views/Cats.vue'),
@@ -26,6 +31,11 @@ let routes = [
     component: () => import('../views/Stages.vue'),
   },
   {
+    path: '/social-media-types',
+    name: 'Social Media Types',
+    component: () => import('../views/SocialMediaTypes.vue'),
+  },
+  {
     path: '/users',
     name: 'Users',
     component: () => import('../views/Users.vue'),
@@ -38,23 +48,5 @@ let routes = [
 ]
 
 let router = new VueRouter({routes})
-
-router.beforeEach((to, from, next)=> {
-  next()
-  /*
-  if(to.path != '/') {
-    fetch('http://localhost:9000/users/check', {credentials: 'include'})
-      .then(response=> {
-        if (response.ok) next()
-        else next('/')
-      })
-      .catch(error=> {
-        alert("Error on credentials check for routes")
-        next('/')
-      })
-  }
-  else next()
-  */
-})
 
 export default router

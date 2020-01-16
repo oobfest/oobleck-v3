@@ -1,18 +1,10 @@
 let express = require('express')
 let router = new express.Router()
+let fs = require('fs')
 
-let catRouter = require('./cats/router')
-let dayRouter = require('./days/router')
-let roleRouter = require('./roles/router')
-let stageRouter = require('./stages/router')
-let userRouter = require('./users/router')
-let venueRouter = require('./venues/router')
-
-router.use('/cats', catRouter)
-router.use('/days', dayRouter)
-router.use('/roles', roleRouter)
-router.use('/stages', stageRouter)
-router.use('/users', userRouter)
-router.use('/venues', venueRouter)
+// Create a router for each directory found in './entities'
+fs.readdirSync('./entities', {withFileTypes:true})
+  .filter(file=> file.isDirectory())
+  .map(d=> router.use(`/${d.name}`, require(`./${d.name}/router`)))
 
 module.exports = router

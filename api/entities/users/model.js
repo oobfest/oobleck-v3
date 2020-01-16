@@ -10,26 +10,26 @@ let overrides = {
   get() {
     return database
       .prepare(`
-        select user.id, user.email, role.name AS role
+        select user.id, user.email, user_role.name AS role
         from user
-        join role on user.roleId == role.id`)
+        join user_role on user.roleId == user_role.id`)
       .all()
   },
   getById(id) {
     return database
       .prepare(`
-        select user.id, user.email, role.name AS role
+        select user.id, user.email, user_role.name AS role
         from user
-        join role on user.roleId == role.id
+        join user_role on user.roleId == user_role.id
         where user.id = ?`)
       .get(id)
   },
   getRole(userEmail) {
     return database
       .prepare(`
-        select role.name AS role
+        select user_role.name AS role
         from user
-        join role on user.roleId == role.id
+        join user_role on user.roleId == user_role.id
         where user.email = ?`)
       .get(userEmail)
   },

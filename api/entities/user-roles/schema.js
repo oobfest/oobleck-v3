@@ -1,5 +1,5 @@
 let schema = {
-  name: 'role',
+  name: 'user_role',
   columns: ['name']
 }
 

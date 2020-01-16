@@ -1,0 +1,4 @@
+CREATE TABLE act_type (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT
+);

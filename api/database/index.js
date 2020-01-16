@@ -5,13 +5,22 @@ let database = new sqlite('database.db', { memory: true } )
 database.pragma('foreign_keys = ON;')
 database.pragma('journal_mode = WAL;')
 
-let users = fs.readFileSync('./database/users.sql', 'utf8')
-let seed = fs.readFileSync('./database/seed.sql', 'utf8')
+let scripts = [
+  './database/tables/user.sql',
+  './database/tables/day.sql',
+  './database/tables/venue.sql',
+  './database/tables/stage.sql',
+  './database/tables/act_type.sql',
+  './database/tables/act_role.sql',
+  './database/tables/social_media.sql',
+  './database/seed.sql',
+]
 
-database.exec(users)
-database.exec(seed)
+for(let script of scripts) {
+  database.exec(fs.readFileSync(script, 'utf8'))
+}
 
-// Fake user!
+// Fake users!
 let argon2 = require('argon2')
 argon2
   .hash('cat')

@@ -1,0 +1,5 @@
+CREATE TABLE day (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  timestamp INTEGER
+);

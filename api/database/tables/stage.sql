@@ -1,0 +1,14 @@
+CREATE TABLE stage (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  venueId INTEGER,
+  FOREIGN KEY(venueId) REFERENCES venue(id)
+);
+
+CREATE TABLE stage_to_venue (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  stageId INTEGER,
+  venueId INTEGER,
+  FOREIGN KEY(stageId) REFERENCES stage(id),
+  FOREIGN KEY(venueId) REFERENCES venue(id)
+);
