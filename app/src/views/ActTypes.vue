@@ -16,17 +16,18 @@
               td {{actType.name}}
               td
                 button.danger(@click="deleteActType(actType.id)") Delete
-      button.primary(@click="view='create'") Add ActType
+      button.primary(@click="view='create'") Add Act Type
 
     //- CREATE
     div(v-if="view=='create'")
       h2 Add ActType
       form
         label(for="new-act-type") Act Type Name
-        input(type='text' v-model="newAct-type.name")
-        button.btn.btn-primary(@click="addActType") Add
-        | &nbsp;
-        button.btn.btn-secondary(@click="view='read'") Cancel
+        input(type='text' v-model="newActType.name")
+        div
+          button.btn.btn-primary(@click="addActType") Add
+          | &nbsp;
+          button.btn.btn-secondary(@click="view='read'") Cancel
 
 </template>
 

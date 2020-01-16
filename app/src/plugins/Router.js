@@ -11,6 +11,11 @@ let routes = [
     component: ()=> import('../views/Home.vue'),
   },
   {
+    path: '/act-roles',
+    name: 'Act Roles',
+    component: () => import('../views/ActRoles.vue'),
+  },
+  {
     path: '/act-types',
     name: 'Act Types',
     component: () => import('../views/ActTypes.vue'),
@@ -24,6 +29,16 @@ let routes = [
     path: '/days',
     name: 'Days',
     component: () => import('../views/Days.vue'),
+  },
+  {
+    path: '/people',
+    name: 'People',
+    component: () => import('../views/People.vue'),
+  },
+  {
+    path: '/shows',
+    name: 'Shows',
+    component: () => import('../views/Shows.vue'),
   },
   {
     path: '/stages',

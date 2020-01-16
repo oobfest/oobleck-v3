@@ -5,20 +5,16 @@ let database = new sqlite('database.db', { memory: true } )
 database.pragma('foreign_keys = ON;')
 database.pragma('journal_mode = WAL;')
 
-let scripts = [
-  './database/tables/user.sql',
-  './database/tables/day.sql',
-  './database/tables/venue.sql',
-  './database/tables/stage.sql',
-  './database/tables/act_type.sql',
-  './database/tables/act_role.sql',
-  './database/tables/social_media.sql',
-  './database/seed.sql',
-]
+// Execute all the scripts in the './database/tables' directory
+fs.readdirSync('./database/tables')
+  .map(sql=> {
+    let sqlScript = fs.readFileSync('./database/tables/' + sql, 'utf8')
+    database.exec(sqlScript)
+  })
 
-for(let script of scripts) {
-  database.exec(fs.readFileSync(script, 'utf8'))
-}
+// Populate the database with some values
+let testData = fs.readFileSync('./database/seed.sql', 'utf8')
+database.exec(testData)
 
 // Fake users!
 let argon2 = require('argon2')

@@ -1,6 +1,6 @@
 CREATE TABLE act (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  creation_date INTEGER,
+  creationDate INTEGER,
 
   -- [name] presents [show title]
   -- from [associated_theater], [city], [state_or_province], [country]

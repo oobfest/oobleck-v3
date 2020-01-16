@@ -27,7 +27,6 @@ ul {
   text-align: center;
 }
 
-
 label { 
   display: block;
   margin: 1rem 0 0.25rem;
@@ -38,9 +37,11 @@ label.checkbox {
 }
 
 select,
+textarea,
 input[type="text"],
 input[type="email"],
 input[type="number"],
+input[type="tel"],
 input[type="password"] {
   font-size: 100%;
   padding: 0.5rem;
@@ -52,6 +53,12 @@ input[type="password"] {
   /* What should this be? */
   width: 100%;
   max-width: 250px;
+}
+
+textarea { 
+  resize: vertical; 
+  height: 3rem;
+  min-height: 3rem;
 }
 
 input[type="checkbox"],

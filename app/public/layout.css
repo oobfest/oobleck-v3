@@ -1,6 +1,7 @@
 body { 
   margin: 0; 
   color: var(--dark-text);
+  background-color: var(--light-background);
 }
 
 .container {
@@ -60,6 +61,5 @@ body {
 
 .main { 
   color: var(--dark-text);
-  background-color: var(--light-background);
   margin: 0 1rem;
 }

@@ -32,12 +32,12 @@ INSERT INTO act_type(name) VALUES
   ("Standup"),
   ("Podcast"),
   ("Musical"),
-  ("One-person-show"),
+  ("One-Person Show"),
   ("Variety"),
   ("Other");
 
 INSERT INTO act_role(name) VALUES
-  ("Perfromer"),
+  ("Performer"),
   ("Crew"),
   ("Director"),
   ("Producer"),
@@ -50,6 +50,10 @@ INSERT INTO social_media_type(name) VALUES
   ("Facebook"),
   ("YouTube"),
   ("Other");
+
+INSERT INTO person(name, bio, email, phone) VALUES
+  ("Jill Bernard", "From Minnesota!", "jill@example.com", "(555) KL5-0000"),
+  ("Chris Curl", "Bald", "chris@example.com", "(555) KL5-0001");
 
 -- Cats for testin'
 CREATE TABLE IF NOT EXISTS cat (
