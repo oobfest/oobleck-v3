@@ -4,11 +4,11 @@ CREATE TABLE workshop (
   name TEXT,
   slug TEXT,
   description TEXT,
-  
+
   price INTEGER,
   auditPrice INTEGER,
   capacity INTEGER,
-  auditCapacity INTEGER,
+  auditCapacity INTEGER
 );
 
 CREATE TABLE workshop_to_performer (
@@ -16,7 +16,7 @@ CREATE TABLE workshop_to_performer (
   workshopId INTEGER,
   performerId INTEGER,
   FOREIGN KEY(workshopId) REFERENCES workshop(id),
-  FOREIGN KEY(performerId) REFERENCES performer(id),
+  FOREIGN KEY(performerId) REFERENCES performer(id)
 );
 
 CREATE TABLE workshop_session (
@@ -36,5 +36,5 @@ CREATE TABLE workshop_ticket (
   customer_id INTEGER,
   isRefunded BOOLEAN,
   isAudit BOOLEAN,
-  isUpgraded BOOLEAN,
+  isUpgraded BOOLEAN
 );

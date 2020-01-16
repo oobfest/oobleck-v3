@@ -60,6 +60,11 @@ let routes = [
     name: 'Venues',
     component: () => import('../views/Venues.vue'),
   },
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import('../views/Test.vue'),
+  },
 ]
 
 let router = new VueRouter({routes})

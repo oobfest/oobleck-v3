@@ -41,7 +41,8 @@ export default {
         { path: '/stages', roles: ['admin']},
         { path: '/social-media-types', roles: ['admin']},
         { path: '/users', roles: ['admin']},
-        { path: '/venues', roles: ['admin']}
+        { path: '/venues', roles: ['admin']},
+        { path: '/test', roles: ['admin']}
       ]
     }
   },
