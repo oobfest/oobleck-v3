@@ -22,11 +22,12 @@
     div(v-if="view=='create'")
       h2 Add Social Media Type
       form
-        label(for="new-social-media-type") Name
+        label Name
         input(type='text' v-model="newSocialMediaType.name")
-        button.btn.btn-primary(@click="addSocialMediaType") Add
-        | &nbsp;
-        button.btn.btn-secondary(@click="view='read'") Cancel
+        div
+          button.btn.btn-primary(@click="addSocialMediaType") Add
+          | &nbsp;
+          button.btn.btn-secondary(@click="view='read'") Cancel
 
 </template>
 

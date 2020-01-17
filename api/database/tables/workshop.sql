@@ -11,12 +11,12 @@ CREATE TABLE workshop (
   auditCapacity INTEGER
 );
 
-CREATE TABLE workshop_to_performer (
+CREATE TABLE workshop_to_person (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   workshopId INTEGER,
-  performerId INTEGER,
+  personId INTEGER,
   FOREIGN KEY(workshopId) REFERENCES workshop(id),
-  FOREIGN KEY(performerId) REFERENCES performer(id)
+  FOREIGN KEY(personId) REFERENCES person(id)
 );
 
 CREATE TABLE workshop_session (

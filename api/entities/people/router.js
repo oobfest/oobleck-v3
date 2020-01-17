@@ -1,6 +1,20 @@
 let express = require('express')
-let router = new express.Router()
 let controller = require('./controller')
-let createRouter = require('../create-router')
+let router = new express.Router()
 
-module.exports = createRouter(router, controller, ['admin'])
+let checkAuthentication = require('../../auth/check-authentication')
+let checkAuthorization = require('../../auth/check-authorization')
+
+router.route('/', checkAuthentication, checkAuthorization(['admin', 'staff']))
+  .get(controller.get)
+  .post(controller.create)
+
+router.route('/public')
+  .get(controller.getPublic)
+
+router.route('/:id', checkAuthentication, checkAuthorization(['admin', 'staff']))
+  .get(controller.get)
+  .put(controller.update)
+  .delete(controller.delete)
+
+module.exports = router

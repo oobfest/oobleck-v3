@@ -1,4 +1,10 @@
 let model = require('./model')
 let createController = require('../create-controller')
 
-module.exports = createController(model)
+overrides = {
+  getPublic(request, response) {
+    response.json(model.getPublic())
+  }
+}
+
+module.exports = createController(model, overrides)
