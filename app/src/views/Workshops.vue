@@ -18,6 +18,7 @@
               th Audit Price
               th Capacity
               th Audit Capacity
+              th Instructors
               th
           tbody
             tr(v-for="workshop in workshops")
@@ -28,6 +29,9 @@
               td {{workshop.auditPrice}}
               td {{workshop.capacity}}
               td {{workshop.auditCapacity}}
+              td
+                ul(v-if="workshop.instructors")
+                  li(v-for="instructor in workshop.instructors") {{instructor.name}}
               td
                 button.danger(@click="deleteWorkshop(workshop.id)") Delete
       button.primary(@click="view='create'") Add Workshop

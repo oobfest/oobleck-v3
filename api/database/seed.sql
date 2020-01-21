@@ -55,6 +55,12 @@ INSERT INTO person(name, bio, email, phone) VALUES
   ("Jill Bernard", "From Minnesota!", "jill@example.com", "(555) KL5-0000"),
   ("Chris Curl", "Bald", "chris@example.com", "(555) KL5-0001");
 
+INSERT INTO workshop(name, slug, description, price, auditPrice, capacity, auditCapacity) VALUES
+  ("Improv for Walruses", "improv-for-walruses", "Finally, a workshop for the rest of us.", 10, 5, 20, 25);
+
+INSERT INTO workshop_to_person(workshopId, personId) VALUES
+  (1, 1), (1, 2);
+
 -- Cats for testin'
 CREATE TABLE IF NOT EXISTS cat (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
