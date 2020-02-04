@@ -43,7 +43,7 @@
     methods: {
       addSocialMediaType() {
         if(this.newSocialMediaType.name != '') {
-          this.$http('social-media-types', 'POST', this.newSocialMediaType)
+          this.$http('private/social-media-types', 'POST', this.newSocialMediaType)
             .then(data=> {
               this.socialMediaTypes.push(data)
               this.newSocialMediaType.name = ""
@@ -53,14 +53,14 @@
         else alert("Name required")
       },
       deleteSocialMediaType(id) {
-        this.$http('social-media-types/' + id, 'DELETE')
+        this.$http('private/social-media-types/' + id, 'DELETE')
           .then(data=> {
             this.socialMediaTypes.splice(this.socialMediaTypes.findIndex(s=>s.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('social-media-types')
+      this.$http('private/social-media-types')
         .then(data=> this.socialMediaTypes = data)
         .catch(error=> alert(error))
     }

@@ -43,7 +43,7 @@
     methods: {
       addActRole() {
         if(this.newActRole.name != '') {
-          this.$http('act-roles', 'POST', this.newActRole)
+          this.$http('private/act-roles', 'POST', this.newActRole)
             .then(data=> {
               this.actRoles.push(data)
               this.newActRole.name = ""
@@ -53,14 +53,14 @@
         else alert("Name required")
       },
       deleteActRole(id) {
-        this.$http('act-roles/' + id, 'DELETE')
+        this.$http('private/act-roles/' + id, 'DELETE')
           .then(data=> {
             this.actRoles.splice(this.actRoles.findIndex(a=>a.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('act-roles')
+      this.$http('private/act-roles')
         .then(data=> this.actRoles = data)
         .catch(error=> alert(error))
     }

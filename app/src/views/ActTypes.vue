@@ -43,7 +43,7 @@
     methods: {
       addActType() {
         if(this.newActType.name != '') {
-          this.$http('act-types', 'POST', this.newActType)
+          this.$http('private/act-types', 'POST', this.newActType)
             .then(data=> {
               this.actTypes.push(data)
               this.newActType.name = ""
@@ -53,14 +53,14 @@
         else alert("Name required")
       },
       deleteActType(id) {
-        this.$http('act-types/' + id, 'DELETE')
+        this.$http('private/act-types/' + id, 'DELETE')
           .then(data=> {
             this.actTypes.splice(this.actTypes.findIndex(a=>a.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('act-types')
+      this.$http('private/act-types')
         .then(data=> this.actTypes = data)
         .catch(error=> alert(error))
     }

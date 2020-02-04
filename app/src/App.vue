@@ -47,19 +47,9 @@ export default {
       ]
     }
   },
-  created() {
-    // Check if logged in!
-    /*
-    fetch('http://localhost:9000/users/check', {credentials: 'include'})
-      .then(response=> {
-        if (!response.ok) this.$store.commit('logOut')
-      })
-      .catch(error=> alert("Error checking authentication"))
-    */
-  },
   methods: {
     logout() {
-      this.$http('users/logout')
+      this.$http('public/users/logout')
         .then(data=> {
           this.$store.commit('logOut')
         })

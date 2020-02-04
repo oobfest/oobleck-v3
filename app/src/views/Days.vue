@@ -73,7 +73,7 @@
           timestamp: new Date(this.newDay.year, this.newDay.month, this.newDay.day).getTime()
         }
         if(this.newDay.name != '') {
-          this.$http('days', 'POST', newDay)
+          this.$http('private/days', 'POST', newDay)
             .then(data=> {
               this.days.push(data)
               this.newDay.name = ""
@@ -86,14 +86,14 @@
         else alert("Day name required")
       },
       deleteDay(id) {
-        this.$http('days/' + id, 'DELETE')
+        this.$http('private/days/' + id, 'DELETE')
           .then(data=> {
             this.days.splice(this.days.findIndex(d=>d.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('days')
+      this.$http('private/days')
         .then(data=> this.days = data)
         .catch(error=> alert(error))
     }

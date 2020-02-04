@@ -33,7 +33,7 @@ INSERT INTO act_type(name) VALUES
   ("Podcast"),
   ("Musical"),
   ("One-Person Show"),
-  ("Variety"),
+  ("Hosted Variety or Panel Show"),
   ("Other");
 
 INSERT INTO act_role(name) VALUES
@@ -51,9 +51,10 @@ INSERT INTO social_media_type(name) VALUES
   ("YouTube"),
   ("Other");
 
-INSERT INTO person(name, bio, email, phone) VALUES
-  ("Jill Bernard", "From Minnesota!", "jill@example.com", "(555) KL5-0000"),
-  ("Chris Curl", "Bald", "chris@example.com", "(555) KL5-0001");
+INSERT INTO person(name, bio, email, phone, hide) VALUES
+  ("Jill Bernard", "From Minnesota!", "jill@example.com", "(555) KL5-0000", false),
+  ("Chris Curl", "Bald", "chris@example.com", "(555) KL5-0001", false),
+  ("Ash Dropout", "Can't commit", "ash@example.com", "000-0000-0000", true);
 
 INSERT INTO workshop(name, slug, description, price, auditPrice, capacity, auditCapacity) VALUES
   ("Improv for Walruses", "improv-for-walruses", "Finally, a workshop for the rest of us.", 10, 5, 20, 25);

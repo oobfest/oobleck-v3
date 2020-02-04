@@ -1,7 +1,7 @@
 let checkAuthentication = require('../auth/check-authentication')
 let checkAuthorization = require('../auth/check-authorization')
 
-let createRouter = function(router, controller, roles=null) {
+let createPrivateRouter = function(router, controller, roles=null) {
   router.use(checkAuthentication, checkAuthorization(roles))
 
   router.route('/')
@@ -16,4 +16,4 @@ let createRouter = function(router, controller, roles=null) {
   return router
 }
 
-module.exports = createRouter
+module.exports = createPrivateRouter

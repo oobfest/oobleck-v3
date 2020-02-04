@@ -2,8 +2,6 @@ CREATE TABLE act (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   creationDate INTEGER,
 
-  -- [name] presents [show title]
-  -- from [associated_theater], [city], [state_or_province], [country]
   name TEXT,
   slug TEXT,
   showTitle TEXT,
@@ -12,47 +10,38 @@ CREATE TABLE act (
   city TEXT,
   associatedTheater TEXT,
   isHeadliner BOOLEAN,
+  isHidden BOOLEAN DEFAULT FALSE,
 
-  -- Information about the act
   publicDescription TEXT,
   privateDescription TEXT,
   accolades TEXT,
 
-  -- Image deets
   imageUrl TEXT,
   imageDeleteUrl TEXT,
 
-  -- Video submission
   videoUrl1 TEXT,
   videoUrl2 TEXT,
   videoInformation TEXT,
 
-  -- Act deets
   techNeeds TEXT,
   minimumTime INTEGER,
   maximumTime INTEGER,
 
-  -- Contact information
   contactName TEXT,
   contactPhone TEXT,
   contactEmail TEXT,
   contactRole TEXT,
 
-  -- Payment
   isPaid BOOLEAN,
   isAccepted BOOLEAN,
-  isConfirmed BOOLEAN,
-
-  -- Social Media, Many to Many
-  -- Availablity, Many to Many
-  -- Act Type, Many to Many
+  isConfirmed BOOLEAN
 );
 
 CREATE TABLE act_to_social_media (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   actId INTEGER,
-  FOREIGN KEY(actId) REFERENCES act(id),
   socialMediaId INTEGER,
+  FOREIGN KEY(actId) REFERENCES act(id),
   FOREIGN KEY(socialMediaId) REFERENCES social_media(id)
 );
 
@@ -78,6 +67,6 @@ CREATE TABLE act_to_person (
   personId INTEGER,
   actRoleId INTEGER,
   FOREIGN KEY(actId) REFERENCES act(id),
-  FOREIGN KEY(actTypeId) REFERENCES act_type(id)
-  FOREIGN KEY(actRoleId) REFERENCES act_role(id),
+  FOREIGN KEY(personId) REFERENCES person(id),
+  FOREIGN KEY(actRoleId) REFERENCES act_role(id)
 );

@@ -42,7 +42,7 @@
     methods: {
       addVenue() {
         if(this.newVenue.name != '') {
-          this.$http('venues', 'POST', this.newVenue)
+          this.$http('private/venues', 'POST', this.newVenue)
             .then(data=> {
               this.venues.push(data)
               this.newVenue.name = ""
@@ -52,7 +52,7 @@
         else alert("Venue name required")
       },
       deleteVenue(id) {
-        this.$http('venues/' + id, 'DELETE')
+        this.$http('private/venues/' + id, 'DELETE')
           .then(data=> {
             this.venues.splice(this.venues.findIndex(c=>c.id==id), 1)
           })
@@ -60,7 +60,7 @@
       }
     },
     created() {
-      this.$http('venues')
+      this.$http('private/venues')
         .then(data=> this.venues = data)
         .catch(error=> alert(error))
     }

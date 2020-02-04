@@ -55,11 +55,11 @@
     },
     methods: {
       addUser() {
-        this.$http('users/unique', 'POST', {email: this.newUser.email})
+        this.$http('public/users/unique', 'POST', {email: this.newUser.email})
           .then(response=> {
             if(!response.unique) throw new Error("Email already used")
           })
-          .then(()=> this.$http('users', 'POST', this.newUser))
+          .then(()=> this.$http('private/users', 'POST', this.newUser))
           .then(response=> {
             this.users.push(response)
             this.newUser.email = ""
@@ -70,24 +70,24 @@
           .catch(error=> alert(error))
       },
       deleteUser(id) {
-        this.$http('users/' + id, 'DELETE')
+        this.$http('private/users/' + id, 'DELETE')
           .then(response=> {
             this.users.splice(this.users.findIndex(u=>u.id==id), 1)
           })
           .catch(error=> alert(error))
       },
       resetPassword(email) {
-        this.$http('users/reset-password', 'POST', {email})
+        this.$http('public/users/reset-password', 'POST', {email})
           .then(response=> console.log("Done", response))
           .catch(error=> alert(error))
       }
     },
     created() {
-      this.$http('users')
+      this.$http('private/users')
         .then(data=> this.users = data)
         .catch(error=> alert(error))
 
-      this.$http('user-roles')
+      this.$http('private/user-roles')
         .then(data=> this.userRoles = data)
         .catch(error=> alert(error))
     }

@@ -5,5 +5,6 @@ CREATE TABLE person (
   email TEXT UNIQUE,
   phone TEXT,
   imageUrl TEXT,
-  imageDeleteUrl TEXT
+  imageDeleteUrl TEXT,
+  hide BOOLEAN DEFAULT FALSE
 );

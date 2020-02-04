@@ -15,6 +15,7 @@
               th Phone
               th Image URL
               th Delete Image URL
+              th Hide
               th
           tbody
             tr(v-for="person in people")
@@ -24,6 +25,7 @@
               td {{person.phone}}
               td {{person.imageUrl}}
               td {{person.deleteImageUrl}}
+              td {{person.hide}}
               td
                 button.danger(@click="deletePerson(person.id)") Delete
       button.primary(@click="view='create'") Add Person
@@ -63,7 +65,7 @@
     methods: {
       addPerson() {
         if(this.newPerson.name != '') {
-          this.$http('people', 'POST', this.newPerson)
+          this.$http('private/people', 'POST', this.newPerson)
             .then(data=> {
               this.people.push(data)
               this.newPerson.name = ""
@@ -78,14 +80,14 @@
         else alert("Name required")
       },
       deletePerson(id) {
-        this.$http('people/' + id, 'DELETE')
+        this.$http('private/people/' + id, 'DELETE')
           .then(data=> {
             this.people.splice(this.people.findIndex(s=>s.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('people')
+      this.$http('private/people')
         .then(data=> this.people = data)
         .catch(error=> alert(error))
     }

@@ -90,7 +90,7 @@
     },
     methods: {
       addWorkshop() {
-        this.$http('workshops', 'POST', this.newWorkshop)
+        this.$http('private/workshops', 'POST', this.newWorkshop)
           .then(data=> {
             this.workshops.push(data)
             this.newWorkshop.name = ""
@@ -98,18 +98,18 @@
           })
       },
       deleteWorkshop(id) {
-        this.$http('workshops/' + id, 'DELETE')
+        this.$http('private/workshops/' + id, 'DELETE')
           .then(data=> {
             this.workshops.splice(this.workshops.findIndex(s=>s.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('workshops')
+      this.$http('private/workshops')
         .then(data=> this.workshops = data)
         .catch(error=> alert(error))
 
-      this.$http('people/public')
+      this.$http('private/people')
         .then(data=> this.people = data)
         .catch(error=> alert(error))
     }

@@ -46,7 +46,7 @@
     methods: {
       addCat() {
         if(this.newCat.name != '') {
-          this.$http('cats', 'POST', this.newCat)
+          this.$http('private/cats', 'POST', this.newCat)
             .then(data=> {
               this.cats.push(data)
               this.newCat.name = ""
@@ -57,14 +57,14 @@
         else alert("Cat name required")
       },
       deleteCat(id) {
-        this.$http('cats/' + id, 'DELETE')
+        this.$http('private/cats/' + id, 'DELETE')
           .then(data=> {
             this.cats.splice(this.cats.findIndex(c=>c.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('cats')
+      this.$http('private/cats')
         .then(data=> this.cats = data)
         .catch(error=> alert(error))
     }

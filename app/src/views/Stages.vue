@@ -54,7 +54,7 @@
     methods: {
       addStage() {
         if(this.newStage.name != '') {
-          this.$http('stages', 'POST', this.newStage)
+          this.$http('private/stages', 'POST', this.newStage)
             .then(data=> {
               data.venue = this.venues.find(v=> v.id == data.venueId).name
               this.stages.push(data)
@@ -66,18 +66,18 @@
         else alert("Stage name required")
       },
       deleteStage(id) {
-        this.$http('stages/' + id, 'DELETE')
+        this.$http('private/stages/' + id, 'DELETE')
           .then(data=> {
             this.stages.splice(this.stages.findIndex(c=>c.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('venues')
+      this.$http('private/venues')
         .then(data=> this.venues = data)
         .catch(error=> alert(error))
 
-      this.$http('stages')
+      this.$http('private/stages')
         .then(data=> this.stages = data)
         .catch(error=> alert(error))
     }

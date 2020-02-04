@@ -89,7 +89,7 @@
             dayId: this.newShow.day.id,
             stageId: this.newShow.stageId
           }
-          this.$http('shows', 'POST', newShow)
+          this.$http('private/shows', 'POST', newShow)
             .then(data=> {
               this.shows.push(data)
               this.newShow.name = ""
@@ -100,22 +100,22 @@
         else alert("Name required")
       },
       deleteShow(id) {
-        this.$http('shows/' + id, 'DELETE')
+        this.$http('private/shows/' + id, 'DELETE')
           .then(data=> {
             this.shows.splice(this.shows.findIndex(s=>s.id==id), 1)
           })
       }
     },
     created() {
-      this.$http('shows')
+      this.$http('private/shows')
         .then(data=> this.shows = data)
         .catch(error=> alert(error))
 
-      this.$http('stages')
+      this.$http('private/stages')
         .then(data=> this.stages = data)
         .catch(error=> alert(error))
 
-      this.$http('days')
+      this.$http('private/days')
         .then(data=> this.days = data)
         .catch(error=> alert(error))
     }

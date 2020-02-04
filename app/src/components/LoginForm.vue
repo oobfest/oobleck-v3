@@ -44,12 +44,12 @@ export default {
   methods: {
     login() {
       let requestData = { email: this.email, password: this.password }
-      this.$http('users/login', 'POST', requestData)
+      this.$http('public/users/login', 'POST', requestData)
         .then(user=> this.$store.commit('setRole', {role: user.role }))
         .catch(error=> alert(error))
     },
     resetPassword() {
-      this.$http('users/reset-password', 'POST', {email: this.email})
+      this.$http('public/users/reset-password', 'POST', {email: this.email})
         .then(data=> {
           this.state='forgot-password-submitted'
         })

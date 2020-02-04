@@ -6,7 +6,7 @@ let overrides = {
   get() {
     return database
       .prepare(`
-        select id, name, bio, email, phone, imageUrl, imageDeleteUrl
+        select id, name, bio, email, phone, imageUrl, imageDeleteUrl, hide
         from person
         order by name`)
       .all()
@@ -16,6 +16,7 @@ let overrides = {
       .prepare(`
         select id, name, bio, imageUrl
         from person
+        where hide = FALSE
         order by name`)
       .all()
   }
