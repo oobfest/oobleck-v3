@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label Country
-  select
+  select(:value="value" @change="$emit('input', $event.target.value)")
     option(value="US") United States
     option(value="MX") Mexico
     option(value="CA") Canada
@@ -245,3 +245,9 @@ div
     option(value="ZM") Zambia
     option(value="ZW") Zimbabwe
 </template>
+
+<script>
+export default {
+  props: ['value']
+}
+</script>

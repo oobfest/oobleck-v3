@@ -30,8 +30,9 @@ CREATE TABLE act (
   contactName TEXT,
   contactPhone TEXT,
   contactEmail TEXT,
-  contactRole TEXT,
+  contactRoleId TEXT,
 
+  isLocal BOOLEAN,
   isPaid BOOLEAN,
   isAccepted BOOLEAN,
   isConfirmed BOOLEAN

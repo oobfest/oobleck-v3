@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label State
-  select
+  select(:value="value" @change="$emit('input', $event.target.value)")
     option(value='TX') Texas
     option(value='--') --
     option(value='AL') Alabama
@@ -57,3 +57,9 @@ div
     option(value='WI') Wisconsin
     option(value='WY') Wyoming
 </template>
+
+<script>
+export default {
+  props: ['value']
+}
+</script>

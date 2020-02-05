@@ -36,7 +36,7 @@ div
   label Describe Your Act to The Public
     small Accepted acts will have this content published on our website and programs. Use third-person active voice, e.g. "Miller & Lies is..."
     small
-      a(href="#" @click.prevent="seeExample=!seeExample") See an Example.
+      a(href="#" @click.prevent="seeExample=!seeExample") See an example
       p(v-show="seeExample") "Miller & Lies is a comedy duo that performs a single story with awkward, emotionally vulnerable oddball characters. They've been doing improv together for ten years. Come hang with them and feel your feelings."
     textarea(v-model="newAct.publicDescription")
   label Festival Apperances, Awards and Reviews
@@ -45,17 +45,22 @@ div
 
   h4 Primary Location
 
-  country-dropdown
+  country-dropdown(v-model="newAct.country")
 
-  state-dropdown
+  div(v-if="newAct.country == 'US'")
+    state-dropdown(v-model="newAct.stateOrProvince")
+  div(v-else)
+    label State or Province (if applicable)
+    input(type="text" v-model="newAct.stateOrProvince")
 
   label City
   input(type="text" v-model="newAct.city")
 
-  label What venue, theater or club are you associated with?
-    small Leave blank if not applicable.
+  label What individual venue, theater or club are you associated with? Leave blank if not applicable.
     small Just a single name is needed. Please do not write a short story about how and why no one place truly represents you.
     input(type="text" v-model="newAct.associatedTheater")
+
+  //- p {{newAct.showTitle}} by {{newAct.name}} from {{newAct.associatedTheater}} in {{newAct.city}}, {{newAct.stateOrProvince}}, {{newAct.country}}
 
   h4 Image Upload
   p Accepted acts will have their submitted photo used for the festival website, trading cards and programs. 
@@ -69,7 +74,13 @@ div
 
   h4 Cast and Crew
   p Please list everyone that will be attending the festival.
-  button Add Person
+  div(v-for="(person, index) in newAct.people")
+    person(
+      :person="person"
+      :act-roles="actRoles"
+      :index="index" 
+      @remove-person="newAct.people.splice(index, 1)")
+  button(@click.prevent="newAct.people.push({name: '', email:'', roleId:1})") Add Person
 
   h4 Contact Information
   p In case we need to get ahold of you in regards to your submission, who is the best person to contact?
@@ -81,6 +92,10 @@ div
 
   label Phone
   input(type="tel" v-model="newAct.contactPhone")
+
+  label Role
+  select(v-model="newAct.contactRoleId")
+    option(v-for="actRole in actRoles" :value="actRole.id") {{actRole.name}}
 
   h4 Performance Requirements
   label What is the shortest set (in minutes) you would be willing to do for the festival?
@@ -110,16 +125,13 @@ div
 
   h4 Social Media
   p Accepted acts will have their social media links listed on the festival website.
-  div(v-for="socialMedium in newAct.socialMedia")
-    label
-      small Enter a full URL (including HTTPS), not just a username
-    select
-      option(v-for="socialMediaType in socialMediaTypes") {{socialMediaType.name}}
-    | 
-    input(type="text")
-    | 
-    button.danger(style="margin-top:0") Remove
-  button(@click.prevent="newAct.socialMedia.push({})") Add Social Media
+  div(v-for="(socialMedium, index) in newAct.socialMedia")
+    social-media(
+      :social-media-types="socialMediaTypes" 
+      :social-medium="socialMedium" 
+      :index="index" 
+      @remove-social="newAct.socialMedia.splice(index, 1)")
+  button(@click.prevent="newAct.socialMedia.push({typeId: null, url: ''})") Add Social Media
 
   h4 Availability
   p Which days of the festival are you able to attend? 
@@ -134,9 +146,9 @@ div
   h4 Travel Agreement
   p If you are from out of town, we will need your travel information at least 30 days before the festival. Will you be able to provide this? Failure to do so can result in your act being pulled.
   select
-    option ---
-    option Yes
-    option We're local!
+    option(:value="null") ---
+    option(:value="false") Yes
+    option(:value="true") We're local!
 </template>
 
 <script>
@@ -144,9 +156,11 @@ import moment from 'moment'
 import ImageUpload from '@/components/ImageUpload'
 import CountryDropdown from '@/components/CountryDropdown'
 import StateDropdown from '@/components/StateDropdown'
+import SocialMedia from '@/components/SocialMedia'
+import Person from '@/components/Person'
 
 export default {
-  components: { ImageUpload, CountryDropdown, StateDropdown },
+  components: { ImageUpload, CountryDropdown, StateDropdown, SocialMedia, Person},
   filters: {
     formatTime(timestamp) {
       return moment(timestamp).format('dddd, MMMM Do')
@@ -158,14 +172,16 @@ export default {
       seeExample: false,
       showTypes: [],
       days: [],
-      noFood: false,
+      noFood: true,
+      socialMediaTypes: [],
+      actRoles: [],
       newAct: {
-        name: "Test name",
-        showTitle: "Test show name",
+        name: "Test Name",
+        showTitle: "Test Show Name",
         country: "US",
         stateOrProvince: "FL",
         city: "Test City",
-        associatedTheater: "Test theater",
+        associatedTheater: "Test Theater",
 
         publicDescription: "Test public description",
         privateDescription: "Test private description",
@@ -185,12 +201,14 @@ export default {
         contactName: "Test contact name",
         contactEmail: "contact-test@example.com",
         contactPhone: "777-KL5-5555",
-        contactRole: "Test contact role",
+        contactRoleId: 3,
 
-        availability: [],
-        socialMedia: [],
+        isLocal: null,
+
+        availability: [6, 7],
+        socialMedia: [{typeId:2, url:"example.com"}],
         actTypes: [1, 6],
-        people: []
+        people: [{name: "Dr. Example", email: "dr@example.com", roleId:3}]
       },
     }
   },
@@ -205,7 +223,11 @@ export default {
 
     fetch('http://localhost:9000/public/social-media-types/', { headers: { 'Content-Type': 'application/json'} })
       .then(response=> response.json())
-      .then(data=> this.days = data)
+      .then(data=> this.socialMediaTypes = data)
+
+    fetch('http://localhost:9000/public/act-roles/', { headers: { 'Content-Type': 'application/json'} })
+      .then(response=> response.json())
+      .then(data=> this.actRoles = data)
   }
 
 }
