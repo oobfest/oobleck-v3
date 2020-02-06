@@ -1,6 +1,6 @@
-CREATE TABLE act_role (
+CREATE TABLE user_role (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   isHidden BOOLEAN DEFAULT FALSE,
-  
+
   name TEXT
 );

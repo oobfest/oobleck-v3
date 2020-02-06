@@ -1,4 +1,6 @@
 CREATE TABLE act_type (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  isHidden BOOLEAN DEFAULT FALSE,
+  
   name TEXT
 );

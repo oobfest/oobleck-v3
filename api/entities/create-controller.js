@@ -7,6 +7,9 @@ let createController = function(model, overrides={}) {
       if(request.params.id) response.json(model.get(request.params.id))
       else response.json(model.get())
     },
+    getPublic(request, response) {
+      response.json(model.getPublic())
+    },
     update(request, response) {
       response.json(model.update(request.params.id, request.body))
     },

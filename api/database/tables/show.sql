@@ -1,5 +1,9 @@
 CREATE TABLE show (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
+  isHidden BOOLEAN DEFAULT FALSE,
+  dayId INTEGER,
+  stageId INTEGER,
+
   timestamp INTEGER,
   duration INTEGER,
 
@@ -7,21 +11,12 @@ CREATE TABLE show (
   name TEXT,
   imageUrl TEXT,
   imageDeleteUrl TEXT,
-
-  dayId INTEGER,
-  stageId INTEGER,
-
+  
+  -- One to Many: Day to Show
+  -- Ex. There are many shows on Wednesday! 
   FOREIGN KEY(dayId) REFERENCES day(id),
+ 
+  -- One to Many: Stage to Show
+  -- Ex. There are many shows at Hideout Downstairs
   FOREIGN KEY(stageId) REFERENCES stage(id)
-);
-
-
-CREATE TABLE slot (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  duration INTEGER,
-
-  showId INTEGER,
-  actId INTEGER,
-  FOREIGN KEY(showId) REFERENCES show(id)
-  FOREIGN KEY(actId) REFERENCES act(id)
 );

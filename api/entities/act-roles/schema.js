@@ -1,6 +1,7 @@
 let schema = {
   name: 'act_role',
-  columns: ['name']
+  columns: ['name'],
+  publicColumns: ['name']
 }
 
 module.exports = schema

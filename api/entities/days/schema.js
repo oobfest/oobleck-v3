@@ -1,6 +1,7 @@
 let schema = {
   name: 'day',
-  columns: ['name', 'timestamp']
+  columns: ['name', 'timestamp'],
+  publicColumns: ['name', 'timestamp']
 }
 
 module.exports = schema

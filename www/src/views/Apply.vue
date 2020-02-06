@@ -145,7 +145,7 @@ div
 
   h4 Travel Agreement
   p If you are from out of town, we will need your travel information at least 30 days before the festival. Will you be able to provide this? Failure to do so can result in your act being pulled.
-  select
+  select(v-model="newAct.isLocal")
     option(:value="null") ---
     option(:value="false") Yes
     option(:value="true") We're local!

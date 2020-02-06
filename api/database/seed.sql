@@ -51,7 +51,7 @@ INSERT INTO social_media_type(name) VALUES
   ("YouTube"),
   ("Other");
 
-INSERT INTO person(name, bio, email, phone, hide) VALUES
+INSERT INTO person(name, bio, email, phone, isHidden) VALUES
   ("Jill Bernard", "From Minnesota!", "jill@example.com", "(555) KL5-0000", false),
   ("Chris Curl", "Bald", "chris@example.com", "(555) KL5-0001", false),
   ("Ash Dropout", "Can't commit", "ash@example.com", "000-0000-0000", true);

@@ -1,4 +1,4 @@
-CREATE TABLE act_role (
+CREATE TABLE social_media_type (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   isHidden BOOLEAN DEFAULT FALSE,
   

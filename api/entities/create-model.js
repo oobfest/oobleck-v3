@@ -43,6 +43,11 @@ let createModel = function(schema, overrides={}) {
             .prepare(`select ${createColumns(schema.columns, true)} from ${schema.name}`)
             .all()
     },
+    getPublic() {
+      return database
+        .prepare(`select ${createColumns(schema.publicColumns, true)} from ${schema.name} where isHidden = 0`)
+        .all()
+    },
     update(id, row) {
       return database
         .prepare(`

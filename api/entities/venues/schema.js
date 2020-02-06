@@ -1,6 +1,7 @@
 let schema = {
   name: 'venue',
-  columns: ['name']
+  columns: ['name'],
+  publicColumns: ['name']
 }
 
 module.exports = schema
