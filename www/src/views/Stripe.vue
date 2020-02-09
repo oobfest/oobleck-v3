@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  .image-box.crocodile-nasties
+  .text-align-center
     h2 2020 Performer Application
   h3 Thank you for applying to Out of Bounds!
   p Our festival doesn't work without performers, so thanks for that.
@@ -149,9 +149,6 @@ div
     option(:value="null") ---
     option(:value="false") Yes
     option(:value="true") We're local!
-
-  h4 Application Fee
-  button Submit
 </template>
 
 <script>
