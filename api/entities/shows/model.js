@@ -14,7 +14,7 @@ let overrides = {
   get() {
     return database
       .prepare(`
-        select show.name, show.duration, show.timestamp, stage.name as stage, day.name as day
+        select show.id, show.name, show.duration, show.timestamp, stage.name as stage, day.name as day
         from show
         join stage on show.stageId == stage.id
         join day on show.dayId == day.id`)

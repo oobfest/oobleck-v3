@@ -20,7 +20,7 @@
               td {{show.name}}
               td {{show.stage}}
               td {{show.day}}
-              td {{new Date(show.timestamp).toLocaleTimeString()}}
+              td {{new Date(show.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}}
               td {{show.duration}}
               td
                 button.danger(@click="deleteShow(show.id)") Delete
@@ -74,7 +74,7 @@
         return new Date(this.newShow.day.timestamp + 43200000
           + this.newShow.hour * 3600000 
           + this.newShow.minute * 60000
-        )
+        ).getTime()
       }
     },
     methods: {

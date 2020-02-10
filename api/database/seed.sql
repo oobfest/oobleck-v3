@@ -69,6 +69,11 @@ INSERT INTO act(name, slug, creationDate, showTitle, country, stateOrProvince, c
 INSERT INTO act_to_person(actId, personId, actRoleId) VALUES
   (1, 1, 3), (1, 4, 1);
 
+
+INSERT INTO show(name, dayId, stageId, timestamp, duration) VALUES
+  (NULL, 2, 1, 1599009300000, 90),
+  ("Character Showcase", 1, 4, 1599276600000, 60);
+
 -- Cats for testin'
 CREATE TABLE IF NOT EXISTS cat (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
