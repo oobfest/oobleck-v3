@@ -25,8 +25,22 @@ let overrides = {
     return response
   },
 
-  get() {
-    return database
+  get(slug=null) {
+    if(slug) {
+      let workshop = database
+        .prepare(`select * from workshop where workshop.slug = ?`)
+        .get(slug)
+      let instructors = database
+        .prepare(`
+          select *
+          from person
+          join workshop_to_person
+          on workshop_to_person.personId = person.id
+          where workshop_to_person.workshopId = ?`)
+        .all(workshop.id)
+      return {...workshop, instructors}
+    }
+    else return database
       .prepare(`
         select
           workshop.id, workshop.name, workshop.slug, workshop.description, workshop.price, workshop.auditPrice, workshop.capacity, workshop.auditCapacity

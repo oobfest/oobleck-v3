@@ -6,14 +6,12 @@
       h2 Workshops
       p Not to be confused with 
         em workshop sessions
-        | , which are specific occurances of a workshop.
+        | , which are specific occurences of a workshop.
       .table-box
         table
           thead
             tr
               th Name
-              th Slug
-              th Description
               th Price
               th Audit Price
               th Capacity
@@ -22,9 +20,7 @@
               th
           tbody
             tr(v-for="workshop in workshops")
-              td {{workshop.name}}
-              td {{workshop.slug}}
-              td {{workshop.description}}
+              td: router-link(:to="'/workshop/' + workshop.slug") {{workshop.name}}
               td {{workshop.price}}
               td {{workshop.auditPrice}}
               td {{workshop.capacity}}

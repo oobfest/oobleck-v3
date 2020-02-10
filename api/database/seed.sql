@@ -54,13 +54,20 @@ INSERT INTO social_media_type(name) VALUES
 INSERT INTO person(name, bio, email, phone, isHidden) VALUES
   ("Jill Bernard", "From Minnesota!", "jill@example.com", "(555) KL5-0000", false),
   ("Chris Curl", "Bald", "chris@example.com", "(555) KL5-0001", false),
-  ("Ash Dropout", "Can't commit", "ash@example.com", "000-0000-0000", true);
+  ("Ash Dropout", "Can't commit", "ash@example.com", "000-000-0000", true),
+  ("Marlgrelt Hunsuck", NULL, "m@example.com", NULL, FALSE);
 
 INSERT INTO workshop(name, slug, description, price, auditPrice, capacity, auditCapacity) VALUES
   ("Improv for Walruses", "improv-for-walruses", "Finally, a workshop for the rest of us.", 10, 5, 20, 25);
 
 INSERT INTO workshop_to_person(workshopId, personId) VALUES
   (1, 1), (1, 2);
+
+INSERT INTO act(name, slug, creationDate, showTitle, country, stateOrProvince, city, associatedTheater, publicDescription, privateDescription, accolades, imageUrl, imageDeleteUrl, videoUrl1, videoUrl2, videoInformation, techNeeds, maximumTime, minimumTime, contactName, contactPhone, contactEmail, contactRoleId, isHeadliner, isLocal, isPaid, isAccepted, isConfirmed) VALUES
+  ('Giggle Gang', 'giggle-gang', 0, NULL, 'US', 'TX', 'Austin', 'ColdTowne', 'Fun loving', 'We secretly hate fun', 'Oscar for Best Improv', NULL, NULL, 'example.com/vid1', 'example.com/vid2', 'swordfish', 'Chairs', 420, 69, 'Tyler', '555', 't@example.com', 0, FALSE, TRUE, TRUE, FALSE, FALSE);
+
+INSERT INTO act_to_person(actId, personId, actRoleId) VALUES
+  (1, 1, 3), (1, 4, 1);
 
 -- Cats for testin'
 CREATE TABLE IF NOT EXISTS cat (

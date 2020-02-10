@@ -38,7 +38,7 @@ let createModel = function(schema, overrides={}) {
       return id
         ? database
             .prepare(`select ${createColumns(schema.columns, true)} from ${schema.name} where id = ?`)
-            .all(id)    // Otherwise returns 'undefined' if not found
+            .get(id)    // Otherwise returns 'undefined' if not found
         : database
             .prepare(`select ${createColumns(schema.columns, true)} from ${schema.name}`)
             .all()
@@ -49,12 +49,18 @@ let createModel = function(schema, overrides={}) {
         .all()
     },
     update(id, row) {
-      return database
+      let response = database
         .prepare(`
           update ${schema.name}
           set ${createSet(Object.keys(row), schema.columns)}
           where id = @id`)
-          .run({ ...row, id: id})
+          .run({ ...row, id})
+      return database
+        .prepare(`
+          select ${createColumns(schema.columns, true)}
+          from ${schema.name}
+          where id = ?`)
+        .get(id)
     },
     delete(id) {
       return database

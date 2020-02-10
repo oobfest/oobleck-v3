@@ -19,7 +19,7 @@ div
   label Name
   input(type="text" v-model="newAct.name")
   label Show Title
-    small Only fill this out if your show title is different from your group or performer name.
+    small Only fill this out if your show title is different from your group or performer name!
   input(type="text" v-model="newAct.showTitle")
 
   h4 Show Type
@@ -150,8 +150,12 @@ div
     option(:value="false") Yes
     option(:value="true") We're local!
 
-  h4 Application Fee
-  button Submit
+  .text-align-center
+    button(@click="submit") Submit
+  div(v-show="validationErrors.length > 0")
+    p Before submitting, please fix the following: 
+    ul
+      li(v-for="error in validationErrors") {{error}}
 </template>
 
 <script>
@@ -163,15 +167,49 @@ import SocialMedia from '@/components/SocialMedia'
 import Person from '@/components/Person'
 
 export default {
-  components: { ImageUpload, CountryDropdown, StateDropdown, SocialMedia, Person},
+  components: { ImageUpload, CountryDropdown, StateDropdown, SocialMedia, Person },
   filters: {
     formatTime(timestamp) {
       return moment(timestamp).format('dddd, MMMM Do')
     }
   },
-  methods: { moment },
+  methods: {
+    moment,
+    validate() {
+      let validationErrors = []
+      if(this.newAct.name == '') validationErrors.push('Act name is required')
+      if(this.newAct.actTypes.length <= 0) validationErrors.push('Please select at least one show type')
+      if(this.newAct.privateDescription == "") validationErrors.push('Please include a show description for review')
+      if(this.newAct.publicDescription == "") validationErrors.push('Please include a show description for publishing')
+      if(this.newAct.city == "") validationErrors.push('Please include what city you are from')
+      //if(this.newAct.imageUrl == null) validationErrors.push('Image upload is required')
+      if(this.newAct.people.length == 0) validationErrors.push('Please include the cast & crew of who will be attending the festival')
+      if(this.noFood == false) validationErrors.push('Please agree under "Performance Requirements" to not make a mess!')
+      if(this.newAct.videoUrl1 == "" && this.newAct.videoUrl2 == "") validationErrors.push('Please include at least one video for review')
+      if(this.newAct.availability.length <= 0) validationErrors.push('Please include what days you are able to attend the festival')
+      if(this.newAct.isLocal == null) validationErrors.push('Please respond to the travel agreement')
+
+      // Todo: contact info
+
+      this.validationErrors = validationErrors
+    },
+    submit() {
+      this.validate()
+      if(this.validationErrors.length <=0) {
+        fetch('http://localhost:9000/public/acts/', { 
+            headers: { 'Content-Type': 'application/json'},
+            method: 'POST',
+            body: JSON.stringify(this.newAct)
+          })
+        .then(response=> response.json())
+        .then(data=> console.log(data))
+        .catch(error=> alert("ERROR :("))
+      }
+    }
+  },
   data() {
     return {
+      validationErrors: [],
       seeExample: false,
       showTypes: [],
       days: [],
@@ -206,7 +244,7 @@ export default {
         contactPhone: "777-KL5-5555",
         contactRoleId: 3,
 
-        isLocal: null,
+        isLocal: true,
 
         availability: [6, 7],
         socialMedia: [{typeId:2, url:"example.com"}],

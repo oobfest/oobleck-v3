@@ -1,7 +1,8 @@
 CREATE TABLE person (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   isHidden BOOLEAN DEFAULT FALSE,
-  
+  isConfirmed BOOLEAN DEFAULT TRUE,
+
   name TEXT,
   bio TEXT,
   email TEXT UNIQUE,

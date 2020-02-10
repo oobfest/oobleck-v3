@@ -7,7 +7,7 @@ let fs = require('fs')
 fs.readdirSync('./entities', { withFileTypes: true })
   .filter(file=> file.isDirectory())
   .map(directory=> {
-    let entity = directory.name 
+    let entity = directory.name
     let entityPrivateRouter = require(`./${entity}/private-router`)
     privateRouter.use(`/${entity}`, entityPrivateRouter)
 
