@@ -8,7 +8,7 @@
         .sidebar-navigation
           page-link(v-for="route in routes" :to="route.path" :roles="route.roles" :key="route.path")
       header.topbar
-        p username | 
+        p {{$store.state.username}}  ({{$store.state.role}}) | 
           a(href="/" @click.prevent="logout") logout
       main.main
         router-view
@@ -32,6 +32,7 @@ export default {
     return {
       routes: [
         { path: '/', roles: ['admin', 'staff', 'panelist']},
+        { path: '/review', roles: ['panelist', 'standup-panelist'] },
         { path: '/acts', roles: ['admin']},
         { path: '/act-roles', roles: ['admin']},
         { path: '/act-types', roles: ['admin']},

@@ -22,11 +22,12 @@ argon2
   .hash('cat')
   .then(hash=> {
     database.exec(`
-      INSERT INTO user (email, password, roleId)
+      INSERT INTO user (name, email, password, roleId)
       VALUES 
-        ("car", "${hash}", 1), 
-        ("car2", "${hash}", 2),
-        ("car3", "${hash}", 3)`)
+        ('Tyler', "car", "${hash}", 1), 
+        ('Asaf', "car2", "${hash}", 2),
+        ('Charles Sketchman', "demo-panelist", "${hash}", 3),
+        ('Stacie Standup', "demo-standup-panelist", "${hash}", 4)`)
   })
 
 module.exports = database

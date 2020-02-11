@@ -4,7 +4,7 @@ let database = require('../../database')
 let createModel = require('../create-model')
 
 let overrides = {
-  get(slug) {
+  get(slug=null) {
     if(slug) {
       let act = database
         .prepare(`
@@ -14,20 +14,39 @@ let overrides = {
         .get(slug)
       let people = database
         .prepare(`
-          select person.id, person.name
+          select person.id, person.name, act_role.name as 'role'
           from person
           join act_to_person
           on act_to_person.personId = person.id
+          join act_role
+          on act_to_person.actRoleId = act_role.id
           where act_to_person.actId = ?`)
         .all(act.id)
       return {...act, people}
     }
-    else return database
-      .prepare(`
-        select * 
-        from act 
-        order by name`)
-      .all()
+    else {
+      let acts = database
+        .prepare(`
+          select * 
+          from act 
+          order by name`)
+        .all()
+
+      return acts.map(act=> {
+        return {
+          ...act, 
+          actTypes: database
+            .prepare(`
+              select act_type.name 
+              from act_to_act_type
+              join act_type
+              on act_to_act_type.actTypeId = act_type.id
+              where act_to_act_type.actId = ?`)
+            .all(act.id)
+            .map(act=> act.name)
+          }
+        })
+    }
   },
 
   create(data) {
@@ -147,6 +166,8 @@ let overrides = {
       let newPerson = people.find(p=> p.email == person.email)
       createActToPerson.run(act.id, newPerson.id, person.roleId)
     })
+
+    // TODO: Social Media
 
     return act
   }

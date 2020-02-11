@@ -6,7 +6,9 @@ div
   p From {{act.city}}, {{act.stateOrProvince}}
   h3 Cast & Crew
   ul
-    li(v-for="person in act.people"): router-link(:to="'/person/' + person.id") {{person.name}}
+    li(v-for="person in act.people")
+      router-link(:to="'/person/' + person.id") {{person.name}}
+      |  - {{person.role}}
 
 </template>
 

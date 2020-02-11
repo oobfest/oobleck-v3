@@ -51,6 +51,11 @@ let routes = [
     component: ()=> import('../views/Person.vue'),
   },
   {
+    path: '/review',
+    name: 'Review',
+    component: ()=> import('../views/Review.vue')
+  },
+  {
     path: '/shows',
     name: 'Shows',
     component: ()=> import('../views/Shows.vue'),

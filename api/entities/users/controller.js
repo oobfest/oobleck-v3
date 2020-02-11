@@ -21,12 +21,10 @@ let overrides = {
   },
   async login(request, response, next) {
     try {
-      let authenticated = await model.login(request.body)
-      if(!authenticated) throw new Error("Authentication failed")
-      request.session.authenticated = authenticated
-      let role = await model.getRole(request.body.email)
-      request.session.role = role.role
-      response.json({role: request.session.role})
+      let user = await model.login(request.body)
+      if(!user) throw new Error("Authentication failed")
+      request.session.authenticated = true
+      response.json(user)
     }
     catch(error) {
       next(error)

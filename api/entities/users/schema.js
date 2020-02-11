@@ -1,6 +1,6 @@
 let schema = {
   name: 'user',
-  columns: ['email', 'password', 'roleId'],
+  columns: ['name', 'email', 'password', 'roleId'],
   publicColumns: []
 }
 

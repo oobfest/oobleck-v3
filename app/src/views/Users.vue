@@ -8,11 +8,13 @@
         table
           thead
             tr
+              th Name
               th Email
               th Role
               th
           tbody
             tr(v-for="user in users")
+              td {{user.name}}
               td {{user.email}}
               td {{user.role}}
               td: button.btn.btn-danger(@click="deleteUser(user.id)") Delete
@@ -21,18 +23,17 @@
     //- CREATE
     div(v-show="view=='create'")
       h2 Add User
-      .form-group
-        label(for="new-user") Email
-        input#user-email.form-control(type='text' v-model="newUser.email")
-      .form-group
-        label(for="new-user-role") Role
-        select.form-control(name="new-user-role" v-model="newUser.roleId")
-          option(v-for="role in userRoles" :value="role.id") {{role.name}}
-      .form-group
-        .checkbox
-          label
-            input(type="checkbox" v-model="newUser.sendEmail")
-            | Send email
+      label Name
+      input(type='text' v-model="newUser.name")
+      label Email
+      input(type='text' v-model="newUser.email")
+      label Role
+      select(v-model="newUser.roleId")
+        option(v-for="role in userRoles" :value="role.id") {{role.name}}
+      .checkbox
+        label
+          input(type="checkbox" v-model="newUser.sendEmail")
+          | Send email
       button.btn.btn-primary(@click="addUser") Add
       | &nbsp;
       button.btn.btn-secondary(@click="view='read'") Cancel
@@ -47,6 +48,7 @@
         users: [],
         userRoles: [],
         newUser: {
+          name: "",
           email: "",
           roleId: null,
           sendEmail: false
@@ -62,6 +64,7 @@
           .then(()=> this.$http('private/users', 'POST', this.newUser))
           .then(response=> {
             this.users.push(response)
+            this.newUser.name = ""
             this.newUser.email = ""
             this.newUser.roleId = null
             this.newUser.sendEmail = false

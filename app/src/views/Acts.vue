@@ -8,12 +8,15 @@ div
         tr
           th Name
           th From
+          th Type
       tbody
         tr(v-for="act in acts")
           td: router-link(:to="'/act/' + act.slug")
             span(v-if="act.showTitle") {{act.name}}: {{act.showTitle}}
             span(v-else) {{act.name}}
           td {{from(act)}}
+          td: ul
+            li(v-for="actType in act.actTypes") {{actType}}
 
 </template>
 

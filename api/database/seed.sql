@@ -24,7 +24,8 @@ INSERT INTO stage (name, venueId) VALUES
 INSERT INTO user_role (name) VALUES 
   ("admin"),
   ("staff"),
-  ("panelist");
+  ("panelist"),
+  ("standup-panelist");
 
 INSERT INTO act_type(name) VALUES
   ("Improv"),
@@ -69,6 +70,8 @@ INSERT INTO act(name, slug, creationDate, showTitle, country, stateOrProvince, c
 INSERT INTO act_to_person(actId, personId, actRoleId) VALUES
   (1, 1, 3), (1, 4, 1);
 
+INSERT INTO act_to_act_type(actId, actTypeId) VALUES
+  (1, 5), (1, 1);
 
 INSERT INTO show(name, dayId, stageId, timestamp, duration) VALUES
   (NULL, 2, 1, 1599009300000, 90),

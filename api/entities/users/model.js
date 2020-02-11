@@ -10,7 +10,7 @@ let overrides = {
   get() {
     return database
       .prepare(`
-        select user.id, user.email, user_role.name AS role
+        select user.id, user.name, user.email, user_role.name AS role
         from user
         join user_role on user.roleId == user_role.id`)
       .all()
@@ -27,9 +27,9 @@ let overrides = {
   getRole(userEmail) {
     return database
       .prepare(`
-        select user_role.name AS role
+        select user.name as 'name', user_role.name as 'role'
         from user
-        join user_role on user.roleId == user_role.id
+        join user_role on user.roleId = user_role.id
         where user.email = ?`)
       .get(userEmail)
   },
@@ -51,7 +51,7 @@ let overrides = {
   },
   async login(login) {
     let user = database
-      .prepare(`select email, password from user where email = ?`)
+      .prepare(`select name, email, password from user where email = ?`)
       .get(login.email)
     if(!user) throw new Error("User not found")
     else if(await argon2.verify(user.password, login.password)) return this.getRole(user.email)

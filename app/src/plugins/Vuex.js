@@ -5,19 +5,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    role: null
+    role: null,
+    username: null
   },
   mutations: {
-    setRole(state, payload) {
+    setUser(state, payload) {
       state.role = payload.role
+      state.username = payload.name
     },
     logOut(state) {
       state.role = null
+      state.username = null
     }
   },
-  actions: {
-
-  },
-  modules: {
-  }
+  actions: { },
+  modules: { }
 })
