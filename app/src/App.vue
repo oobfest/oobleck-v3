@@ -32,13 +32,14 @@ export default {
     return {
       routes: [
         { path: '/', roles: ['admin', 'staff', 'panelist']},
-        { path: '/review', roles: ['panelist', 'standup-panelist'] },
         { path: '/acts', roles: ['admin']},
         { path: '/act-roles', roles: ['admin']},
         { path: '/act-types', roles: ['admin']},
         { path: '/cats', roles: ['admin', 'staff']},
         { path: '/days', roles: ['admin']},
         { path: '/people', roles: ['admin']},
+        { path: '/review', roles: ['panelist', 'standup-panelist'] },
+        { path: '/reviews', roles: ['admin'] },
         { path: '/shows', roles: ['admin']},
         { path: '/stages', roles: ['admin']},
         { path: '/social-media-types', roles: ['admin']},

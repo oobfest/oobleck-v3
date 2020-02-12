@@ -10,6 +10,15 @@ router.route('/')
   .get(controller.get)
   .post(controller.create)
 
+router.route('/review')
+  .get(controller.review)
+
+router.route('/review/:slug')
+  .get(controller.review)
+
+router.route('/review-standup')
+  .get(controller.reviewStandup)
+
 router.route('/:id')
   .get(controller.get)
   .put(controller.update)

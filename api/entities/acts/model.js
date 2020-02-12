@@ -4,6 +4,52 @@ let database = require('../../database')
 let createModel = require('../create-model')
 
 let overrides = {
+  getForReview(slug=null) {
+    if(slug) {
+      let act = database
+        .prepare(`
+          select act.id, act.name, act.showTitle, act.country, act.city, act.stateOrProvince, act.associatedTheater, act.publicDescription, act.PrivateDescription, act.accolades, act.imageUrl, act.videoUrl1, act.videoUrl2, act.videoInformation
+          from act
+          where act.slug = ?`)
+        .get(slug)
+      let people = this.getPeopleForAct(act.id)
+      return {...act, people}
+    }
+    else return database
+      .prepare(`
+        select act.name, act.showTitle, act.slug
+        from act
+        join act_to_act_type
+        on act_to_act_type.actId = act.id
+        where act_to_act_type.actTypeId != 3 and act.isPaid
+        group by act.name
+        `)
+      .all()
+  },
+  getForStandupReview() {
+    return database
+      .prepare(`
+        select act.id, act.name 
+        from act
+        join act_to_act_type
+        on act_to_act_type.actId = act.id
+        where act_to_act_type.actTypeId = 3
+        group by act.name
+        `)
+      .all()
+  },
+  getPeopleForAct(actId) {
+    return database
+      .prepare(`
+        select person.id, person.name, act_role.name as 'role'
+        from person
+        join act_to_person
+        on act_to_person.personId = person.id
+        join act_role
+        on act_to_person.actRoleId = act_role.id
+        where act_to_person.actId = ?`)
+      .all(actId)
+  },
   get(slug=null) {
     if(slug) {
       let act = database
@@ -12,16 +58,7 @@ let overrides = {
           from act 
           where slug = ?`)
         .get(slug)
-      let people = database
-        .prepare(`
-          select person.id, person.name, act_role.name as 'role'
-          from person
-          join act_to_person
-          on act_to_person.personId = person.id
-          join act_role
-          on act_to_person.actRoleId = act_role.id
-          where act_to_person.actId = ?`)
-        .all(act.id)
+      let people = this.getPeopleForAct(act.id)
       return {...act, people}
     }
     else {
