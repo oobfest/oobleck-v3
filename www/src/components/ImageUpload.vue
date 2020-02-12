@@ -11,6 +11,7 @@
   export default {
     methods: {
       uploadImage(event) {
+        this.$emit('uploading-image')
 
         // Get image data from event
         let image = event.target.files[0]
@@ -36,7 +37,7 @@
 
         fetch('https://imgur-apiv3.p.mashape.com/3/image', fetchConfiguration)
           .then(response=> response.json())
-          .then(json=> this.$emit('upload-image', json.data))
+          .then(json=> this.$emit('image-uploaded', json.data))
           .catch(error => console.error(error))
 
       },

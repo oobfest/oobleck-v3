@@ -60,17 +60,22 @@ div
     small Just a single name is needed. Please do not write a short story about how and why no one place truly represents you.
     input(type="text" v-model="newAct.associatedTheater")
 
-  //- p {{newAct.showTitle}} by {{newAct.name}} from {{newAct.associatedTheater}} in {{newAct.city}}, {{newAct.stateOrProvince}}, {{newAct.country}}
-
   h4 Image Upload
   p Accepted acts will have their submitted photo used for the festival website, trading cards and programs. 
-  p: ul
-    li Photos or graphics only. There should be no text in the image!
-    li Image should be 
-      em at least 
-      |  600 × 600 pixels
-    li File size under 10MB (use JPEG)
-  image-upload
+  div(v-if="imageUrl")
+    img(:src="imageUrl")
+    button.danger(@click="deleteImage") Delete
+  div(v-else)
+    div(v-if="uploadingImage")
+      p Uploading Image...
+    div(v-else)
+      p: ul
+        li Photos or graphics only. There should be no text in the image!
+        li Image should be 
+          em at least 
+          |  600 × 600 pixels
+        li File size under 10MB (use JPEG)
+    image-upload(v-show="!uploadingImage" @image-uploaded="imageUploaded" @uploading-image="uploadingImage=true")
 
   h4 Cast and Crew
   p Please list everyone that will be attending the festival.
@@ -160,6 +165,7 @@ div
 
 <script>
 import moment from 'moment'
+import imageUrl from '@/mixins/imageUrl'
 import ImageUpload from '@/components/ImageUpload'
 import CountryDropdown from '@/components/CountryDropdown'
 import StateDropdown from '@/components/StateDropdown'
@@ -167,6 +173,7 @@ import SocialMedia from '@/components/SocialMedia'
 import Person from '@/components/Person'
 
 export default {
+  mixins: [imageUrl],
   components: { ImageUpload, CountryDropdown, StateDropdown, SocialMedia, Person },
   filters: {
     formatTime(timestamp) {
@@ -175,6 +182,20 @@ export default {
   },
   methods: {
     moment,
+    imageUploaded(imageData) {
+      this.newAct.imageUrl = imageData.id
+      this.newAct.imageDeleteUrl = imageData.deletehash
+      this.imageUrl = this.getImageUrl(imageData.id, 'large-thumbnail')
+      this.deleteImageUrl = this.getDeleteImageUrl(imageData.deletehash)
+      this.uploadingImage = false
+    },
+    deleteImage(){
+      window.open(this.deleteImageUrl, '_blank')
+      this.newAct.imageUrl = null
+      this.newAct.imageDeleteUrl = null
+      this.imageUrl = null
+      this.deleteImageUrl = null
+    },
     validate() {
       let validationErrors = []
       if(this.newAct.name == '') validationErrors.push('Act name is required')
@@ -209,6 +230,9 @@ export default {
   },
   data() {
     return {
+      uploadingImage: false,
+      imageUrl: null,
+      deleteImageUrl: null,
       validationErrors: [],
       seeExample: false,
       showTypes: [],

@@ -30,6 +30,13 @@ h4 {
   border-bottom: 1px solid white;
 }
 
+img {
+  display: block;
+  width: auto;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
 a {
    color: #f9a01b
 }
