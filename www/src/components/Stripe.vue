@@ -5,7 +5,8 @@ div
     a(href="https://stripe.com/" target="_blank") Stripe
     |  for payment processing.
   label Credit Card Details
-  #stripe
+  #stripe(v-show="!paymentSubmitted")
+  p(v-show="paymentSubmitted") Payment submitted...
   #stripe-error
   button(@click="purchase") Submit Payment
 </template>
@@ -17,21 +18,38 @@ div
   let card = elements.create('card', {style})
 
   export default {
-    props: ['socialMediaTypes', 'socialMedium', 'index'],
+    props: ['clientInfo'],
+    data() {
+      return {
+        paymentSubmitted: false
+      }
+    },
     mounted() {
       card.mount("#stripe")
     },
     methods: {
       purchase() {
+        this.paymentSubmitted = true
         stripe
-          .createToken(card)
-          .then(result=> {
-            console.log("DONE")
-            console.log(result)
+          .confirmCardPayment(this.clientInfo, { payment_method: { card, billing_details: { name: 'FAKE NAME' } } })
+          .then(response=> {
+            if(response.error) {
+              alert("Error :(")
+              console.log(response.error)
+            }
+            else {
+              if(response.paymentIntent.status == 'succeeded') {
+                this.$emit('payment-submitted')
+              }
+              else {
+                console.log("Payment no bueno")
+                console.log(response)
+              }
+            }
           })
           .catch(error=> {
-            console.error("No bueno for purchase")
-            console.error(error)
+            alert("Other error")
+            console.log(error)
           })
       }
     }

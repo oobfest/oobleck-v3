@@ -6,6 +6,9 @@ let controller = {
   },
   async createSubmissionFeePaymentIntent(request, response) {
     response.json(await model.createSubmissionFeePaymentIntent())
+ },
+  async webhook(request, response) {
+    response.json(model.handleWebhook(request.body))
   }
 }
 

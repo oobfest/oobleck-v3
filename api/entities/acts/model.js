@@ -2,6 +2,7 @@ let { slug } = require('slug-gen')
 let schema = require('./schema')
 let database = require('../../database')
 let createModel = require('../create-model')
+let stripe = require('../stripe/model')
 
 let overrides = {
   getForReview(slug=null) {
@@ -86,7 +87,7 @@ let overrides = {
     }
   },
 
-  create(data) {
+  async create(data) {
 
     // act table
     let newActRow = {
@@ -205,8 +206,9 @@ let overrides = {
     })
 
     // TODO: Social Media
-
-    return act
+    let castSize = data.people.length
+    console.log(castSize)
+    return await stripe.createSubmissionFeePaymentIntent(castSize)
   }
 }
 
