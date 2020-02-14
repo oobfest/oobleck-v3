@@ -6,8 +6,8 @@ import Http from './plugins/Http'
 
 Vue.config.productionTip = false
 
-let baseUrl = 'http://localhost:9000/'
-Vue.use(Http, baseUrl)
+let apiUrl = process.env.VUE_APP_API_URL
+Vue.use(Http, apiUrl)
 
 new Vue({
   store: Vuex,

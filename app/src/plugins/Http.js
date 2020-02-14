@@ -1,5 +1,4 @@
 export default {
-
   install(Vue, baseUrl) {
     Vue.prototype.$http = function(target, method="GET", body=null) {
       return fetch(baseUrl + target, {
