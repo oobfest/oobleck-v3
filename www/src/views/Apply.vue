@@ -9,13 +9,15 @@ div
     h4 Important Dates
     p: ul
       li This year's festival will be from 
-        strong September 1st
+        strong September 1
+          sup st
         |  to 
-        strong September 7th
-      li Acceptance emails will be sent out on 
-        strong [date here]
+        strong September 7
+          sup th
+      li Acceptance emails will be sent out in June 
       li The last day to apply to the festival wil be on 
-        strong [date here]
+        strong March 31
+          sup st
 
     h4 Act Details
     label Name
