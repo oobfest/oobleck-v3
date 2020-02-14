@@ -32,6 +32,9 @@ CREATE TABLE act (
   contactEmail TEXT,
   contactRoleId TEXT,
 
+  paymentId TEXT DEFAULT NULL,
+  paymentStatus TEXT DEFAULT NULL,
+
   isLocal BOOLEAN,
   isPaid BOOLEAN,
   isAccepted BOOLEAN,

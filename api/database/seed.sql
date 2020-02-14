@@ -83,6 +83,10 @@ INSERT INTO act_to_person(actId, personId, actRoleId) VALUES
 INSERT INTO act_to_act_type(actId, actTypeId) VALUES
   (1, 5), (1, 1), (2, 3), (3, 2), (4, 2);
 
+INSERT INTO social_media(actId, socialMediaTypeId, url) VALUES
+  (1, 1, 'example.com/giggle-gang-net'), (1, 2, 'example.com/giggle-tweets'),
+  (2, 1, 'example.com/stacie-web'), (2, 5, 'example.com/stacie-tube');
+
 INSERT INTO show(name, dayId, stageId, timestamp, duration) VALUES
   (NULL, 2, 1, 1599009300000, 90),
   ("Character Showcase", 1, 4, 1599276600000, 60);

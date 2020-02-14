@@ -165,7 +165,7 @@ div
         li(v-for="error in validationErrors") {{error}}
   div(v-show="submitted")
     p Pay monies
-    stripe(:client-info="clientInfo" @payment-submitted="")
+    stripe(:client-info="clientInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
 
 </template>
 
@@ -189,6 +189,9 @@ export default {
   },
   methods: {
     moment,
+    paymentSucceeded() {
+      alert("Success")
+    },
     imageUploaded(imageData) {
       this.newAct.imageUrl = imageData.id
       this.newAct.imageDeleteUrl = imageData.deletehash
@@ -283,10 +286,15 @@ export default {
         isLocal: true,
 
         availability: [6, 7],
-        socialMedia: [{typeId:2, url:"example.com"}],
+        socialMedia: [{typeId:2, url:"example.com/twitter"}, {typeId:1, url:"example.com/webby"}],
         actTypes: [1, 6],
         people: [{name: "Dr. Example", email: "dr@example.com", roleId:3}]
       },
+    }
+  },
+  computed: {
+    cost() {
+      return `$${this.newAct.people.length >= 3 ? 25 : 15}.00`
     }
   },
   created() {

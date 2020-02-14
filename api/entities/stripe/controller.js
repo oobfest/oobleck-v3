@@ -8,7 +8,12 @@ let controller = {
     response.json(await model.createSubmissionFeePaymentIntent())
  },
   async webhook(request, response) {
-    response.json(model.handleWebhook(request.body))
+
+    // Immediately send back success to Stripe
+    response.end()
+
+    // Handle web hook
+    model.handleWebhook(request.body)
   }
 }
 

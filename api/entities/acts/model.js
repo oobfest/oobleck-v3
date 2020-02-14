@@ -14,7 +14,7 @@ let overrides = {
           where act.slug = ?`)
         .get(slug)
       let people = this.getPeopleForAct(act.id)
-      return {...act, people}
+      return {...act, people, socialMedia}
     }
     else return database
       .prepare(`
@@ -39,6 +39,16 @@ let overrides = {
         `)
       .all()
   },
+  getSocialMediaForAct(actId) {
+    return database
+      .prepare(`
+        select social_media.url, social_media_type.name 
+        from social_media 
+        join social_media_type
+        on social_media.socialMediaTypeId = social_media_type.id
+        where social_media.actId = ?`)
+      .all(actId)
+  },
   getPeopleForAct(actId) {
     return database
       .prepare(`
@@ -60,7 +70,8 @@ let overrides = {
           where slug = ?`)
         .get(slug)
       let people = this.getPeopleForAct(act.id)
-      return {...act, people}
+      let socialMedia = this.getSocialMediaForAct(act.id)
+      return {...act, people, socialMedia}
     }
     else {
       let acts = database
@@ -89,11 +100,19 @@ let overrides = {
 
   async create(data) {
 
+    // Stripe Payment Intent
+    let castSize = data.people.length
+    let paymentIntent = await stripe.createSubmissionFeePaymentIntent(castSize)
+
     // act table
     let newActRow = {
+      ...data,
+
       slug: slug(data.name),
       creationDate: Date.now(),
-      ...data,
+      paymentId: paymentIntent.id,
+      paymentStatus: 'pending',
+
       isHeadliner: 0,
       isPaid: 0,
       isAccepted: 0,
@@ -133,6 +152,9 @@ let overrides = {
           contactEmail, 
           contactRoleId, 
 
+          paymentId,
+          paymentStatus,
+
           isHeadliner, 
           isLocal, 
           isPaid, 
@@ -170,6 +192,9 @@ let overrides = {
           @contactEmail, 
           @contactRoleId, 
 
+          @paymentId,
+          @paymentStatus,
+
           @isHeadliner, 
           @isLocal, 
           @isPaid, 
@@ -205,10 +230,14 @@ let overrides = {
       createActToPerson.run(act.id, newPerson.id, person.roleId)
     })
 
+
     // TODO: Social Media
-    let castSize = data.people.length
-    console.log(castSize)
-    return await stripe.createSubmissionFeePaymentIntent(castSize)
+    let createSocialMedia = database.prepare(`insert into social_media (actId, socialMediaTypeId, url) values (?, ?, ?)`)
+    data.socialMedia.map(social=> createSocialMedia.run(act.id, social.typeId, social.url))
+    
+
+
+    return paymentIntent
   }
 }
 

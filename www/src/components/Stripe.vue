@@ -1,24 +1,39 @@
 <template lang="pug">
 div
   h4 Application Fee
+  p Your application fee is 
+    code {{cost}}
+    | .
   p We use 
     a(href="https://stripe.com/" target="_blank") Stripe
-    |  for payment processing.
-  label Credit Card Details
-  #stripe(v-show="!paymentSubmitted")
-  p(v-show="paymentSubmitted") Payment submitted...
+    |  for payment processing. 
+  div(v-show="paymentSubmitted")
+    p Payment is being processed...
+  div(v-show="!paymentSubmitted")
+    label Credit Card Details
+    #stripe
+    button(@click="purchase") Submit Payment
   #stripe-error
-  button(@click="purchase") Submit Payment
 </template>
 
 <script>
+
+// TODO
+// Collect contact info from parent component
+// Use 'id' to track payments
+// Handle *all* the errors!
+
+// Social media stuff
+// Deployyyy (how to have environment variables for VueJS?
+
+
   let stripe = Stripe('pk_test_vSOv2tJVVsBEI6PZJLJBNiOW')
   let elements = stripe.elements()
   let style = { base: { fontSize: "18px" } }
   let card = elements.create('card', {style})
 
   export default {
-    props: ['clientInfo'],
+    props: ['clientInfo', 'cost', 'contactInfo'],
     data() {
       return {
         paymentSubmitted: false
@@ -39,7 +54,7 @@ div
             }
             else {
               if(response.paymentIntent.status == 'succeeded') {
-                this.$emit('payment-submitted')
+                this.$emit('payment-succeeded')
               }
               else {
                 console.log("Payment no bueno")
@@ -55,4 +70,7 @@ div
     }
   }
   
+// pi_1GBkfuJ9V10cTwL5qAOYhU0I
+// pi_1GBkfuJ9V10cTwL5qAOYhU0I_secret_BtT3BL2cXUER6AkxXQmZfEsEL
+
 </script>

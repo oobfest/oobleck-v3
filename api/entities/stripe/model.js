@@ -34,8 +34,8 @@ let model = {
     return await stripe.paymentIntents.create({ amount, currency: 'usd' })
   },
   handleWebhook(event) {
-    console.log("Web hook: ", event.type)
     console.log(event)
+    if(event.type == 'charge.succeeded') { }
   }
 }
 

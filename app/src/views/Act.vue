@@ -9,6 +9,12 @@ div
     li(v-for="person in act.people")
       router-link(:to="'/person/' + person.id") {{person.name}}
       |  - {{person.role}}
+  div(v-if="act.socialMedia.length > 0")
+    h3 Social Media
+    ul
+      li(v-for="social in act.socialMedia")
+        strong {{social.name}}: 
+        | {{social.url}}
 
 </template>
 
