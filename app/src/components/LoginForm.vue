@@ -37,8 +37,8 @@ export default {
   data() {
     return {
       state: 'login',
-      email: "demo-panelist",
-      password: "cat"
+      email: '',
+      password: ''
     }
   },
   methods: {
