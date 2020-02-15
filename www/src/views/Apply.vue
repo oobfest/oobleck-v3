@@ -229,12 +229,7 @@ export default {
     submit() {
       this.validate()
       if(this.validationErrors.length <=0) {
-        fetch('http://localhost:9000/public/acts/', { 
-            headers: { 'Content-Type': 'application/json'},
-            method: 'POST',
-            body: JSON.stringify(this.newAct)
-          })
-          .then(response=> response.json())
+        this.$http('acts', 'POST', this.newAct)
           .then(data=> {
             this.clientInfo = data.client_secret
             this.submitted = true
@@ -300,23 +295,17 @@ export default {
     }
   },
   created() {
-    fetch('http://localhost:9000/public/act-types/', { headers: { 'Content-Type': 'application/json'} })
-      .then(response=> response.json())
+    this.$http('act-types')
       .then(data=> this.showTypes = data)
 
-    fetch('http://localhost:9000/public/days/', { headers: { 'Content-Type': 'application/json'} })
-      .then(response=> response.json())
+    this.$http('days')
       .then(data=> this.days = data)
 
-    fetch('http://localhost:9000/public/social-media-types/', { headers: { 'Content-Type': 'application/json'} })
-      .then(response=> response.json())
+    this.$http('social-media-types')
       .then(data=> this.socialMediaTypes = data)
 
-    fetch('http://localhost:9000/public/act-roles/', { headers: { 'Content-Type': 'application/json'} })
-      .then(response=> response.json())
+    this.$http('act-roles')
       .then(data=> this.actRoles = data)
   }
-
 }
 </script>
-
