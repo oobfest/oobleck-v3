@@ -10,10 +10,10 @@ INSERT INTO day (name, timestamp) VALUES
   ("Sunday",    1599375600000),
   ("Monday",    1599462000000);
 
-INSERT INTO venue (name) VALUES
-  ("ColdTowne Theater"),
-  ("Fallout Theater"),
-  ("Hideout Theatre");
+INSERT INTO venue (name, description) VALUES
+  ("ColdTowne Theater", "Truly a cold town."),
+  ("Fallout Theater", "Shelter"),
+  ("Hideout Theatre", "Full of crime");
 
 INSERT INTO stage (name, venueId) VALUES
   ("ColdTowne", 1),

@@ -1,6 +1,6 @@
 let schema = {
   name: 'venue',
-  columns: ['name'],
+  columns: ['name', 'description', 'address', 'url'],
   publicColumns: ['name']
 }
 

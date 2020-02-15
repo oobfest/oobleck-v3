@@ -1,6 +1,6 @@
 let dotenv = require('dotenv').config()
 
-let expectedEnvironmentVariables = ['PORT', 'SESSION_SECRET', 'PROMO_CODE', 'ALLOW_ORIGIN_URLS']
+let expectedEnvironmentVariables = [ 'ADMIN_USERNAME', 'ADMIN_PASSWORD', 'ALLOW_ORIGIN_URLS', 'NODE_ENV', 'PORT', 'PROMO_CODE', 'SESSION_SECRET', 'STRIPE_KEY' ]
 for(expectedEnvironmentVariable of expectedEnvironmentVariables) {
   if(process.env[expectedEnvironmentVariable] == undefined) {
     throw new Error(`Environment variable ${expectedEnvironmentVariable} not defined`)

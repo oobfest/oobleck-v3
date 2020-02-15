@@ -4,3 +4,7 @@ node_modules
 session.json
 .env
 .notes
+
+*.db
+*.db-wal
+*.db-shm

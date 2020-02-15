@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build-database": "node build-database.js"
   },
   "dependencies": {
     "argon2": "^0.25.1",
