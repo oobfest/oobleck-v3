@@ -7,27 +7,33 @@ div
   p We use 
     a(href="https://stripe.com/" target="_blank") Stripe
     |  for payment processing. 
-  div(v-show="paymentSubmitted")
-    p Payment is being processed...
-  div(v-show="!paymentSubmitted")
+
+  //- PENDING
+  div(v-show="paymentStatus=='pending'")
     label Credit Card Details
     #stripe
     button(@click="purchase") Submit Payment
+
+  //- SUBMITTED
+  div(v-show="paymentStatus=='submitted'")
+    p Payment is being processed...
+
+  //- CONFIRMED
+  div(v-show="paymentStatus=='confirmed'")
+    p Payment confirmed!
+    p A confirmation email has been sent to 
+      code {{contactInfo.email}}
+      | .
+
   #stripe-error
 </template>
 
 <script>
 
-// TODO
-// Collect contact info from parent component
-// Use 'id' to track payments
-// Handle *all* the errors!
+  // TODO
+  // Handle *all* the errors!
 
-// Social media stuff
-// Deployyyy (how to have environment variables for VueJS?
-
-
-  let stripe = Stripe('pk_test_vSOv2tJVVsBEI6PZJLJBNiOW')
+  let stripe = Stripe(process.env.VUE_APP_STRIPE_KEY)
   let elements = stripe.elements()
   let style = { base: { fontSize: "18px" } }
   let card = elements.create('card', {style})
@@ -36,7 +42,7 @@ div
     props: ['clientInfo', 'cost', 'contactInfo'],
     data() {
       return {
-        paymentSubmitted: false
+        paymentStatus: 'pending'
       }
     },
     mounted() {
@@ -44,9 +50,20 @@ div
     },
     methods: {
       purchase() {
-        this.paymentSubmitted = true
+        this.paymentStatus = 'submitted'
         stripe
-          .confirmCardPayment(this.clientInfo, { payment_method: { card, billing_details: { name: 'FAKE NAME' } } })
+          .confirmCardPayment(this.clientInfo, { 
+            payment_method: { 
+              card, 
+              metadata: { 'hello': 'world', 'cool': 'dank' },
+              billing_details: { 
+                name: this.contactInfo.name,
+                email: this.contactInfo.email,
+                phone: this.contactInfo.phone
+              } 
+            },
+            receipt_email: this.contactInfo.email 
+          })
           .then(response=> {
             if(response.error) {
               alert("Error :(")
@@ -54,7 +71,8 @@ div
             }
             else {
               if(response.paymentIntent.status == 'succeeded') {
-                this.$emit('payment-succeeded')
+                this.$emit('payment-succeeded', response.paymentIntent.id)
+                this.paymentStatus = 'confirmed'
               }
               else {
                 console.log("Payment no bueno")
@@ -69,8 +87,5 @@ div
       }
     }
   }
-  
-// pi_1GBkfuJ9V10cTwL5qAOYhU0I
-// pi_1GBkfuJ9V10cTwL5qAOYhU0I_secret_BtT3BL2cXUER6AkxXQmZfEsEL
 
 </script>

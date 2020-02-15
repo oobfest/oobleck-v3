@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  label State
+  label.required State
   select(:value="value" @change="$emit('input', $event.target.value)")
     option(value='TX') Texas
     option(value='--') --

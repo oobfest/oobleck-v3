@@ -230,14 +230,19 @@ let overrides = {
       createActToPerson.run(act.id, newPerson.id, person.roleId)
     })
 
-
-    // TODO: Social Media
+    // social_media
     let createSocialMedia = database.prepare(`insert into social_media (actId, socialMediaTypeId, url) values (?, ?, ?)`)
     data.socialMedia.map(social=> createSocialMedia.run(act.id, social.typeId, social.url))
-    
-
 
     return paymentIntent
+  },
+  markPayment(paymentId) {
+    return database
+      .prepare(`
+        update act
+        set paymentStatus = 'succeeded', isPaid = 1
+        where paymentId = ?`)
+      .run(paymentId)
   }
 }
 

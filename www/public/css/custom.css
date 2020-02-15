@@ -175,7 +175,12 @@ td button {
   font-size: 0.75rem;
 }
 
-label small {
+.required:after {
+  content:" *";
+  color: red;
+}
+
+label + small {
   display: block;
   font-style: italic;
   margin-bottom: 0.25rem;

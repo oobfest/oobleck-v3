@@ -20,13 +20,13 @@ div
           sup st
 
     h4 Act Details
-    label Name
+    label.required Name
     input(type="text" v-model="newAct.name")
     label Show Title
       small Only fill this out if your show title is different from your group or performer name!
     input(type="text" v-model="newAct.showTitle")
 
-    h4 Show Type
+    h4.required Show Type
     p Select all that apply.
     p
       label.checkbox(v-for="showType in showTypes")
@@ -34,21 +34,20 @@ div
         | {{showType.name}}
 
     h4 Show Description
-    label Describe Your Act to Us
-      small This is meant to persuade reviwers and won't be visible to the public. What makes your act special?
-      textarea(v-model="newAct.privateDescription")
-    label Describe Your Act to The Public
-      small Accepted acts will have this content published on our website and programs. Use third-person active voice, e.g. "Miller & Lies is..."
-      small
-        a(href="#" @click.prevent="seeExample=!seeExample") See an example
-        p(v-show="seeExample") "Miller & Lies is a comedy duo that performs a single story with awkward, emotionally vulnerable oddball characters. They've been doing improv together for ten years. Come hang with them and feel your feelings."
-      textarea(v-model="newAct.publicDescription")
+    label.required Describe Your Act to Us
+    small This is meant to persuade reviwers and won't be visible to the public. What makes your act special?
+    textarea(v-model="newAct.privateDescription")
+    label.required Describe Your Act to The Public
+    small Accepted acts will have this content published on our website and programs. Use third-person active voice, e.g. "Miller & Lies is..."
+    small
+      a(href="#" @click.prevent="seeExample=!seeExample") See an example
+      p(v-show="seeExample") "Miller & Lies is a comedy duo that performs a single story with awkward, emotionally vulnerable oddball characters. They've been doing improv together for ten years. Come hang with them and feel your feelings."
+    textarea(v-model="newAct.publicDescription")
     label Festival Apperances, Awards and Reviews
-      small List any previous festival appearances, awards you've won, and any additional press materials (quotes, links to reviews, etc)
-      textarea(v-model="newAct.accolades")
+    small List any previous festival appearances, awards you've won, and any additional press materials (quotes, links to reviews, etc)
+    textarea(v-model="newAct.accolades")
 
     h4 Primary Location
-
     country-dropdown(v-model="newAct.country")
 
     div(v-if="newAct.country == 'US'")
@@ -57,14 +56,14 @@ div
       label State or Province (if applicable)
       input(type="text" v-model="newAct.stateOrProvince")
 
-    label City
+    label.required City
     input(type="text" v-model="newAct.city")
 
-    label What individual venue, theater or club are you associated with? Leave blank if not applicable.
-      small Just a single name is needed. Please do not write a short story about how and why no one place truly represents you.
-      input(type="text" v-model="newAct.associatedTheater")
+    label What individual venue, theater or club are you associated with? Leave blank if more than one or not applicable.
+    small Just a single name is needed. Please do not write a short story about how and why no one place truly represents you.
+    input(type="text" v-model="newAct.associatedTheater")
 
-    h4 Image Upload
+    h4.required Image Upload
     p Accepted acts will have their submitted photo used for the festival website, trading cards and programs. 
     div(v-if="imageUrl")
       img(:src="imageUrl")
@@ -81,7 +80,7 @@ div
           li File size under 10MB (use JPEG)
       image-upload(v-show="!uploadingImage" @image-uploaded="imageUploaded" @uploading-image="uploadingImage=true")
 
-    h4 Cast and Crew
+    h4.required Cast and Crew
     p Please list everyone that will be attending the festival.
     div(v-for="(person, index) in newAct.people")
       person(
@@ -93,23 +92,23 @@ div
 
     h4 Contact Information
     p In case we need to get ahold of you in regards to your submission, who is the best person to contact?
-    label Name
+    label.required Name
     input(type="text" v-model="newAct.contactName")
 
-    label Email
+    label.required Email
     input(type="email" v-model="newAct.contactEmail")
 
-    label Phone
+    label.required Phone Number
     input(type="tel" v-model="newAct.contactPhone")
 
-    label Role
+    label.required Role
     select(v-model="newAct.contactRoleId")
       option(v-for="actRole in actRoles" :value="actRole.id") {{actRole.name}}
 
     h4 Performance Requirements
-    label What is the shortest set (in minutes) you would be willing to do for the festival?
+    label.required What is the shortest set (in minutes) you would be willing to do for the festival?
     input(type="number" v-model="newAct.minimumTime")
-    label What is the longest (in minutes) you would be able to perform for?
+    label.required What is the longest (in minutes) you would be able to perform for?
     input(type="number" v-model="newAct.maximumTime")
     label What special needs will your act require? For example, video projection, sound effects, props that you can't bring yourself and if you need us to provide a musician. Please be specific!
     textarea(v-model="newAct.techNeeds")
@@ -120,15 +119,14 @@ div
 
     h4 Video URLs
     p If you are standup, submit an unedited 5-15 minute video from a recent performance.
-    p Otherwise, please submit a URL to an unedited, full-length video of a performance of the act you intend to bring to Out of Bounds from the past 12 months. It should be at least 20 minutes long.
+    p Otherwise, please submit at least one unedited, full-length video of a performance of the act you intend to bring to Out of Bounds. It should be at least 20 minutes long and less than one year old.
     p Video sketches and other fully-edited videos are not accepted.
-    p Do not submit a video of a show different from what you would be performing at Out of Bounds.
-    
-    label Video URL(s)
+    p Do not submit a video of a show different from the one you would be performing at Out of Bounds.
+    label.required Video URL(s)
     input(type="text" v-model="newAct.videoUrl1")
     | 
     input(type="text" v-model="newAct.videoUrl2")
-    label Does your video require a password or any other additonal information? Leave blank if no.
+    label Does your video require a password or any other additonal information? Leave blank if not.
     input(type="text" v-model="newAct.videoInformation")
 
 
@@ -142,7 +140,7 @@ div
         @remove-social="newAct.socialMedia.splice(index, 1)")
     button(@click.prevent="newAct.socialMedia.push({typeId: null, url: ''})") Add Social Media
 
-    h4 Availability
+    h4.required Availability
     p Which days of the festival are you able to attend? 
     p Availability beyond Friday & Saturday will 
       em greatly increse
@@ -152,7 +150,7 @@ div
         input(type="checkbox" v-model="newAct.availability" :value="day.id")
         | {{day.timestamp | formatTime}}
 
-    h4 Travel Agreement
+    h4.required Travel Agreement
     p If you are from out of town, we will need your travel information at least 30 days before the festival. Will you be able to provide this? Failure to do so can result in your act being pulled.
     select(v-model="newAct.isLocal")
       option(:value="null") ---
@@ -167,7 +165,7 @@ div
         li(v-for="error in validationErrors") {{error}}
   div(v-show="submitted")
     p Pay monies
-    stripe(:client-info="clientInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
+    stripe(:client-info="clientInfo" :contact-info="contactInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
 
 </template>
 
@@ -191,8 +189,10 @@ export default {
   },
   methods: {
     moment,
-    paymentSucceeded() {
-      alert("Success")
+    paymentSucceeded(paymentId) {
+      this.$http('acts/mark-payment', 'POST', { paymentId })
+        .then(response=> alert("WE DID IT"))
+        .catch(error=> alert("Aww nuts"))
     },
     imageUploaded(imageData) {
       this.newAct.imageUrl = imageData.id
@@ -292,6 +292,13 @@ export default {
   computed: {
     cost() {
       return `$${this.newAct.people.length >= 3 ? 25 : 15}.00`
+    },
+    contactInfo() {
+      return {
+        name: this.newAct.contactName,
+        email: this.newAct.contactEmail,
+        phone: this.newAct.contactPhone
+      }
     }
   },
   created() {
