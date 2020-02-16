@@ -3,6 +3,10 @@ let schema = require('./schema')
 let database = require('../../database')
 let createModel = require('../create-model')
 let stripe = require('../stripe/model')
+let compileEmailTemplate = require('../../email/compile-email-template')
+let sendEmail = require('../../email/send-email')
+
+let actSubmissionConfirmationEmailTemplate = compileEmailTemplate('act-submission-confirmation')
 
 let overrides = {
   getForReview(slug=null) {
@@ -120,6 +124,9 @@ let overrides = {
       isLocal: data.isLocal ? 1 : 0
     }
 
+    // Email Archive
+    sendEmail(process.env.SUBMISSION_EMAIL, 'New Submission: ' + newActRow.name, `<pre>${JSON.stringify(newActRow, null, 2)}</pre>`)
+
     let result = database
       .prepare(`
         insert into act (
@@ -230,14 +237,31 @@ let overrides = {
       createActToPerson.run(act.id, newPerson.id, person.roleId)
     })
 
-
-    // TODO: Social Media
+    // social_media
     let createSocialMedia = database.prepare(`insert into social_media (actId, socialMediaTypeId, url) values (?, ?, ?)`)
     data.socialMedia.map(social=> createSocialMedia.run(act.id, social.typeId, social.url))
-    
-
 
     return paymentIntent
+  },
+  markPayment(paymentId) {
+    let result = database
+      .prepare(`
+        update act
+        set paymentStatus = 'succeeded', isPaid = 1
+        where paymentId = ?`)
+      .run(paymentId)
+
+    let act = database
+      .prepare(`
+        select name, contactName, contactEmail
+        from act
+        where paymentId = ?`)
+      .get(paymentId)
+
+    let emailHtml = actSubmissionConfirmationEmailTemplate(act)
+    sendEmail(act.contactEmail, `Application for ${act.name} has been received`, emailHtml)
+
+    return result
   }
 }
 

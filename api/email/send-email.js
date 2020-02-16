@@ -15,4 +15,3 @@ let sendEmail = async function(to, subject, html, from="no-reply@oobfest.com") {
 }
 
 module.exports = sendEmail
-

@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   label
-    small Enter a full URL (including HTTPS) and not just a username, please!
+    small Enter a full URL we can link to (including HTTPS) and not just a username.
   select(v-model="socialMedium.typeId")
     option(v-for="socialMediaType in socialMediaTypes" :value="socialMediaType.id") {{socialMediaType.name}}
   | 

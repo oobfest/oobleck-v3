@@ -10,6 +10,9 @@ overrides = {
   },
   reviewStandup(request, response) {
     response.json(model.getForStandupReview())
+  },
+  markPayment(request, response) {
+    response.json(model.markPayment(request.body.paymentId))
   }
 }
 

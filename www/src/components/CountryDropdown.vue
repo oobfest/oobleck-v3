@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  label Country
+  label.required Country
   select(:value="value" @change="$emit('input', $event.target.value)")
     option(value="US") United States
     option(value="MX") Mexico

@@ -5,7 +5,7 @@ div
   h3 Thank you for applying to Out of Bounds!
 
   div(v-show="!submitted")
-    p Our festival doesn't work without performers, so thanks for that.
+    p Our festival doesn't work unless we have performers, so thanks!
     h4 Important Dates
     p: ul
       li This year's festival will be from 
@@ -18,15 +18,19 @@ div
       li The last day to apply to the festival wil be on 
         strong March 31
           sup st
+    h4 Application Fee
+    p: ul
+      li Solo or duo acts: $15 before March 1st, $25 after
+      li 3+ people: $35 before March 1st, $45 after
 
     h4 Act Details
-    label Name
+    label.required Name
     input(type="text" v-model="newAct.name")
     label Show Title
-      small Only fill this out if your show title is different from your group or performer name!
+    small Only fill this out if your show title is different from your group or performer name!
     input(type="text" v-model="newAct.showTitle")
 
-    h4 Show Type
+    h4.required Show Type
     p Select all that apply.
     p
       label.checkbox(v-for="showType in showTypes")
@@ -34,21 +38,20 @@ div
         | {{showType.name}}
 
     h4 Show Description
-    label Describe Your Act to Us
-      small This is meant to persuade reviwers and won't be visible to the public. What makes your act special?
-      textarea(v-model="newAct.privateDescription")
-    label Describe Your Act to The Public
-      small Accepted acts will have this content published on our website and programs. Use third-person active voice, e.g. "Miller & Lies is..."
-      small
-        a(href="#" @click.prevent="seeExample=!seeExample") See an example
-        p(v-show="seeExample") "Miller & Lies is a comedy duo that performs a single story with awkward, emotionally vulnerable oddball characters. They've been doing improv together for ten years. Come hang with them and feel your feelings."
-      textarea(v-model="newAct.publicDescription")
+    label.required Describe Your Act to Us
+    small This is meant to persuade reviwers and won't be visible to the public. What makes your act special?
+    textarea(v-model="newAct.privateDescription")
+    label.required Describe Your Act to The Public
+    small Accepted acts will have this content published on our website and programs. Use third-person active voice, e.g. "Miller & Lies is..."
+    small
+      a(href="#" @click.prevent="seeExample=!seeExample") See an example
+      p(v-show="seeExample") "Miller & Lies is a comedy duo that performs a single story with awkward, emotionally vulnerable oddball characters. They've been doing improv together for ten years. Come hang with them and feel your feelings."
+    textarea(v-model="newAct.publicDescription")
     label Festival Apperances, Awards and Reviews
-      small List any previous festival appearances, awards you've won, and any additional press materials (quotes, links to reviews, etc)
-      textarea(v-model="newAct.accolades")
+    small List any previous festival appearances, awards you've won, and any additional press materials (quotes, links to reviews, etc)
+    textarea(v-model="newAct.accolades")
 
     h4 Primary Location
-
     country-dropdown(v-model="newAct.country")
 
     div(v-if="newAct.country == 'US'")
@@ -57,14 +60,14 @@ div
       label State or Province (if applicable)
       input(type="text" v-model="newAct.stateOrProvince")
 
-    label City
+    label.required City
     input(type="text" v-model="newAct.city")
 
-    label What individual venue, theater or club are you associated with? Leave blank if not applicable.
-      small Just a single name is needed. Please do not write a short story about how and why no one place truly represents you.
-      input(type="text" v-model="newAct.associatedTheater")
+    label What individual venue, theater or club are you associated with? Leave blank if more than one or not applicable.
+    small Just a single name is needed. Please do not write a short story about how and why no one place truly represents you.
+    input(type="text" v-model="newAct.associatedTheater")
 
-    h4 Image Upload
+    h4.required Image Upload
     p Accepted acts will have their submitted photo used for the festival website, trading cards and programs. 
     div(v-if="imageUrl")
       img(:src="imageUrl")
@@ -81,7 +84,7 @@ div
           li File size under 10MB (use JPEG)
       image-upload(v-show="!uploadingImage" @image-uploaded="imageUploaded" @uploading-image="uploadingImage=true")
 
-    h4 Cast and Crew
+    h4.required Cast and Crew
     p Please list everyone that will be attending the festival.
     div(v-for="(person, index) in newAct.people")
       person(
@@ -93,23 +96,23 @@ div
 
     h4 Contact Information
     p In case we need to get ahold of you in regards to your submission, who is the best person to contact?
-    label Name
+    label.required Name
     input(type="text" v-model="newAct.contactName")
 
-    label Email
+    label.required Email
     input(type="email" v-model="newAct.contactEmail")
 
-    label Phone
+    label.required Phone Number
     input(type="tel" v-model="newAct.contactPhone")
 
-    label Role
+    label.required Role
     select(v-model="newAct.contactRoleId")
       option(v-for="actRole in actRoles" :value="actRole.id") {{actRole.name}}
 
     h4 Performance Requirements
-    label What is the shortest set (in minutes) you would be willing to do for the festival?
+    label.required What is the shortest set (in minutes) you would be willing to do for the festival?
     input(type="number" v-model="newAct.minimumTime")
-    label What is the longest (in minutes) you would be able to perform for?
+    label.required What is the longest (in minutes) you would be able to perform for?
     input(type="number" v-model="newAct.maximumTime")
     label What special needs will your act require? For example, video projection, sound effects, props that you can't bring yourself and if you need us to provide a musician. Please be specific!
     textarea(v-model="newAct.techNeeds")
@@ -120,15 +123,13 @@ div
 
     h4 Video URLs
     p If you are standup, submit an unedited 5-15 minute video from a recent performance.
-    p Otherwise, please submit a URL to an unedited, full-length video of a performance of the act you intend to bring to Out of Bounds from the past 12 months. It should be at least 20 minutes long.
-    p Video sketches and other fully-edited videos are not accepted.
-    p Do not submit a video of a show different from what you would be performing at Out of Bounds.
-    
-    label Video URL(s)
+    p Otherwise, please submit at least one unedited, full-length video of a performance of the act you intend to bring to Out of Bounds. It should be at least 20 minutes long and less than one year old.
+    p Video sketches and other fully-edited videos are not accepted. Do not submit a video of a show different from the one you would be performing at Out of Bounds.
+    label.required Video URLs (only one required)
     input(type="text" v-model="newAct.videoUrl1")
     | 
     input(type="text" v-model="newAct.videoUrl2")
-    label Does your video require a password or any other additonal information? Leave blank if no.
+    label Does your video require a password or any other additonal information? Leave blank if not.
     input(type="text" v-model="newAct.videoInformation")
 
 
@@ -142,7 +143,7 @@ div
         @remove-social="newAct.socialMedia.splice(index, 1)")
     button(@click.prevent="newAct.socialMedia.push({typeId: null, url: ''})") Add Social Media
 
-    h4 Availability
+    h4.required Availability
     p Which days of the festival are you able to attend? 
     p Availability beyond Friday & Saturday will 
       em greatly increse
@@ -152,7 +153,7 @@ div
         input(type="checkbox" v-model="newAct.availability" :value="day.id")
         | {{day.timestamp | formatTime}}
 
-    h4 Travel Agreement
+    h4.required Travel Agreement
     p If you are from out of town, we will need your travel information at least 30 days before the festival. Will you be able to provide this? Failure to do so can result in your act being pulled.
     select(v-model="newAct.isLocal")
       option(:value="null") ---
@@ -160,14 +161,16 @@ div
       option(:value="true") We're local!
 
     .text-align-center
-      button(@click="submit") Submit
+      button(@click="submit" v-show="!submitting") Submit
+      p(v-show="submitting") Submitting...
     div(v-show="validationErrors.length > 0")
       p Before submitting, please fix the following: 
       ul
         li(v-for="error in validationErrors") {{error}}
   div(v-show="submitted")
-    p Pay monies
-    stripe(:client-info="clientInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
+    p Give us your monies
+    h4 Application Fee
+    stripe(:client-info="clientInfo" :contact-info="contactInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
 
 </template>
 
@@ -191,8 +194,10 @@ export default {
   },
   methods: {
     moment,
-    paymentSucceeded() {
-      alert("Success")
+    paymentSucceeded(paymentId) {
+      this.$http('acts/mark-payment', 'POST', { paymentId })
+        .then(response=> { /* success! */ })
+        .catch(error=> console.log(error))
     },
     imageUploaded(imageData) {
       this.newAct.imageUrl = imageData.id
@@ -210,88 +215,109 @@ export default {
     },
     validate() {
       let validationErrors = []
+
       if(this.newAct.name == '') validationErrors.push('Act name is required')
       if(this.newAct.actTypes.length <= 0) validationErrors.push('Please select at least one show type')
       if(this.newAct.privateDescription == "") validationErrors.push('Please include a show description for review')
       if(this.newAct.publicDescription == "") validationErrors.push('Please include a show description for publishing')
       if(this.newAct.city == "") validationErrors.push('Please include what city you are from')
-      //if(this.newAct.imageUrl == null) validationErrors.push('Image upload is required')
+      if(this.newAct.imageUrl == null) validationErrors.push('Image upload is required')
       if(this.newAct.people.length == 0) validationErrors.push('Please include the cast & crew of who will be attending the festival')
+      for(let person of this.newAct.people) {
+        if(person.name =='' || person.email == '') validationErrors.push('Cast and crew details are missing')
+        break
+      }
+      if(this.newAct.contactName == '') validationErrors.push('Contact name is required')
+      if(this.newAct.contactEmail == '') validationErrors.push('Contact email is required')
+      if(this.newAct.contactPhone == '') validationErrors.push('Contact phone is required')
+      if(this.newAct.contactRole == null) validationErrors.push('Contact role is required')
       if(this.noFood == false) validationErrors.push('Please agree under "Performance Requirements" to not make a mess!')
       if(this.newAct.videoUrl1 == "" && this.newAct.videoUrl2 == "") validationErrors.push('Please include at least one video for review')
+      for(let social of this.newAct.socialMedia) {
+        if(social.url == '') validationErrors.push('Social media url is blank')
+        break
+      }
       if(this.newAct.availability.length <= 0) validationErrors.push('Please include what days you are able to attend the festival')
       if(this.newAct.isLocal == null) validationErrors.push('Please respond to the travel agreement')
-
-      // Todo: contact info
 
       this.validationErrors = validationErrors
     },
     submit() {
       this.validate()
       if(this.validationErrors.length <=0) {
+        this.submitting = true
         this.$http('acts', 'POST', this.newAct)
           .then(data=> {
             this.clientInfo = data.client_secret
             this.submitted = true
           })
-          .catch(error=> alert("ERROR :("))
+          .catch(error=> alert("There was an error submitting your application. Please try again later!"))
       }
     }
   },
   data() {
     return {
+      imageUrl: null,
+      imageDeleteUrl: null,
       clientInfo: null,
+      submitting: false,
       submitted: false,
       uploadingImage: false,
-      imageUrl: null,
-      deleteImageUrl: null,
       validationErrors: [],
       seeExample: false,
       showTypes: [],
       days: [],
-      noFood: true,
+      noFood: false,
       socialMediaTypes: [],
       actRoles: [],
       newAct: {
-        name: "Test Name",
-        showTitle: "Test Show Name",
+        name: "",
+        showTitle: null,
         country: "US",
-        stateOrProvince: "FL",
-        city: "Test City",
-        associatedTheater: "Test Theater",
+        stateOrProvince: "TX",
+        city: "",
+        associatedTheater: "",
 
-        publicDescription: "Test public description",
-        privateDescription: "Test private description",
-        accolades: "Test accolades",
+        publicDescription: "",
+        privateDescription: "",
+        accolades: "",
 
-        imageUrl: null,
-        imageDeleteUrl: null,
+        imageUrl: "",
+        imageDeleteUrl: "",
 
-        videoUrl1: "youtube.com/test",
-        videoUrl2: "youtube.com/test2",
-        videoInformation: "Test video information",
+        videoUrl1: "",
+        videoUrl2: "",
+        videoInformation: "",
 
-        techNeeds: "Test tech needs",
-        minimumTime: "69",
-        maximumTime: "420",
+        techNeeds: "",
+        minimumTime: 0,
+        maximumTime: 0,
 
-        contactName: "Test contact name",
-        contactEmail: "contact-test@example.com",
-        contactPhone: "777-KL5-5555",
-        contactRoleId: 3,
+        contactName: "",
+        contactEmail: "",
+        contactPhone: "",
+        contactRoleId: null,
 
-        isLocal: true,
+        isLocal: null,
 
-        availability: [6, 7],
-        socialMedia: [{typeId:2, url:"example.com/twitter"}, {typeId:1, url:"example.com/webby"}],
-        actTypes: [1, 6],
-        people: [{name: "Dr. Example", email: "dr@example.com", roleId:3}]
+        availability: [],
+        socialMedia: [],
+        actTypes: [],
+        people: []
       },
     }
   },
   computed: {
     cost() {
-      return `$${this.newAct.people.length >= 3 ? 25 : 15}.00`
+      // Todo: Change pricing for March
+      return `$${this.newAct.people.length >= 3 ? 35 : 15}.00`
+    },
+    contactInfo() {
+      return {
+        name: this.newAct.contactName,
+        email: this.newAct.contactEmail,
+        phone: this.newAct.contactPhone
+      }
     }
   },
   created() {

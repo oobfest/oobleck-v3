@@ -1,10 +1,10 @@
 <template lang="pug">
 div
-  label Name
+  label.required Name
   input(type="text" v-model="person.name")
-  label Email
+  label.required Email
   input(type="email" v-model="person.email")
-  label Role
+  label.required Role
   select(v-model="person.roleId")
     option(v-for="actRole in actRoles" :value="actRole.id") {{actRole.name}}
   div
