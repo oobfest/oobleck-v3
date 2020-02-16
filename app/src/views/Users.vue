@@ -57,7 +57,7 @@
     },
     methods: {
       addUser() {
-        this.$http('public/users/unique', 'POST', {email: this.newUser.email})
+        this.$http('private/users/unique', 'POST', {email: this.newUser.email})
           .then(response=> {
             if(!response.unique) throw new Error("Email already used")
           })
