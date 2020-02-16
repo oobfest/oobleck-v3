@@ -3,6 +3,10 @@ let schema = require('./schema')
 let database = require('../../database')
 let createModel = require('../create-model')
 let stripe = require('../stripe/model')
+let compileEmailTemplate = require('../../email/compile-email-template')
+let sendEmail = require('../../email/send-email')
+
+let actSubmissionConfirmationEmailTemplate = compileEmailTemplate('act-submission-confirmation')
 
 let overrides = {
   getForReview(slug=null) {
@@ -119,6 +123,9 @@ let overrides = {
       isConfirmed: 0,
       isLocal: data.isLocal ? 1 : 0
     }
+
+    // Email Archive
+    sendEmail(process.env.SUBMISSION_EMAIL, 'New Submission: ' + newActRow.name, `<pre>${JSON.stringify(newActRow, null, 2)}</pre>`)
 
     let result = database
       .prepare(`
@@ -237,12 +244,24 @@ let overrides = {
     return paymentIntent
   },
   markPayment(paymentId) {
-    return database
+    let result = database
       .prepare(`
         update act
         set paymentStatus = 'succeeded', isPaid = 1
         where paymentId = ?`)
       .run(paymentId)
+
+    let act = database
+      .prepare(`
+        select name, contactName, contactEmail
+        from act
+        where paymentId = ?`)
+      .get(paymentId)
+
+    let emailHtml = actSubmissionConfirmationEmailTemplate(act)
+    sendEmail(act.contactEmail, `Application for ${act.name} has been received`, emailHtml)
+
+    return result
   }
 }
 

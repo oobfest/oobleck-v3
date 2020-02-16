@@ -5,7 +5,7 @@ div
   h3 Thank you for applying to Out of Bounds!
 
   div(v-show="!submitted")
-    p Our festival doesn't work without performers, so thanks for that.
+    p Our festival doesn't work unless we have performers, so thanks!
     h4 Important Dates
     p: ul
       li This year's festival will be from 
@@ -18,12 +18,16 @@ div
       li The last day to apply to the festival wil be on 
         strong March 31
           sup st
+    h4 Application Fee
+    p: ul
+      li Solo or duo acts: $15 before March 1st, $25 after
+      li 3+ people: $35 before March 1st, $45 after
 
     h4 Act Details
     label.required Name
     input(type="text" v-model="newAct.name")
     label Show Title
-      small Only fill this out if your show title is different from your group or performer name!
+    small Only fill this out if your show title is different from your group or performer name!
     input(type="text" v-model="newAct.showTitle")
 
     h4.required Show Type
@@ -158,13 +162,15 @@ div
       option(:value="true") We're local!
 
     .text-align-center
-      button(@click="submit") Submit
+      button(@click="submit" v-show="!submitting") Submit
+      p(v-show="submitting") Submitting...
     div(v-show="validationErrors.length > 0")
       p Before submitting, please fix the following: 
       ul
         li(v-for="error in validationErrors") {{error}}
   div(v-show="submitted")
-    p Pay monies
+    p Give us your monies
+    h4 Application Fee
     stripe(:client-info="clientInfo" :contact-info="contactInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
 
 </template>
@@ -191,7 +197,7 @@ export default {
     moment,
     paymentSucceeded(paymentId) {
       this.$http('acts/mark-payment', 'POST', { paymentId })
-        .then(response=> alert("WE DID IT"))
+        .then(response=> { /* success! */ })
         .catch(error=> alert("Aww nuts"))
     },
     imageUploaded(imageData) {
@@ -229,6 +235,7 @@ export default {
     submit() {
       this.validate()
       if(this.validationErrors.length <=0) {
+        this.submitting = true
         this.$http('acts', 'POST', this.newAct)
           .then(data=> {
             this.clientInfo = data.client_secret
@@ -241,6 +248,7 @@ export default {
   data() {
     return {
       clientInfo: null,
+      submitting: false,
       submitted: false,
       uploadingImage: false,
       imageUrl: null,
@@ -291,7 +299,8 @@ export default {
   },
   computed: {
     cost() {
-      return `$${this.newAct.people.length >= 3 ? 25 : 15}.00`
+      // Todo: Change pricing for March
+      return `$${this.newAct.people.length >= 3 ? 35 : 15}.00`
     },
     contactInfo() {
       return {

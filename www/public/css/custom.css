@@ -65,6 +65,15 @@ ul {
 .text-align-center {
   text-align: center;
 }
+.error {
+  color: #f04c23
+}
+
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+}
 
 label { 
   display: block;

@@ -1,31 +1,30 @@
 <template lang="pug">
 div
-  h4 Application Fee
-  p Your application fee is 
-    code {{cost}}
-    | .
-  p We use 
-    a(href="https://stripe.com/" target="_blank") Stripe
-    |  for payment processing. 
 
   //- PENDING
   div(v-show="paymentStatus=='pending'")
+    p Your application fee is 
+      code {{cost}}
+      | .
+      | Payments are handled by 
+      a(href="https://stripe.com/" target="_blank") Stripe
+      | . 
     label Credit Card Details
     #stripe
+    p.error(v-if="error") Card error: {{error}}
     button(@click="purchase") Submit Payment
 
   //- SUBMITTED
   div(v-show="paymentStatus=='submitted'")
-    p Payment is being processed...
+    p Your payment is being processed...
 
   //- CONFIRMED
   div(v-show="paymentStatus=='confirmed'")
-    p Payment confirmed!
+    p Your payment was successful! 
     p A confirmation email has been sent to 
       code {{contactInfo.email}}
       | .
 
-  #stripe-error
 </template>
 
 <script>
@@ -42,6 +41,7 @@ div
     props: ['clientInfo', 'cost', 'contactInfo'],
     data() {
       return {
+        error: null,
         paymentStatus: 'pending'
       }
     },
@@ -55,7 +55,7 @@ div
           .confirmCardPayment(this.clientInfo, { 
             payment_method: { 
               card, 
-              metadata: { 'hello': 'world', 'cool': 'dank' },
+              metadata: { hello: 'world'},
               billing_details: { 
                 name: this.contactInfo.name,
                 email: this.contactInfo.email,
@@ -66,8 +66,8 @@ div
           })
           .then(response=> {
             if(response.error) {
-              alert("Error :(")
-              console.log(response.error)
+              this.paymentStatus = 'pending'
+              this.error = response.error.message
             }
             else {
               if(response.paymentIntent.status == 'succeeded') {
