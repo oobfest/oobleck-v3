@@ -3,6 +3,7 @@ let fs = require('fs')
 let database = require('./database')
 
 // Execute all the scripts in the './database/tables' directory
+/*
 fs.readdirSync('./database/tables')
   .map(sql=> {
     let sqlScript = fs.readFileSync('./database/tables/' + sql, 'utf8')
@@ -12,11 +13,12 @@ fs.readdirSync('./database/tables')
   })
 
 // Fill test data
-
+/*
 process.stdout.write(`Creating test data... `)
 let testData = fs.readFileSync('./database/seed.sql', 'utf8')
 database.exec(testData)
 process.stdout.write("✔ \n")
+*/
 
 // Admin user
 process.stdout.write(`Creating admin user... `)
