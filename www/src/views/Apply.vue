@@ -230,7 +230,7 @@ export default {
       if(this.newAct.contactName == '') validationErrors.push('Contact name is required')
       if(this.newAct.contactEmail == '') validationErrors.push('Contact email is required')
       if(this.newAct.contactPhone == '') validationErrors.push('Contact phone is required')
-      if(this.newAct.contactRole == null) validationErrors.push('Contact role is required')
+      if(this.newAct.contactRoleId == null) validationErrors.push('Contact role is required')
       if(this.noFood == false) validationErrors.push('Please agree under "Performance Requirements" to not make a mess!')
       if(this.newAct.videoUrl1 == "" && this.newAct.videoUrl2 == "") validationErrors.push('Please include at least one video for review')
       for(let social of this.newAct.socialMedia) {
