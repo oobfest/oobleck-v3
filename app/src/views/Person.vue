@@ -4,10 +4,11 @@ div
     router-link(to="/people") People
     |  - {{ person.name }}
   pre {{ person.email }}
+  pre(v-if="person.phone") {{person.phone}}
   div(v-if="person.bio")
     h3 Bio
     p {{person.bio}}
-  div(v-if="")
+
   div(v-if="person.acts.length > 0")
     h3 Acts
     ul

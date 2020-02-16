@@ -31,7 +31,7 @@ let createModel = function(schema, overrides={}) {
         .prepare(`
           select ${createColumns(schema.columns, true)}
           from ${schema.name}
-          where id = ?`)
+          where rowid = ?`)
         .get(response.lastInsertRowid)
     },
     get(id=null) {

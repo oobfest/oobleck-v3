@@ -21,7 +21,7 @@ div
   //- CONFIRMED
   div(v-show="paymentStatus=='confirmed'")
     p Your payment was successful! 
-    p A confirmation email has been sent to 
+    p Your application is complete! ✅ A confirmation email has been sent to 
       code {{contactInfo.email}}
       | .
 

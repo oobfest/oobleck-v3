@@ -222,12 +222,22 @@ let overrides = {
     let createActToActType = database.prepare(`insert into act_to_act_type (actId, actTypeId) values (?, ?)`)
     data.actTypes.map(actTypeId=> createActToActType.run(act.id, actTypeId))
 
-    // Create new people
-    let emails = database.prepare(`select email from person`).all().map(p=>p.email)
-    let createPerson = database.prepare(`insert into person (name, email, isConfirmed) values (?, ?, FALSE)`)
-    data.people.map(person=> {
-      if (!emails.includes(person.email)) createPerson.run(person.name, person.email)
-    })
+
+    // Insert if email doesn't already exist
+    // Update if new phone value isn't null
+    let createPerson = database
+      .prepare(`
+        insert into person (name, email, phone, isConfirmed)
+        values (?, ?, ?, FALSE)
+        on conflict (email)
+        do update set phone = excluded.phone
+        where excluded.phone is not NULL`)
+
+    // First, create from contact
+    createPerson.run(data.contactName, data.contactEmail, data.contactPhone)
+
+    // Then create from cast & crew
+    data.people.map(person=> createPerson.run(person.name, person.email, null))
 
    // act_to_person
     let createActToPerson = database.prepare(`insert into act_to_person (actId, personId, actRoleId) values (?, ?, ?)`)
