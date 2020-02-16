@@ -124,9 +124,8 @@ div
     h4 Video URLs
     p If you are standup, submit an unedited 5-15 minute video from a recent performance.
     p Otherwise, please submit at least one unedited, full-length video of a performance of the act you intend to bring to Out of Bounds. It should be at least 20 minutes long and less than one year old.
-    p Video sketches and other fully-edited videos are not accepted.
-    p Do not submit a video of a show different from the one you would be performing at Out of Bounds.
-    label.required Video URL(s)
+    p Video sketches and other fully-edited videos are not accepted. Do not submit a video of a show different from the one you would be performing at Out of Bounds.
+    label.required Video URLs (only one required)
     input(type="text" v-model="newAct.videoUrl1")
     | 
     input(type="text" v-model="newAct.videoUrl2")
@@ -198,7 +197,7 @@ export default {
     paymentSucceeded(paymentId) {
       this.$http('acts/mark-payment', 'POST', { paymentId })
         .then(response=> { /* success! */ })
-        .catch(error=> alert("Aww nuts"))
+        .catch(error=> console.log(error))
     },
     imageUploaded(imageData) {
       this.newAct.imageUrl = imageData.id
@@ -216,19 +215,30 @@ export default {
     },
     validate() {
       let validationErrors = []
+
       if(this.newAct.name == '') validationErrors.push('Act name is required')
       if(this.newAct.actTypes.length <= 0) validationErrors.push('Please select at least one show type')
       if(this.newAct.privateDescription == "") validationErrors.push('Please include a show description for review')
       if(this.newAct.publicDescription == "") validationErrors.push('Please include a show description for publishing')
       if(this.newAct.city == "") validationErrors.push('Please include what city you are from')
-      //if(this.newAct.imageUrl == null) validationErrors.push('Image upload is required')
+      if(this.newAct.imageUrl == null) validationErrors.push('Image upload is required')
       if(this.newAct.people.length == 0) validationErrors.push('Please include the cast & crew of who will be attending the festival')
+      for(let person of this.newAct.people) {
+        if(person.name =='' || person.email == '') validationErrors.push('Cast and crew details are missing')
+        break
+      }
+      if(this.newAct.contactName == '') validationErrors.push('Contact name is required')
+      if(this.newAct.contactEmail == '') validationErrors.push('Contact email is required')
+      if(this.newAct.contactPhone == '') validationErrors.push('Contact phone is required')
+      if(this.newAct.contactRole == null) validationErrors.push('Contact role is required')
       if(this.noFood == false) validationErrors.push('Please agree under "Performance Requirements" to not make a mess!')
       if(this.newAct.videoUrl1 == "" && this.newAct.videoUrl2 == "") validationErrors.push('Please include at least one video for review')
+      for(let social of this.newAct.socialMedia) {
+        if(social.url == '') validationErrors.push('Social media url is blank')
+        break
+      }
       if(this.newAct.availability.length <= 0) validationErrors.push('Please include what days you are able to attend the festival')
       if(this.newAct.isLocal == null) validationErrors.push('Please respond to the travel agreement')
-
-      // Todo: contact info
 
       this.validationErrors = validationErrors
     },
@@ -241,59 +251,59 @@ export default {
             this.clientInfo = data.client_secret
             this.submitted = true
           })
-          .catch(error=> alert("ERROR :("))
+          .catch(error=> alert("There was an error submitting your application. Please try again later!"))
       }
     }
   },
   data() {
     return {
+      imageUrl: null,
+      imageDeleteUrl: null,
       clientInfo: null,
       submitting: false,
       submitted: false,
       uploadingImage: false,
-      imageUrl: null,
-      deleteImageUrl: null,
       validationErrors: [],
       seeExample: false,
       showTypes: [],
       days: [],
-      noFood: true,
+      noFood: false,
       socialMediaTypes: [],
       actRoles: [],
       newAct: {
-        name: "Test Name",
-        showTitle: "Test Show Name",
+        name: "",
+        showTitle: null,
         country: "US",
-        stateOrProvince: "FL",
-        city: "Test City",
-        associatedTheater: "Test Theater",
+        stateOrProvince: "TX",
+        city: "",
+        associatedTheater: "",
 
-        publicDescription: "Test public description",
-        privateDescription: "Test private description",
-        accolades: "Test accolades",
+        publicDescription: "",
+        privateDescription: "",
+        accolades: "",
 
-        imageUrl: null,
-        imageDeleteUrl: null,
+        imageUrl: "",
+        imageDeleteUrl: "",
 
-        videoUrl1: "youtube.com/test",
-        videoUrl2: "youtube.com/test2",
-        videoInformation: "Test video information",
+        videoUrl1: "",
+        videoUrl2: "",
+        videoInformation: "",
 
-        techNeeds: "Test tech needs",
-        minimumTime: "69",
-        maximumTime: "420",
+        techNeeds: "",
+        minimumTime: 0,
+        maximumTime: 0,
 
-        contactName: "Test contact name",
-        contactEmail: "contact-test@example.com",
-        contactPhone: "777-KL5-5555",
-        contactRoleId: 3,
+        contactName: "",
+        contactEmail: "",
+        contactPhone: "",
+        contactRoleId: null,
 
-        isLocal: true,
+        isLocal: null,
 
-        availability: [6, 7],
-        socialMedia: [{typeId:2, url:"example.com/twitter"}, {typeId:1, url:"example.com/webby"}],
-        actTypes: [1, 6],
-        people: [{name: "Dr. Example", email: "dr@example.com", roleId:3}]
+        availability: [],
+        socialMedia: [],
+        actTypes: [],
+        people: []
       },
     }
   },
