@@ -17,5 +17,4 @@
   main
     router-view
 
-
 </template>

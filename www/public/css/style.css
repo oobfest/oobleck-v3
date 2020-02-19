@@ -6,6 +6,14 @@ body {
   color: #e5e5e5;
 }
 
+a {
+   color: #f9a01b
+}
+
+code {
+  color: #fde8a2;
+}
+
 h1, h2, h3, h4 {
   margin-top: 1rem;
   margin-bottom: 0;
@@ -30,15 +38,15 @@ h4 {
   border-bottom: 1px solid white;
 }
 
+hr {
+  margin-top: 2rem;
+}
+
 img {
   display: block;
   width: auto;
   max-width: 900px;
-  margin: 0 auto;
-}
-
-a {
-   color: #f9a01b
+  margin: 1rem auto 0;
 }
 
 nav ul {
@@ -56,6 +64,12 @@ nav ul li a {
   color: white;
 }
 
+sup, sub {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.4em;
+}
+
 ul { 
   margin: 0;
   margin-left: 2rem;
@@ -67,12 +81,6 @@ ul {
 }
 .error {
   color: #f04c23
-}
-
-sup, sub {
-  vertical-align: baseline;
-  position: relative;
-  top: -0.4em;
 }
 
 label { 
@@ -195,12 +203,9 @@ label + small {
   margin-bottom: 0.25rem;
 }
 
-code {
-  color: #fde8a2;
-}
-
 .logo {
-  max-width: 100%;
+  max-width: 50%;
+  min-width: 300px;
 }
 
 .image-box {

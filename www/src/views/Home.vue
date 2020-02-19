@@ -15,6 +15,13 @@
     .text-align-center
       h2 Now Accepting Submissions!
       router-link(to="/apply"): button Apply Now
+
+    hr
+    .text-align-center
+      h2 Sponsors
+    .sponsors
+      img(src="/images/sponsors/tca.gif")
+      img(src="/images/sponsors/cultural-arts.png")
 </template>
 
 <script>

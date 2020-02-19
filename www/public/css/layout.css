@@ -44,3 +44,12 @@ main {
 #app {
   margin: 0 auto;
 }
+
+.sponsors {
+  display: flex;
+}
+
+.sponsors > img {
+  background-color: white;
+  height: 189px;
+}
