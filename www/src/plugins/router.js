@@ -7,6 +7,7 @@ import Jobs from '../views/Jobs.vue'
 
 import VolunteerCoordinator from '../views/jobs/VolunteerCoordinator.vue'
 import SpecialTechCoordinator from '../views/jobs/SpecialTechCoordinator.vue'
+import MarketingDirector from '../views/jobs/MarketingDirector.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +41,10 @@ const routes = [
       {
         path: 'special-tech-coordinator',
         component: SpecialTechCoordinator
+      },
+      {
+        path: 'marketing-director',
+        component: MarketingDirector
       }
     ]
   },

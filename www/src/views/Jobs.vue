@@ -9,6 +9,8 @@
       router-link(to="/jobs/volunteer-coordinator") Volunteer Coordinator
       span  | 
       router-link(to="/jobs/special-tech-coordinator") Special Tech Coordinator
+      span  | 
+      router-link(to="/jobs/marketing-director") Marketing Director
     router-view
 
 </template>
