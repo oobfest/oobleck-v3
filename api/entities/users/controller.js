@@ -51,6 +51,18 @@ let overrides = {
     catch(error) {
       next(error)
     }
+  },
+  async changePassword(request, response, next) {
+    try {
+      let name = request.body.name
+      let oldPassword = request.body.oldPassword
+      let newPassword = request.body.newPassword
+      let result = await model.changePassword(name, oldPassword, newPassword)
+      response.json(result)
+    }
+    catch(error) {
+      next(error)
+    }
   }
 }
 
