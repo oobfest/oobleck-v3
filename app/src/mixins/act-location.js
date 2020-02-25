@@ -1,4 +1,4 @@
-export let ActLocation = {
+export default {
   filters: {
     location(act) {
       let string = ''

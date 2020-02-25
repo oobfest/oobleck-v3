@@ -3,7 +3,7 @@ div
   h2
     router-link(to="/acts") Acts
     |  - {{ act.name }}
-  p From {{act.city}}, {{act.stateOrProvince}}
+  p From {{act | location}}
   h3 Cast & Crew
   ul
     li(v-for="person in act.people")
@@ -19,10 +19,13 @@ div
 </template>
 
 <script>
+  import ActLocation from '@/mixins/act-location'
+
   export default {
+    mixins: [ActLocation],
     data() {
       return {
-        act: {}
+        act: { socialMedia: []}
       }
     },
       created() {

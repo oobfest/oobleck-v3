@@ -20,10 +20,11 @@
               td {{person.bio}}
               td {{person.email}}
               td {{person.phone}}
-              td.text-align-center
-                a(href="#" @click.prevent="toggleHidePerson(person)" style="text-decoration:none") {{person.isHidden ? '❌' : '✔️'}}
-              td {{person.isConfirmed}}
-      button.primary(@click="view='create'") Add Person
+              td
+                a(href="#" @click.prevent="toggleHidePerson(person)" style="text-decoration:none") 
+                  | {{person.isHidden ? '❌' : '✔️'}}
+              //- td {{person.isConfirmed}}
+      //- button.primary(@click="view='create'") Add Person
 
     //- CREATE
     div(v-if="view=='create'")
