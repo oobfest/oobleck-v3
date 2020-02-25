@@ -14,24 +14,22 @@ div
           td: router-link(:to="'/act/' + act.slug")
             span(v-if="act.showTitle") {{act.name}}: {{act.showTitle}}
             span(v-else) {{act.name}}
-          td {{from(act)}}
+          td {{act | location}}
           td: ul
             li(v-for="actType in act.actTypes") {{actType}}
 
 </template>
 
 <script>
+  import ActLocation from '@/mixins/act-location'
+
   export default {
-    data: function() {
+    mixins: [ActLocation],
+    data() {
       return {
         view: "read",
         newAct: { name: "" },
         acts: []
-      }
-    },
-    methods: {
-      from(act) {
-        return `${act.associatedTheater} in ${act.city}, ${act.stateOrProvince}, ${act.country}`
       }
     },
     created() {

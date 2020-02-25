@@ -4,7 +4,11 @@ let createModel = require('../create-model')
 
 let passwordGenerator = require('otp-generator')
 let argon2 = require('argon2')
+
+let compileEmailTemplate = require('../../email/compile-email-template')
 let sendEmail = require('../../email/send-email')
+
+let newUserEmailTemplate = compileEmailTemplate('new-user')
 
 let overrides = {
   get() {
@@ -18,7 +22,7 @@ let overrides = {
   getById(id) {
     return database
       .prepare(`
-        select user.id, user.email, user_role.name AS role
+        select user.id, user.name, user.email, user_role.name AS role
         from user
         join user_role on user.roleId == user_role.id
         where user.id = ?`)
@@ -41,12 +45,14 @@ let overrides = {
   },
   async create(user) {
     if(!user.password) user.password = passwordGenerator.generate(12, {specialChars: false})
-    console.log(user.password)
     let hash = await argon2.hash(user.password)
     let response = database
-      .prepare(`insert into user (email, password, roleId) values (?, ?, ?)`)
-      .run([user.email, hash, user.roleId])
-    if(user.sendEmail) sendEmail(user.email, 'OoBleck Login', "It's here! " + user.password)
+      .prepare(`insert into user (name, email, password, roleId) values (?, ?, ?, ?)`)
+      .run([user.name, user.email, hash, user.roleId])
+    if(user.sendEmail) {
+      let emailHtml = newUserEmailTemplate(user)
+      sendEmail(user.email, 'OoBleck Login', emailHtml)
+    }
     return this.getById(response.lastInsertRowid)
   },
   async login(login) {
@@ -65,6 +71,21 @@ let overrides = {
       .run([hash, email])
     if(result.changes==1) sendEmail(email, 'Reset password', `New: ${newPassword}`)
     return { success: true }
+  },
+  async changePassword(name, oldPassword, newPassword) {
+    let user = database
+      .prepare(`select password from user where name = ?`)
+      .get(name)
+    if(!user) throw new Error("User not found")
+    let validOldPassword = await argon2.verify(user.password, oldPassword)
+    if(!validOldPassword) throw new Error("Wrong password")
+    else {
+      let hash = await argon2.hash(newPassword)
+      let result = database
+        .prepare(`update user set password = ? where name = ?`)
+        .run([hash, name])
+      return { success: true }
+    }
   }
 }
 

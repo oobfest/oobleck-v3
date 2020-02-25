@@ -48,7 +48,7 @@ div
 </template>
 
 <script>
-  import { ActLocation } from '@/mixins/act-location'
+  import ActLocation from '@/mixins/act-location'
 
   export default {
     mixins: [ActLocation],
