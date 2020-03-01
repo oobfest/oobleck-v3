@@ -172,7 +172,7 @@ div
       button(@click="submit" v-show="!submitting") Submit
       p(v-show="submitting") Submitting...
       | &nbsp;
-      button(@click="fake" v-show="true") Fake It
+      button(@click="fake" v-show="false") Fake It
 
     div(v-show="validationErrors.length > 0")
       p Before submitting, please fix the following: 
