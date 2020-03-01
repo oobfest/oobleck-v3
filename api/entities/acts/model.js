@@ -18,6 +18,7 @@ let overrides = {
           where act.slug = ?`)
         .get(slug)
       let people = this.getPeopleForAct(act.id)
+      let socialMedia = this.getSocialMediaForAct(act.id)
       return {...act, people, socialMedia}
     }
     else return database
@@ -102,23 +103,31 @@ let overrides = {
     }
   },
 
+ // This code is a mess,
+ // Always and forever
   async create(data) {
 
-    // Stripe Payment Intent
-    let castSize = data.people.length
-    let paymentIntent = await stripe.createSubmissionFeePaymentIntent(castSize)
-
+    // Check if they submitted a valid promo code
+    let isPaid = data.hasPromoCode && data.promoCode == process.env.PROMO_CODE
+    let paymentIntent = null
+        
+    if(!isPaid) {
+      // Stripe Payment Intent
+      let castSize = data.people.length
+      paymentIntent = await stripe.createSubmissionFeePaymentIntent(castSize)
+    }
+    
     // act table
     let newActRow = {
       ...data,
 
       slug: slug(data.name),
       creationDate: Date.now(),
-      paymentId: paymentIntent.id,
+      paymentId: isPaid ? null : paymentIntent.id,
       paymentStatus: 'pending',
 
       isHeadliner: 0,
-      isPaid: 0,
+      isPaid: isPaid ? 1 : 0,
       isAccepted: 0,
       isConfirmed: 0,
       isLocal: data.isLocal ? 1 : 0
@@ -251,7 +260,15 @@ let overrides = {
     let createSocialMedia = database.prepare(`insert into social_media (actId, socialMediaTypeId, url) values (?, ?, ?)`)
     data.socialMedia.map(social=> createSocialMedia.run(act.id, social.typeId, social.url))
 
-    return paymentIntent
+    if(isPaid) {
+      // Send confirmation email
+      let emailHtml = actSubmissionConfirmationEmailTemplate(act)
+      sendEmail(act.contactEmail, `Application for ${act.name} has been received`, emailHtml)
+      return { ok: true }
+    }
+    else {
+      return paymentIntent
+    }
   },
   markPayment(paymentId) {
     let result = database

@@ -160,17 +160,33 @@ div
       option(:value="false") Yes
       option(:value="true") We're local!
 
+    h4 Promo Code
+    p: label.checkbox
+      input(type="checkbox" v-model="hasPromoCode")
+      | I have a promo code
+    div(v-show="hasPromoCode")
+      label Promo Code
+      input(type="text" v-model="newAct.promoCode")
+
     .text-align-center
       button(@click="submit" v-show="!submitting") Submit
       p(v-show="submitting") Submitting...
+      | &nbsp;
+      button(@click="fake" v-show="true") Fake It
+
     div(v-show="validationErrors.length > 0")
       p Before submitting, please fix the following: 
       ul
         li(v-for="error in validationErrors") {{error}}
   div(v-show="submitted")
-    p Give us your monies
-    h4 Application Fee
-    stripe(:client-info="clientInfo" :contact-info="contactInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
+    div(v-if="hasPromoCode")
+      p Your application is complete! ✅ A confirmation email has been sent to 
+        code {{newAct.contactEmail}}
+        | .
+    div(v-else)
+      p Give us your monies
+      h4 Application Fee
+      stripe(:client-info="clientInfo" :contact-info="contactInfo" :cost="cost" @payment-succeeded="paymentSucceeded")
 
 </template>
 
@@ -194,6 +210,25 @@ export default {
   },
   methods: {
     moment,
+    fake() {
+      this.newAct.name = "Garfield"
+      this.newAct.actTypes = [1]
+      this.newAct.privateDescription = "Fake"
+      this.newAct.publicDescription = "Fake"
+      this.newAct.city = "Fake"
+      this.newAct.imageUrl = "https://i.imgur.com/iyI5Xag.jpg"
+      this.newAct.imageDeleteUrl = "https://i.imgur.com/iyI5Xag.jpg"
+      this.newAct.city = "Fake"
+      this.newAct.people.push({ name: "Garfield", email: "garf@example.com" })
+      this.newAct.contactName = "John Arbuckle"
+      this.newAct.contactEmail = "john@example.com"
+      this.newAct.contactPhone = "777"
+      this.newAct.contactRoleId = 1
+      this.noFood = true
+      this.newAct.videoUrl1 = "https://www.youtube.com/"
+      this.newAct.availability = [1, 2, 3]
+      this.newAct.isLocal = true
+    }, 
     paymentSucceeded(paymentId) {
       this.$http('acts/mark-payment', 'POST', { paymentId })
         .then(response=> { /* success! */ })
@@ -213,7 +248,7 @@ export default {
       this.imageUrl = null
       this.deleteImageUrl = null
     },
-    validate() {
+    async validate() {
       let validationErrors = []
 
       if(this.newAct.name == '') validationErrors.push('Act name is required')
@@ -240,23 +275,30 @@ export default {
       if(this.newAct.availability.length <= 0) validationErrors.push('Please include what days you are able to attend the festival')
       if(this.newAct.isLocal == null) validationErrors.push('Please respond to the travel agreement')
 
+      if(this.hasPromoCode) {
+        let { ok } = await this.$http('promo-code/check-promo-code', 'POST', {promoCode: this.newAct.promoCode} )
+        if(!ok) validationErrors.push("Invalid promo code")
+      }
+
       this.validationErrors = validationErrors
     },
-    submit() {
-      this.validate()
+    async submit() {
+      this.submitting = true
+      await this.validate()
       if(this.validationErrors.length <=0) {
-        this.submitting = true
-        this.$http('acts', 'POST', this.newAct)
+        this.$http('acts', 'POST', { ...this.newAct, hasPromoCode: this.hasPromoCode } )
           .then(data=> {
-            this.clientInfo = data.client_secret
+            if(!this.hasPromoCode) this.clientInfo = data.client_secret
             this.submitted = true
           })
           .catch(error=> alert("There was an error submitting your application. Please try again later!"))
       }
+      else this.submitting = false
     }
   },
   data() {
     return {
+      hasPromoCode: false,
       imageUrl: null,
       imageDeleteUrl: null,
       clientInfo: null,
@@ -299,6 +341,7 @@ export default {
         contactRoleId: null,
 
         isLocal: null,
+        promoCode: null,
 
         availability: [],
         socialMedia: [],
@@ -309,8 +352,7 @@ export default {
   },
   computed: {
     cost() {
-      // Todo: Change pricing for March
-      return `$${this.newAct.people.length >= 3 ? 35 : 15}.00`
+      return `$${this.newAct.people.length >= 3 ? 45 : 25}.00`
     },
     contactInfo() {
       return {
