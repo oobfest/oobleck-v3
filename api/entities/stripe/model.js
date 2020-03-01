@@ -22,11 +22,11 @@ let model = {
     let april1st = 1585717200000
     let march1st = 1583042400000
 
-    // Is this happening after March 1st? (Late)
-    if(Date.now() > march1st) { amount = isGroup ? 5500 : 3500 }
+    // Is this happening after April 1st? (Late)
+    if(Date.now() > april1st) { amount = isGroup ? 5500 : 3500 }
 
-    // Is this happening before April 1st? (Early)
-    else if (Date.now() < april1st) { amount = isGroup ? 3500 : 1500 }
+    // Is this happening before March 1st? (Early)
+    else if (Date.now() < march1st) { amount = isGroup ? 3500 : 1500 }
 
     // It's happening after April 1st, but before March 1st
     else { amount = isGroup ? 4500 : 2500 }

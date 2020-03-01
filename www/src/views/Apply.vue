@@ -172,7 +172,7 @@ div
       button(@click="submit" v-show="!submitting") Submit
       p(v-show="submitting") Submitting...
       | &nbsp;
-      button(@click="fake" v-show="false") Fake It
+      button(@click="fake" v-show="isDev") Fake It
 
     div(v-show="validationErrors.length > 0")
       p Before submitting, please fix the following: 
@@ -200,6 +200,7 @@ import SocialMedia from '@/components/SocialMedia'
 import Person from '@/components/Person'
 import Stripe from '@/components/Stripe'
 
+
 export default {
   mixins: [imageUrl],
   components: { ImageUpload, CountryDropdown, StateDropdown, SocialMedia, Person, Stripe },
@@ -219,7 +220,7 @@ export default {
       this.newAct.imageUrl = "https://i.imgur.com/iyI5Xag.jpg"
       this.newAct.imageDeleteUrl = "https://i.imgur.com/iyI5Xag.jpg"
       this.newAct.city = "Fake"
-      this.newAct.people.push({ name: "Garfield", email: "garf@example.com" })
+      this.newAct.people.push({ name: "Garfield", email: "garf@example.com", roleId: 1 })
       this.newAct.contactName = "John Arbuckle"
       this.newAct.contactEmail = "john@example.com"
       this.newAct.contactPhone = "777"
@@ -298,6 +299,7 @@ export default {
   },
   data() {
     return {
+      isDev: process.env.VUE_APP_ENV == 'dev',
       hasPromoCode: false,
       imageUrl: null,
       imageDeleteUrl: null,
