@@ -43,7 +43,7 @@ div
     h3 Notes
     textarea(v-model="notes")
 
-    button(@click="submit") Submit Review
+    p: button(@click="submit") Submit Review
 
 </template>
 
