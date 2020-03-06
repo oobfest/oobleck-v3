@@ -89,8 +89,10 @@ let overrides = {
     else {
       let acts = database
         .prepare(`
-          select * 
+          select act.name, act.showTitle, act.slug, act.id,
+          act.country, act.stateOrProvince, act.city, act.associatedTheater
           from act 
+          where isPaid = TRUE
           order by name`)
         .all()
 
