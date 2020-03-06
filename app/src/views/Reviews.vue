@@ -10,13 +10,17 @@ div
       tbody
         tr(v-for="actName in actNames") 
           td {{ actName }}
-          td {{ groupedScores[actName].join(', ') }}
+          td(style="font-size:1.5rem")
+            span(v-for="score in groupedScores[actName]") {{ score | score }} 
 
 
 </template>
 
 <script>
+  import Score from '@/mixins/score'
+
   export default {
+    mixins: [Score],
     data: function() {
       return {
         reviews: [],
@@ -24,7 +28,7 @@ div
     },
     computed: {
       actNames() {
-        return Object.keys(this.groupedReviews).sort()
+        return Object.keys(this.groupedScores).sort()
       },
       groupedScores() {
         return this.reviews.reduce((accumulation, review)=> {
