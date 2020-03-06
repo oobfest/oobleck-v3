@@ -1,8 +1,14 @@
 <template lang="pug">
 div
   h2 Reviews
+  p Todo: re-organize!
   ul
-    li(v-for="review in reviews"): pre {{review}} 
+    li(v-for="review in reviews") 
+      strong {{review.actName}} - 
+      code {{review.score}} 
+      |  by  
+      em {{review.userName}}
+
 
 </template>
 

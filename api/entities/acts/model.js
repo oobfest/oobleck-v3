@@ -9,24 +9,26 @@ let sendEmail = require('../../email/send-email')
 let actSubmissionConfirmationEmailTemplate = compileEmailTemplate('act-submission-confirmation')
 
 let overrides = {
-  getForReview(slug=null) {
-    if(slug) {
+  getForReview(slug=null, userId=null) {
+    if(slug && userId) {
       let act = database
         .prepare(`
-          select act.id, act.name, act.showTitle, act.country, act.city, act.stateOrProvince, act.associatedTheater, act.publicDescription, act.PrivateDescription, act.accolades, act.imageUrl, act.videoUrl1, act.videoUrl2, act.videoInformation
+          select act.id, act.name, act.showTitle, act.country, act.city, act.stateOrProvince, act.associatedTheater, act.publicDescription, act.PrivateDescription, act.accolades, act.imageUrl, act.videoUrl1, act.videoUrl2, act.videoInformation, review.score, review.notes
           from act
+          left join review on act.id = review.actId and review.userId = ?
           where act.slug = ?`)
-        .get(slug)
+        .get(userId, slug)
       let people = this.getPeopleForAct(act.id)
       let socialMedia = this.getSocialMediaForAct(act.id)
       return {...act, people, socialMedia}
     }
     else return database
       .prepare(`
-        select act.name, act.showTitle, act.slug
+        select act.name, act.showTitle, act.slug, count(review.score) as reviewCount
         from act
-        join act_to_act_type
+        join act_to_act_type 
         on act_to_act_type.actId = act.id
+        left join review on review.actId = act.id
         where act_to_act_type.actTypeId != 3 and act.isPaid
         group by act.name
         `)
@@ -35,11 +37,12 @@ let overrides = {
   getForStandupReview() {
     return database
       .prepare(`
-        select act.id, act.name 
+        select act.name, act.showTitle, act.slug, count(review.score) as reviewCount
         from act
-        join act_to_act_type
+        join act_to_act_type 
         on act_to_act_type.actId = act.id
-        where act_to_act_type.actTypeId = 3
+        left join review on review.actId = act.id
+        where act_to_act_type.actTypeId = 3 and act.isPaid
         group by act.name
         `)
       .all()

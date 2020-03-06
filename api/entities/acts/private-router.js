@@ -13,11 +13,11 @@ router.route('/')
 router.route('/review')
   .get(controller.review)
 
-router.route('/review/:slug')
-  .get(controller.review)
-
 router.route('/review-standup')
   .get(controller.reviewStandup)
+
+router.route('/review/:slug/:userId')
+  .get(controller.review)
 
 router.route('/:id')
   .get(controller.get)

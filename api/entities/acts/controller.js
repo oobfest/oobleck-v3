@@ -6,7 +6,7 @@ overrides = {
     response.json(await model.create(request.body))
   },
   review(request, response) {
-    response.json(model.getForReview(request.params.slug))
+    response.json(model.getForReview(request.params.slug, request.params.userId))
   },
   reviewStandup(request, response) {
     response.json(model.getForStandupReview())

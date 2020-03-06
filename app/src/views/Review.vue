@@ -61,14 +61,18 @@ div
       }
     },
     computed: {
-      isStandupPanelist() {
-        return this.$store.state.role == 'standup-panelist'
+      userRole() {
+        return this.$store.state.role
       }
     },
     methods: {
       getAct(slug) {
-        this.$http('private/acts/review/' + slug)
-          .then(data=> this.selectedAct = data)
+        this.$http(`private/acts/review/${slug}/${this.$store.state.userId}`)
+          .then(data=> {
+            this.selectedAct = data
+            this.score = data.score
+            this.notes = data.notes
+          })
           .catch(error=> alert(error))
       },
       submit() {
@@ -87,13 +91,23 @@ div
           .catch(error=> alert(error))
       }
     },
-    created() {
-        this.$http(
-          this.isStandupPanelist
-            ? 'private/acts/review-standup'
-            : 'private/acts/review')
-          .then(data=> this.acts = data)
-          .catch(error=> alert(error))
+    async created() {
+        if(this.userRole == 'standup-panelist') {
+          this.$http('private/acts/review-standup')
+            .then(data=> this.acts = data)
+            .catch(error=> alert(error))
+        }
+        else if (this.userRole == 'panelist') {
+          this.$http('private/acts/review')
+            .then(data=> this.acts = data)
+            .catch(error=> alert(error))
+        }
+      else if (this.userRole == 'staff' || this.userRole == 'admin') {
+        this.acts = [
+          ...await this.$http('private/acts/review'),
+          ...await this.$http('private/acts/review-standup')
+        ]
+      }
     }
   }
 </script>
