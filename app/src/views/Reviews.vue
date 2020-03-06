@@ -1,13 +1,16 @@
 <template lang="pug">
 div
   h2 Reviews
-  p Todo: re-organize!
-  ul
-    li(v-for="review in reviews") 
-      strong {{review.actName}} - 
-      code {{review.score}} 
-      |  by  
-      em {{review.userName}}
+  .table-box
+    table
+      thead
+        tr
+          th Act
+          th Scores
+      tbody
+        tr(v-for="actName in actNames") 
+          td {{ actName }}
+          td {{ groupedScores[actName].join(', ') }}
 
 
 </template>
@@ -19,7 +22,18 @@ div
         reviews: [],
       }
     },
-    methods: {
+    computed: {
+      actNames() {
+        return Object.keys(this.groupedReviews).sort()
+      },
+      groupedScores() {
+        return this.reviews.reduce((accumulation, review)=> {
+          accumulation[review.actName]
+            ? accumulation[review.actName].push(review.score)
+            : accumulation[review.actName] = [review.score]
+          return accumulation
+        }, {})
+      }
     },
     created() {
       this.$http('private/reviews')
