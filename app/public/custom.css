@@ -74,6 +74,10 @@ input[type="password"] {
   max-width: 250px;
 }
 
+table select {
+  box-sizing: border-box;
+}
+
 textarea { 
   resize: vertical; 
   height: 3rem;
