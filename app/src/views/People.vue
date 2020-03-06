@@ -60,7 +60,11 @@
       return {
         view: "read",
         newPerson: { name: "", bio: "", email: "", phone: "", imageUrl: "", imageDeleteUrl: "", isHidden: false },
-        people: []
+      }
+    },
+    computed: {
+      people() {
+        return this.$store.state.people
       }
     },
     methods: {
@@ -96,9 +100,7 @@
       }
     },
     created() {
-      this.$http('private/people')
-        .then(data=> this.people = data)
-        .catch(error=> alert(error))
+      this.$store.dispatch('loadPeople')
     }
   }
 </script>

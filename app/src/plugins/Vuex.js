@@ -8,7 +8,8 @@ export default new Vuex.Store({
     role: null,
     username: null,
     userId: null,
-    acts: []
+    acts: [],
+    people: []
   },
   mutations: {
     setUser(state, payload) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     setActs(state, payload) {
       state.acts = payload
+    },
+    setPeople(state, payload) {
+      state.people = payload
     }
   },
   actions: { 
@@ -31,6 +35,14 @@ export default new Vuex.Store({
         let $http = this._vm.$http
         $http('private/acts')
           .then(data=> commit('setActs', data))
+          .catch(error=> alert(error))
+      }
+    },
+    loadPeople({commit}) {
+      if(this.state.people.length==0) {
+        let $http = this._vm.$http
+        $http('private/people')
+          .then(data=> commit('setPeople', data))
           .catch(error=> alert(error))
       }
     }
