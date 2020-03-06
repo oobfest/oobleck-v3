@@ -44,10 +44,12 @@ div
         from: 'Anywhere',
         type: 'Everybody',
         nameSearch: '',
-        acts: []
       }
     },
     computed: {
+      acts() {
+        return this.$store.state.acts
+      },
       filteredActs() {
         let filteredActs = this.acts
 
@@ -73,9 +75,7 @@ div
       }
     },
     created() {
-      this.$http('private/acts')
-        .then(data=> this.acts = data)
-        .catch(error=> alert(error))
+      this.$store.dispatch('loadActs')
     }
   }
 </script>
