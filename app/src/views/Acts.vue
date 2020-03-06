@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   h2 Acts
-  p Performers perform acts as a part of a show. An act can be in multiple shows.
+  p Total submissions: {{acts.length}}
   .table-box
     table
       thead
@@ -9,8 +9,22 @@ div
           th Name
           th From
           th Type
+        tr
+          th
+            input(type="text" v-model="nameSearch" placeholder="Search")
+          th
+            select(v-model="from")
+              option Anywhere
+              option Austin
+              option Out-of-Town
+          th 
+            select(v-model="type")
+              option Everybody
+              option Not Standup
+              option Only Sketch
+              option Only Standup
       tbody
-        tr(v-for="act in acts")
+        tr(v-for="act in filteredActs")
           td: router-link(:to="'/act/' + act.slug")
             span(v-if="act.showTitle") {{act.name}}: {{act.showTitle}}
             span(v-else) {{act.name}}
@@ -27,9 +41,35 @@ div
     mixins: [ActLocation],
     data() {
       return {
-        view: "read",
-        newAct: { name: "" },
+        from: 'Anywhere',
+        type: 'Everybody',
+        nameSearch: '',
         acts: []
+      }
+    },
+    computed: {
+      filteredActs() {
+        let filteredActs = this.acts
+
+        // Filter by name search
+        if(this.nameSearch) {
+          filteredActs = filteredActs
+            .filter(a=> a.name
+              .match(new RegExp(this.nameSearch, 'i')))
+        }
+
+        // Filter by City
+        if(this.from=='Austin') filteredActs = filteredActs.filter(a=> a.city == 'Austin')
+        else if(this.from=='Out-of-Town') filteredActs = filteredActs.filter(a=>a.city != 'Austin')
+
+        // Filter by Type
+        if(this.type=='Not Standup') filteredActs =filteredActs.filter(a=> !a.actTypes.includes('Standup'))
+        else if(this.type=='Only Sketch') filteredActs = filteredActs.filter(a=> a.actTypes.includes('Sketch'))
+        else if(this.type=='Only Standup') filteredActs = filteredActs.filter(a=> a.actTypes.includes('Standup'))
+
+        filteredActs.sort((a, b)=> { return a.name.localeCompare(b.name)})
+
+        return filteredActs
       }
     },
     created() {

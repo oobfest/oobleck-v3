@@ -73,13 +73,18 @@ let overrides = {
     if(slug) {
       let act = database
         .prepare(`
-          select act.id, act.name, act.associatedTheater, act.city, act.stateOrProvince, act.country 
+          select 
+            act.id, act.name, act.associatedTheater, act.city, act.stateOrProvince, act.country,
+            act.creationDate, act.imageUrl, act.videoUrl1, act.videoUrl2, act.videoInformation,
+            act.techNeeds, act.minimumTime, act.maximumTime,
+            act.contactName, act.contactPhone, act.contactEmail
           from act 
           where slug = ?`)
         .get(slug)
       let people = this.getPeopleForAct(act.id)
       let socialMedia = this.getSocialMediaForAct(act.id)
-      return {...act, people, socialMedia}
+      let availability = this.getAvailability(act.id)
+      return {...act, people, socialMedia, availability}
     }
     else {
       let acts = database
@@ -104,6 +109,17 @@ let overrides = {
           }
         })
     }
+  },
+
+  getAvailability(actId) {
+    return database
+      .prepare(`
+        select day.name, day.timestamp
+        from act_availability
+        join day 
+        on act_availability.dayId = day.id
+        where act_availability.actId = ?`)
+      .all(actId)
   },
 
  // This code is a mess,
