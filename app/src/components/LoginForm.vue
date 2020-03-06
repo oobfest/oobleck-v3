@@ -45,7 +45,12 @@ export default {
     login() {
       let requestData = { email: this.email, password: this.password }
       this.$http('public/users/login', 'POST', requestData)
-        .then(user=> this.$store.commit('setUser', user))
+        .then(user=> {
+          localStorage.setItem('role', user.role)
+          localStorage.setItem('username', user.name)
+          localStorage.setItem('userId', user.id)
+          this.$store.commit('setUser', user)
+        })
         .catch(error=> alert(error))
     },
     resetPassword() {

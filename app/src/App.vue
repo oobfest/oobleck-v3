@@ -23,46 +23,44 @@
 </template>
 
 <script>
-import LoginForm from '@/components/LoginForm.vue'
-import PageLink from '@/components/PageLink.vue'
+  import LoginForm from '@/components/LoginForm.vue'
+  import PageLink from '@/components/PageLink.vue'
 
-export default {
-  components: { LoginForm, PageLink },
-  data() {
-    return {
-      routes: [
-        { path: '/', roles: ['admin', 'staff', 'panelist']},
-        { path: '/acts', roles: ['admin', 'staff']},
-        { path: '/act-roles', roles: ['admin']},
-        { path: '/act-types', roles: ['admin']},
-        { path: '/cats', roles: []},
-        { path: '/days', roles: ['admin']},
-        { path: '/people', roles: ['admin', 'staff']},
-        { path: '/review', roles: ['staff', 'panelist', 'standup-panelist'] },
-        { path: '/reviews', roles: ['admin', 'staff'] },
-        { path: '/shows', roles: ['admin']},
-        { path: '/stages', roles: ['admin']},
-        { path: '/social-media-types', roles: ['admin']},
-        { path: '/users', roles: ['admin']},
-        { path: '/venues', roles: ['admin']},
-        { path: '/workshops', roles: ['admin']},
-        { path: '/test', roles: ['admin']}
-      ]
-    }
-  },
-  methods: {
-    logout() {
-      this.$http('public/users/logout')
-        .then(data=> {
-          this.$store.commit('logOut')
-        })
-        .catch(error=>console.error(error))
+  export default {
+    components: { LoginForm, PageLink },
+    data() {
+      return {
+        routes: [
+          { path: '/', roles: ['admin', 'staff', 'panelist']},
+          { path: '/acts', roles: ['admin', 'staff']},
+          { path: '/act-roles', roles: ['admin']},
+          { path: '/act-types', roles: ['admin']},
+          { path: '/cats', roles: []},
+          { path: '/days', roles: ['admin']},
+          { path: '/people', roles: ['admin', 'staff']},
+          { path: '/review', roles: ['staff', 'panelist', 'standup-panelist'] },
+          { path: '/reviews', roles: ['admin', 'staff'] },
+          { path: '/shows', roles: ['admin']},
+          { path: '/stages', roles: ['admin']},
+          { path: '/social-media-types', roles: ['admin']},
+          { path: '/users', roles: ['admin']},
+          { path: '/venues', roles: ['admin']},
+          { path: '/workshops', roles: ['admin']},
+          { path: '/test', roles: ['admin']}
+        ]
       }
-    }
-}
-
-
+    },
+    methods: {
+      logout() {
+        this.$http('public/users/logout')
+          .then(data=> {
+            localStorage.removeItem('role')
+            localStorage.removeItem('username')
+            localStorage.removeItem('userId')
+            this.$store.commit('logOut')
+          })
+          .catch(error=>console.error(error))
+        }
+      }
+  }
 </script>
-
-<style lang="scss">
-</style>

@@ -5,9 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    role: null,
-    username: null,
-    userId: null,
+    role: localStorage.getItem('role'),
+    username: localStorage.getItem('username'),
+    userId: localStorage.getItem('userId'),
     acts: [],
     people: []
   },
