@@ -16,12 +16,13 @@ div
           sup th
       li Acceptance emails will be sent out in June 
       li The last day to apply to the festival wil be on 
-        strong March 31
-          sup st
+        strong April 15
+          sup th
     h4 Application Fee
     p: ul
-      li Solo or duo acts: $15 before March 1st, $25 after
-      li 3+ people: $35 before March 1st, $45 after
+      li $25 for solo or duo acts
+      li $45 for 3+ people
+      li The application fee will be fully refunded in the event of a festival cancellation (Hello, coronavirus!)
 
     h4 Act Details
     label.required Name
