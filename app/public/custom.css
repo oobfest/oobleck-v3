@@ -166,6 +166,10 @@ td button {
   font-size: 0.75rem;
 }
 
+.score {
+  font-size: 1.5rem;
+}
+
 .score-box label {
   display: flex;
   margin: 0.25rem;

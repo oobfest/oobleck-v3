@@ -5,7 +5,7 @@
       li: router-link(to="/") Home
       //li: router-link(to="/about") About
       li: router-link(to="/apply") Apply
-      li: router-link(to="/jobs") Jobs
+      //li: router-link(to="/jobs") Jobs
 
   header
     img.logo(src="/images/logo.png" alt="Out of Bounds Comedy Festival")

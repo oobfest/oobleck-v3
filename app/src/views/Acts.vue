@@ -21,6 +21,7 @@ div
             select(v-model="type")
               option Everybody
               option Not Standup
+              option Only Improv
               option Only Sketch
               option Only Standup
       tbody
@@ -66,6 +67,7 @@ div
 
         // Filter by Type
         if(this.type=='Not Standup') filteredActs =filteredActs.filter(a=> !a.actTypes.includes('Standup'))
+        else if(this.type=='Only Improv') filteredActs = filteredActs.filter(a=> a.actTypes.includes('Improv'))
         else if(this.type=='Only Sketch') filteredActs = filteredActs.filter(a=> a.actTypes.includes('Sketch'))
         else if(this.type=='Only Standup') filteredActs = filteredActs.filter(a=> a.actTypes.includes('Standup'))
 

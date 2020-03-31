@@ -28,7 +28,6 @@ const routes = [
     name: 'about',
     component: About
   },
-  */
   {
     path: '/jobs',
     name: 'jobs',
@@ -48,6 +47,7 @@ const routes = [
       }
     ]
   },
+  */
 ]
 
 export default new VueRouter({ routes })

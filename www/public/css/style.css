@@ -10,6 +10,12 @@ a {
    color: #f9a01b
 }
 
+blockquote {
+  font-style: italic;
+  margin: 0;
+  padding: 0;
+}
+
 code {
   color: #fde8a2;
 }

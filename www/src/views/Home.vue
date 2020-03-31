@@ -1,5 +1,15 @@
 <template lang="pug">
   div
+    .text-align-center
+      h2 COVID Update
+    blockquote
+      p As things unfold globally, we find focusing on smaller things comforting. The Out of Bounds team is facing all this uncertainty with the hope of still being able to roll out an event come Labor Day weekend of this year. In June, when where we are collectively is clearer, we will make a definitive decision of whether we can continue that path, giving people ample time to plan their travel, or will need to cancel. 
+      p If cancellation becomes unavoidable, we will refund all submission fees that we've collected in full.
+      p Until then, we're still collecting submissions, for those still interested in being considered for the festival. We're also compiling our panel of screeners to help us review the videos and be involved in those final selections.
+      p Sincerely,
+        br
+        | The Out of Bounds Comedy Festival Team
+    hr 
     .image-box.bigfoot
       h2 What is Out of Bounds?
     p A week-long deep dive into all the comedy disciplines, featuring the largest and widest possible display of improv, stand-up, and sketch against the beautiful backdrop of Austin, TX. 

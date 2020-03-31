@@ -1,42 +1,17 @@
 let schema = require('./schema')
+let database = require('./database')
 let createModel = require('../create-model')
-let database = require('../../database')
 
 overrides = {
   get(id=null, userId=null) {
-    if(id) {
-      if(userId) {
-        return database
-          .prepare(`
-            select * from review 
-            where id = ? and userId = ?`)
-          .get(id, userId)
-      }
-      else {
-        return database
-          .prepare(`select * from review where id = ?`)
-          .get(id)
-      }
-    }
-    else {
-      return database
-        .prepare(`
-          select review.score, review.notes, act.name as actName, user.name as userName
-          from review
-          join act on review.actId = act.id
-          join user on review.userId = user.id`
-        )
-        .all()
-    }
+    console.log(id, userId)
+    if(id && userId)    return database.getReviewByIdAndUserId.get(id, userId)
+    else if (id)        return database.getReviewById.get(id)
+    else if (userId)    return database.getReviewsByUserId.all(userId)
+    else                return database.getReviews.all()
   },
   create(review) {
-     return database
-      .prepare(`
-        insert into review(score, notes, actId, userId)
-        values (@score, @notes, @actId, @userId)
-        on conflict(actId, userId) do update
-        set score=@score, notes=@notes`)
-      .run(review)
+    return database.createReview.run(review)
   }
 }
 

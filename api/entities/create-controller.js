@@ -4,8 +4,7 @@ let createController = function(model, overrides={}) {
       response.json(model.create(request.body))
     },
     get(request, response) {
-      if(request.params.id) response.json(model.get(request.params.id))
-      else response.json(model.get())
+      response.json(model.get(request.params.id))
     },
     getPublic(request, response) {
       response.json(model.getPublic())
