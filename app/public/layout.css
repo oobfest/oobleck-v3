@@ -62,4 +62,5 @@ body {
 .main { 
   color: var(--dark-text);
   margin: 0 1rem;
+  padding-bottom: 1rem;
 }

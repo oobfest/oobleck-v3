@@ -86,10 +86,10 @@ div
         else if (role == 'staff' || role == 'admin') return this.allActs
       },
       nonStandupActs() {
-        return this.$store.state.acts .filter(a=>!a.actType.includes('Standup'))
+        return this.$store.state.acts.filter(a=>!a.actTypes.includes('Standup'))
       },
       standupActs() {
-        return this.$store.state.acts.filter(a=>a.actType.includes('Standup'))
+        return this.$store.state.acts.filter(a=>a.actTypes.includes('Standup'))
       },
       allActs() {
         return this.$store.state.acts

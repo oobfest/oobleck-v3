@@ -31,7 +31,7 @@
     data() {
       return {
         routes: [
-          { path: '/', roles: ['admin', 'staff', 'panelist']},
+          { path: '/', roles: ['admin', 'staff', 'panelist', 'standup-panelist']},
           { path: '/acts', roles: ['admin', 'staff']},
           { path: '/act-roles', roles: ['admin']},
           { path: '/act-types', roles: ['admin']},
