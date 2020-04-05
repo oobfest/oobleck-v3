@@ -4,7 +4,6 @@ let createModel = require('../create-model')
 
 overrides = {
   get(id=null, userId=null) {
-    console.log(id, userId)
     if(id && userId)    return database.getReviewByIdAndUserId.get(id, userId)
     else if (id)        return database.getReviewById.get(id)
     else if (userId)    return database.getReviewsByUserId.all(userId)

@@ -11,7 +11,7 @@ let routes = [
     name: 'Home',
     component: ()=> import('../views/Home.vue'),
     meta: {
-      allowed: ['admin', 'staff', 'panelist', 'standup-panelist']
+      auth: false,
     },
   },
   {
@@ -19,6 +19,7 @@ let routes = [
     name: 'Acts',
     component: ()=> import('../views/Acts.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -27,6 +28,7 @@ let routes = [
     name: 'Act',
     component: ()=> import('../views/Act.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -35,6 +37,7 @@ let routes = [
     name: 'Act Roles',
     component: ()=> import('../views/ActRoles.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -43,6 +46,7 @@ let routes = [
     name: 'Act Types',
     component: ()=> import('../views/ActTypes.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -51,6 +55,7 @@ let routes = [
     name: 'Cats',
     component: ()=> import('../views/Cats.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -59,6 +64,7 @@ let routes = [
     name: 'Days',
     component: ()=> import('../views/Days.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -67,7 +73,8 @@ let routes = [
     name: 'Not Authorized',
     component: ()=> import('../views/401.vue'),
     meta: {
-      allowed: ['admin', 'staff', 'panelist', 'standup-panelist']
+      auth: false,
+      //allowed: ['admin', 'staff', 'panelist', 'standup-panelist']
     },
   },
   {
@@ -75,6 +82,7 @@ let routes = [
     name: 'People',
     component: ()=> import('../views/People.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -83,6 +91,7 @@ let routes = [
     name: 'Person',
     component: ()=> import('../views/Person.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -91,6 +100,7 @@ let routes = [
     name: 'Reviews',
     component: ()=> import('../views/Reviews.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -99,6 +109,7 @@ let routes = [
     name: 'Review',
     component: ()=> import('../views/Review.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff', 'panelist', 'standup-panelist']
     },
   },
@@ -107,6 +118,7 @@ let routes = [
     name: 'Shows',
     component: ()=> import('../views/Shows.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -115,6 +127,7 @@ let routes = [
     name: 'Stages',
     component: ()=> import('../views/Stages.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -123,6 +136,7 @@ let routes = [
     name: 'Social Media Types',
     component: ()=> import('../views/SocialMediaTypes.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -131,6 +145,7 @@ let routes = [
     name: 'Users',
     component: ()=> import('../views/Users.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -139,6 +154,7 @@ let routes = [
     name: 'Venues',
     component: ()=> import('../views/Venues.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -147,6 +163,7 @@ let routes = [
     name: 'Workshops',
     component: ()=> import('../views/Workshops.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -155,6 +172,7 @@ let routes = [
     name: 'Workshop',
     component: ()=> import('../views/Workshop.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -163,6 +181,7 @@ let routes = [
     name: 'Test',
     component: ()=> import('../views/Test.vue'),
     meta: {
+      auth: true,
       allowed: ['admin', 'staff']
     },
   },
@@ -171,7 +190,7 @@ let routes = [
     name: 'Not Found',
     component: ()=> import('../views/404.vue'),
     meta: {
-      allowed: ['admin', 'staff', 'panelist', 'standup-panelist']
+      auth: false
     }
   }
 ]
@@ -179,7 +198,8 @@ let routes = [
 let router = new VueRouter({routes})
 
 router.beforeEach((to, from, next)=> {
-  if(to.meta.allowed.includes(Vuex.state.role)) next()
+  if(!to.meta.auth) next()
+  else if (to.meta.allowed.includes(Vuex.state.role)) next()
   else next('/not-authorized')
 })
 
