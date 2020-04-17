@@ -9,3 +9,6 @@ session.json
 *.db-wal
 *.db-shm
 *.bak
+
+api/create-test-users.js
+
