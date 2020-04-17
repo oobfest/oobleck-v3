@@ -4,7 +4,7 @@
     ul
       li: router-link(to="/") Home
       //li: router-link(to="/about") About
-      li: router-link(to="/apply") Apply
+      //li: router-link(to="/apply") Apply
       //li: router-link(to="/jobs") Jobs
 
   header
