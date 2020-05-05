@@ -7,7 +7,10 @@ overrides = {
     if(id && userId)    return database.getReviewByIdAndUserId.get(id, userId)
     else if (id)        return database.getReviewById.get(id)
     else if (userId)    return database.getReviewsByUserId.all(userId)
-    else                return database.getReviews.all()
+    else 
+      return database.getActs
+        .all()
+        .map(a=> { return { reviews: database.getReviewsByActId.all(a.id), ...a }})
   },
   create(review) {
     return database.createReview.run(review)

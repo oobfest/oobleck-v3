@@ -23,6 +23,16 @@ let queries = {
     join act on act.id = review.actId
     where userId=?`),
 
+  getActs: database.prepare(`
+    select name, id
+    from act`),
+
+  getReviewsByActId: database.prepare(`
+    select review.score, review.notes, user.name as reviewer
+    from review
+    join user on review.userId = user.id
+    where review.actId = ?`),
+
   getReviews: database.prepare(`
     select 
       review.score, review.notes, 
