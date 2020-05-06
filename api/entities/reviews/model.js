@@ -14,6 +14,11 @@ overrides = {
   },
   create(review) {
     return database.createReview.run(review)
+  },
+  getUserReviews() {
+    return database.getUsers
+      .all()
+      .map(u=> { return { reviews: database.getReviewsByUserId.all(u.id), ...u } })
   }
 }
 

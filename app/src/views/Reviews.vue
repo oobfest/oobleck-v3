@@ -2,6 +2,13 @@
 div
   h2 Reviews
   p Submissions with 5+ reviews: {{submissionsDoneWithReviewsCount}} out of {{acts.length}}
+
+  div(v-for="user in users")
+    h3 {{user.userName}} 
+      small {{user.role}} 
+    p {{user.reviews.length}} review
+      span(v-if="user.reviews.length!=1") s
+
   .table-box
     table
       thead
@@ -28,6 +35,7 @@ div
     data: function() {
       return {
         acts: [],
+        users: [],
       }
     },
     computed: {
@@ -40,6 +48,10 @@ div
     created() {
       this.$http('private/reviews')
         .then(data=> this.acts = data.sort((a,b)=> a.name.localeCompare(b.name)))
+        .catch(error=> alert(error))
+
+      this.$http('private/reviews/get-user-reviews')
+        .then(data=> this.users = data.sort((a,b)=> a.userName.localeCompare(b.userName)))
         .catch(error=> alert(error))
     }
   }

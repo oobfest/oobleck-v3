@@ -6,6 +6,9 @@ let overrides = {
     let id = request.query.id
     let userId = request.query.userId
     response.json(model.get(id, userId))
+  },
+  getUserReviews(request, response) {
+    response.json(model.getUserReviews())
   }
 }
 

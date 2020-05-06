@@ -28,6 +28,11 @@ let queries = {
     from act
     where isPaid = true`),
 
+  getUsers: database.prepare(`
+    select user.name as userName, user.id, user_role.name as role
+    from user
+    join user_role on user.roleId = user_role.id`),
+
   getReviewsByActId: database.prepare(`
     select review.score, review.notes, user.name as reviewer
     from review
