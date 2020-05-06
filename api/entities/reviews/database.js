@@ -25,7 +25,8 @@ let queries = {
 
   getActs: database.prepare(`
     select name, id
-    from act`),
+    from act
+    where isPaid = true`),
 
   getReviewsByActId: database.prepare(`
     select review.score, review.notes, user.name as reviewer
